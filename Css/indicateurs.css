@@ -1,0 +1,79 @@
+.scrollup {
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    display: none;
+    color: white;
+    background-color: rgba(105, 118, 208, 0.5);
+    #border: 1px solid #3a3f51;
+    font-size: 20px;
+    text-align: center;
+    line-height: 37px;
+    z-index: 9999;
+    padding: 10px;
+}
+
+.scrollup:hover {
+    background-color: rgba(105, 118, 208, 0.9);
+}
+
+#indicateurs {
+    color: #c4c2c0;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-align: center;
+}
+#indicateurs .left {
+    margin-left: 50px;
+}
+#indicateurs .left, #indicateurs .right {
+    height: 180px;
+    width: 180px;
+    border: 10px solid #f6f6f6;
+    border-radius: 125px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    padding: 30px;
+    text-align: center;
+}
+#indicateurs .left:hover, #indicateurs .right:hover {
+    animation: 300ms ease 0s normal none 1 running moveFromBottom;
+    border-color: #666666;
+    color: #000;
+    text-shadow: 0 0 1px #000;
+    transform: scale(1.1);
+    z-index: 999;
+}
+#indicateurs .left .labelIndic, #indicateurs .right .labelIndic {
+    display: block;
+}
+#indicateurs .left:hover .labelIndic, #indicateurs .right:hover .labelIndic {
+    color: #666666;
+    text-shadow: none;
+    transform: scale(1, 1);
+}
+
+.labelIndic:hover{
+    cursor: pointer;
+}
+.chiffre {
+    color: #a5a3a1;
+    font-size: 26px;
+}
+* {
+    box-sizing: border-box;
+}
+
+.priorite:hover{
+    cursor: pointer;
+    text-align: center;
+}
+
+.priorite{
+    text-align: center;
+}

@@ -1,0 +1,157 @@
+﻿DOSI;Achat;" Gestion des procédures concernant les Achats de postes de travail et fournitures informatiques de la DOSI.";;;;;;;;;;;"Coulomb Cedric";" Pascale Gobelin";" Stéphane Igounet"
+DOSI;"SI - Outils - Aladin";" Gestion des demandes d'assistance";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";"  Stéphane Igounet"
+DOSI;"SI - Outils - Annuaire";" Annuaire du personnel de l'Université d'Avignon";;;;;;;;;;;"Charpenne Maxime";" Jade Tavernier";" Maxime Charpenne / Sebastien Beaudlot"
+DOSI;"SI - TICE - BoardZ";" Cette application permet de visualiser graphiquement des indicateurs pédagogiques au sein d’un tableau de bord pour Moodle. Plusieurs utilisations de ce tableau de bord sont possibles en fonction du profil de l’usager. ";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" TICE"
+DOSI;"SI - Outils - eDoc";" Plateforme interne de gestion des procédures et documents de l'UAPV";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Contributeurs eDoc"
+DOSI;"SI - Outils - ENTNew";" Installation du nouvel ENT";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Maxi Charpenne"
+DOSI;"INFRA - PARTAGE";" Messagerie collaborative Partage basée sur Zimbra et proposée par Renater. ";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"SI - Outils - Projets";" Gestionnaire de projet";;;;;;;;;;;"Tavernier Jade";" Jade tavernier";" Stephane Igounet "
+DOSI;"SI - Outils - Boîte à idées";" Application web permettant de laisser ses avis sur les services de la DOSI et de répondre à un sondage de satisfaction.";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Julien Charpin"
+DOSI;"Inventaire Matériel DOSI";" Avoir une vision complète à chaque instant de l'affectation des matériels achetés par la DOSI.";;;;;;;;;;;"Coulomb Cedric";" Fanny Marcel";"  Julien Charpin / Sébastien Bouyer"
+DOSI;"SI - Outils - PretZ";" Application de prêt de matériel pour l'accueil de la DOSI. Scan + retour des produits empruntés";;;;;;;;;;;"Marcel Fanny";" Jade Tavernier";" Corinne Monneaux"
+DOSI;"SI - Outils - RARE";" Site internet du Réseau Avignonnais pour la Recherche et l'Enseignement qui est un site ayant pour but de présenter la structure, informer l'état du réseau et mettre à disposition des moyens de contact.";;;;;;;;;;;"Charpenne Maxime";" Jade Tavernier";" Maxime charpenne"
+DOSI;"SI - Finances - DVP / DFT / DVInt";" Dématérialisation des Virements et Prélèvements vers Trésor Public / Dématérialisation des Paiements à l'étranger. Utilisé par des agents de l'agence comptable.";;;;;;;;;;;"Mietton Francoise";" Romain Goupil";" Gérard Houziel"
+DOSI;"SI - Finances - Magellan/Ulysse";" Magellan/Ulysse (VPN au ministère des finances)";;;;;;;;;;;"Mietton Francoise";" Romain Goupil";" Gérard Houziel"
+DOSI;"SI - Finances - MarcoWeb";" Gestion administrative et financière des marchés publics ";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Philippe Adrian"
+DOSI;"SI - Finances - Nabuco";" Gestion comptable et financière (Consultation)";;;;;;;;;;;"Mietton Francoise";"  Françoise Mietton";" Gérard Houziel - Clotilde Savarit"
+DOSI;"SI - Finances - POEMS";" Pilotage de la masse salariale et des emplois ";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Laurence Sommazi"
+DOSI;"SI - Finances - SIFAC";" Gestion comptable et financière";;;;;;;;;;;"Goupil Romain";" Romain Goupil";"Clotilde Savarit"
+DOSI;"SI - BU - Site web";" Site Web de la BU";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Béatrice Beaufré"
+DOSI;"SI - RH - Harpege";" Logiciel AMUE de gestion RH";;;;;;;;;;;"Mietton Francoise";" Françoise Mietton";" Anne-Laure Mosca"
+DOSI;"SI - Recherche";"  Module CENTAURE + site Pleiade Web(gestion et valorisation de la recherche) et du module SIRIUS + site Altea Web (formations pour les études doctorales)";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Abdelhake  Bouchou et Aude Mosca"
+DOSI;"SI - Scola - Recrutement sur dossier";" Gestion des dossiers de candidature étudiants";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";"  Séverine Germain-Dupret - Nicolas Gutierrez"
+DOSI;"INFRA - Infrastructure Téléphonie";" Gestion maintenance et administration des équipements d’infrastructure téléphonique et des serveurs de téléphonie";;;;;;;;;;;"Beaudlot Sebastien";" Beaudlot Sebastien";" à attribuer"
+DOSI;"Clonage postes de travail : FOG";" Déploiement FOG / couplage Manitou";;;;;;;;;;;"Charpin Julien";" J.Charpin";" Maxime Charpenne"
+DOSI;"INFRA - Visioconférence";" Gestion coté INFRA des services de visioconférences et des équipements ";;;;;;;;;;;"Beaudlot Sebastien";" Beaudlot Sebastien";" Julien Charpin"
+DOSI;WWW4All;" Gestion des problématiques d'hébergement web ";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Stéphane Igounet"
+DOSI;"SI - Outils - Travaux";" Application en ligne permettant de gérer les alertes d'incidents et de maintenances sur le réseau de l'Université.";;;;;;;;;;;"Tavernier Jade";" Jade Tavernier";" Stephane Igounet"
+DOSI;"SI - Outils - API";" l'API DOSI permet de centraliser les données du SI afin de mutualiser les développements. Exemple : l'API Partage, l'API Appig, l'API RH, l'API Stat, l'API Stockage, l'API Moodle";;;;;;;;;;;"Tavernier Jade";" Jade Tavernier";" DOSI"
+DOSI;"SI - Outils - Ressources";" Gestion des ressources des salles de cours";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Julien Charpin "
+DOSI;"SI - Tice - Moodle";" Plateforme pédagogique de l'Université avec les cours en ligne pour les enseignements";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" TICE"
+DOSI;"SI - Outils - Services-ens";" Saisie et export des services d'enseignement / Application maintenue 'lite' (modification à la marge)";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Corinne Fredouille / Guillaume Marrel / Thierry Spriet"
+DOSI;"SI - Scola - Thèse Fondation";" Appel à projet pour bourse de doctorat financé par la fondation de l'Université";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Olivier Ruault"
+DOSI;"SI - Outils - BO";" Outil décisionnel d'aide au pilotage";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Clotilde Savarit, Laurence Sommazi"
+DOSI;"SI - Outils - ENT / CAS";" Environnement Numérique de Travail / SSO";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Maxime Charpenne"
+DOSI;"SI - Outils  - Identités numériques";" Gestion des identités numériques ";;;;;;;;;;;"Detrez Nathalie";"  Eric Innocente";" Nathalie Détrez"
+DOSI;"SI - Outils - Téléphonie";" Gestion de la consommation et des factures téléphoniques";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";"  Sebastien Beaudlot"
+DOSI;"SI - Finances - Paiement en ligne";" plate-forme d'accès au paiement en ligne Paybox ";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";" Magali Lauvergeon (Compta) - Olivier Ruault (Fondation) - Mercedes Boudon (SUAPS) - Charlotte Michel (SES)"
+DOSI;"SI - Outils - GRR";" Gestion et Réservation de Ressources.";;;;;;;;;;;"Tavernier Jade";" Jade Tavernier";" Corinne Monneaux / Cecile Fontana"
+DOSI;"SI - Outils - FAQ DOSI";" FAQ de la DOSI avec question-réponse sur les services proposés";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";"  Stephane Igounet"
+DOSI;"SI - Outils - Manitou";" Gestionnaire de parc informatique : salles / machines / profile. Mise à jour du DNS/DHCP en cas d'action sur une machine. Restauration d'image";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Julien Charpin"
+DOSI;"SI - Outils - DosiBoard - ChartAPI";" API permettant la creation de graphique à la volé (En cours d'abandon utilisé que par Nath)";;;;;;;;;;;"Tavernier Jade";" Jade Tavernier";" Nathalie Detrez"
+DOSI;"SI - Outils - DosiWP";" CMS Wordpress en mode multisite pour les sites de l'UAPV";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";"  http://dosiwp.univ-avignon.fr/get_sites.php "
+DOSI;"SI - Outils - ARIANE";" Application informatique en vue d'un remplacement des fiches navettes papier.";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Myriam Dougados (Culture)"
+DOSI;"SI - Tice - Mahara";" Portefolio en ligne";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" TICE "
+DOSI;"SI - Scola - RoleZ";" Questionnaire dynamique pour les étudiants étrangers";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Cécile PECASSE (Scolarité)"
+DOSI;"SI - Scola - Hyperplanning";" Logiciel permettant de gérer les emplois du temps à l'Université. Tourne sous Windows. La base est centralisée sur le CV + agroparc (non centralisée : FC)";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Delphine PEZZO (Scolarité / BEE)"
+DOSI;"SI - Outils - Première page ENT";" Le projet comprend la première page de l'ENT (+ données + indicateurs + changement de mot de passe + accès Partage) ";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Stephane IGOUNET"
+DOSI;"SI - RI - MoveOn";" Gestion des coopérations, des accords, des mobilités , du financements, du pilotage et des correspondances des étudiants.";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Claudia Haasis"
+DOSI;"Correspondant Logiciel ";" Gestion des protocoles et des marchés issus du Groupe Logiciel";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";"Julien Charpin"
+DOSI;"SI - Outils - Extension Mozilla";" Extension Firefox pour l'UAPV";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" DOSI "
+DOSI;"SI - Scola - Diplômes et maquettes";" Gestion de l'offre de formation";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";"  Séverine Germain-Dupret - Nicolas Gutierrez"
+DOSI;"SI - Scola - Inscriptions administratives";" Gestion des inscriptions administratives étudiants";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";"  Séverine Germain-Dupret - Nicolas Gutierrez"
+DOSI;"SI - Scola - Suivi pédagogique et examens";" Gestion des inscriptions pédagogiques, examens, résultats";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";"  Séverine Germain-Dupret - Nicolas Gutierrez"
+DOSI;"SI - Scola - Stages";" Gestion des inscriptions adminitratives étudiants";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";"  Séverine Germain-Dupret - Nicolas Gutierrez"
+DOSI;"SI - Scola - Vie étudiante";" Gestion des activités sportives et culturelles";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";"  Séverine Germain-Dupret (SES) - Jenny Seron, Mercedes Boudon (SUAPS) "
+DOSI;"SI - Scola - Cartes multi-services";" Carte d'étudiants, de personnels, de lecteurs BU donnant accès aux services  UAPV et CROUS";;;;;;;;;;;"Detrez Nathalie";" Delphine Pezzo (SES) - Carole Dano (DRH) ";" Charlotte Michel (SES) - Anne-Laure Mosca (DRH) - Pascale Ricaud (CROUS)"
+DOSI;LP4all;" avoir une gestion centralisée des périphériques d'impression de l'Université (pilotage, statistiques utilisation, gestion des quotas...)";;;;;;;;;;;"Charpin Julien";" J.Charpin";" S.Igounet"
+DOSI;"SI - RH - Girafe";" Gestion des Rémunérations et des Allocations des Fonctionnaires de l'Etat.";;;;;;;;;;;"Mietton Francoise";" Françoise Mietton";" Anne-Laure Mosca"
+DOSI;"SI - RH - Helico";" Gestion des heures complémentaires";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Elodie Chevry"
+DOSI;"SI - RH - SYGEFOR";" Gestion des formations des personnels";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Stacy Andréo"
+DOSI;"SI - BU - EzProxy";" proxy permettant de fournir un accès distant aux ressources numériques";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Béatrice Beaufré"
+DOSI;"SI - BU - SIGB";" Système d'Information et de Gestion de Bibliothèque";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Corinne Maubernard"
+DOSI;"INFRA - easymin";" Maintenance et mise à jour de l’outil web d’administration des services INFRA";;;;;;;;;;;"Charpenne Maxime";" Juaneda Matthieu";" à attribuer"
+DOSI;"SI - RH - Congés";" Gestion des emplois du temps et congés des personnels administratifs";;;;;;;;;;;"Detrez Nathalie";" Nathalie Détrez";"  Anne-Laure Mosca"
+DOSI;"SI - RH - Ma Carrière";" Affichage des informations RH d'un agent";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Muriel Maubré"
+DOSI;"SI - RH - Fiche de Poste et entretien pro";" Application de gestion des entretiens professionnels et des fiches de poste";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Caroline Balas"
+DOSI;"SI - RH - Recrutement";" Gestion des candidatures et des commissions de recrutement des ANT, PRAG-PRCE, MCF, PU, ATER";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Caroline Balas"
+DOSI;"SI - Outils - IZLY - CROUS";" Transmission  des personnels et des étudiants pour la création et la modification de la monétique IZLY";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Clarisse Vermes / Charlotte Michel"
+DOSI;"SI - BU - Impression";" Gestion des impressions de la BU via Watchdoc/Sedeco";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Béatrice Beaufré"
+DOSI;"SI - BU - PPME";" Gestion du planning des banques de la BU (BAO,BRB,BPR) via le logiciel PlanningPME";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Catherine Sissung"
+DOSI;"SI - Scola - AGLAE - CROUS";" Transmission au CROUS des étudiants inscrits en vue du traitement des bourses";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Charlotte Michel"
+DOSI;"Salles pédagogiques CERI";" Suivi de l'installation et de l'exploitation des salles pédagogiques du CERI";;;;;;;;;;;"Charpin Julien";" Alexandre Vinh-Khanh Tran";" Majed Haddad"
+DOSI;"FreeDOSI4All Mise à jour";" Mettre à jour la version (Ubuntu 16.04) de l'OS des Freedosi";;;;;;;;;;;"Coulomb Cedric";" Alexandre Tran Vinh Khanh";" Julien Charpin"
+DOSI;"SI - Finances - SIFAC-DEMAT";" Dématérialisation des factures";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Gérard Houziel"
+DOSI;"SI - Finances - SINAPS Flux";" Dématérialisation de la chaîne comptable et financière - Portail Chorus pro";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Gérard Houziel"
+DOSI;"SI - Finance - EGIMMO";" Gestion et inventaire des immobilisations de l'établissement ";;;;;;;;;;;"Mietton Francoise";" Françoise Mietton";" Sébastien Bouyer"
+DOSI;"SI - RH - Heliweb";" Saisie des heures d'enseignements";;;;;;;;;;;"Goupil Romain";" Romain Goupil";" Muriel Maubré"
+DOSI;"SI - RH - ASTRE";" Consultation (PDF) des rémunérations sur ressources propres de l'UAPV de 2006 à 2009.";;;;;;;;;;;"Mietton Francoise";" Françoise Mietton";" Anne-Laure Mosca"
+DOSI;"SI - RH - INDEM";" Gestion des allocations de perte d'emploi";;;;;;;;;;;"Mietton Francoise";" Françoise Mietton";" Nicolas Matois"
+DOSI;"Don de matériels";" Gérer / planifier la campagne de dons de PC qui sortent de l'inventaire.";;;;;;;;;;;"Evrard Jean-marc";" Jean-Marc Évrard";" Xavier Saurel"
+DOSI;"Sécurisation données utilisateurs";" Sécuriser les données utilisateurs en déportant une partie des données de travail sur le NAS";;;;;;;;;;;"Kervran Erwan";;" Julien Charpin"
+DOSI;"Installation/Test Boucle Magnétiques";" Terminer et tester l'installation des boucles magnétiques";;;;;;;;;;;"Marangon Jean-louis";" JL.Marangon";"  Olivier Brichet Di France (Cellule Handicap)"
+DOSI;"Club des utilisateurs du numérique de l'Université";" Mise en place et animation du club des utilisateurs du numérique de l'Université";;;;;;;;;;;"Charpin Julien";" Julien Charpin";" Stéphane Igounet"
+DOSI;"Feuille de Route du Numérique (FDR)";" Ecriture d'une FDR";;;;;;;;;;;"Igounet Stephane";" Stéphane Igounet";" Président et DGS"
+DOSI;"Si - Outils - Gestion produits Chimiques - EPEE";" Etude sur l'application permettant la gestion et le suivi des produits chimiques de l'UFR Science";;;;;;;;;;;"Tavernier Jade";" Jade Tavernier";" Jacques Sauvajol / Hugues Soumille"
+DOSI;"SI - TICE - LimeSurvey";" Cette application permet de proposer des sondages en ligne. ";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" TICE"
+DOSI;"INFRA - Messagerie applicative (MTA)";" Gestion du  relais de messagerie électronique utilisé par les services informatiques et les appareils.";;;;;;;;;;;"Juaneda Matthieu";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - PF virtualisation";" Gestion de la plate-forme de virtualisation.";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - PF Tomcat + CAS";" Gestion des environnements tomcat et du CAS (service d'authentification centralisée).";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - PF web + PF Moodle (test et prod)";" Gestion des plate-formes web des sites de l'UAPV, des sites perso et de la plate-forme web pour Moodle.";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - PF BdD test et prod";" Gestion des serveurs de bases de données.";;;;;;;;;;;"Charpenne Maxime";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Annuaire LDAP";" Gestion de l'annuaire et du cycle de vie des identités numériques.";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"INFRA - VPN";" Gestion du service d'accès distant au réseau de l'Université.";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"INFRA - Fédération d'identité";" Gestion de l'instance de l'Université dans la Fédération d'identité éducation Recherche.";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"INFRA - Eduroam";" Gestion de l'instance de l'Université dans le projet Eduroam (accès WiFi authentifié et sécurisé).";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"INFRA - FTP, dépôts Debian + Ubuntu";" Gestion du service FTP et des miroirs Debian et Ubuntu.";;;;;;;;;;;"Charpenne Maxime";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - Sauvegarde serveurs";" Gestion du service de sauvegardes des serveurs de la DOSI.";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - Architecture réseau";" Exploitation de l’architecture réseau, matériels actifs et câblage";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - Réseau de distribution";" Exploitation de l’architecture réseau de distribution";;;;;;;;;;;"Beaudlot Sebastien";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - Supervision";" Gestion, mise à jour,  surveillance et intervention afin de garantir le  bon fonctionnement de l’ensemble des services";;;;;;;;;;;"Juaneda Matthieu";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Salles serveurs CV";" Gestion du datacenter du centre ville";;;;;;;;;;;"Charpenne Maxime";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Salles serveurs Agro";" Gestion du datacenter d’Agroparc";;;;;;;;;;;"Merlin Teva";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - WiFi";" Gestion et maintenance de l’architecture wifi ";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - Antispam";" Gestion et administration de l’anti SPAM Renater";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"INFRA - Service de listes de messagerie";" Gestion et administration du service de listes de messagerie";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"INFRA - Gestion des ressources de calcul du LIA";" Gestion du cluster de calcul et des plateformes logicielles du LIA";;;;;;;;;;;"Merlin Teva";" Merlin Teva";" à attribuer"
+DOSI;"INFRA - Serveur de logs";" Gestion et maintenance du serveur de log";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"INFRA - Gestion centralisée des serveurs Linux";" Gestion de l’outils de gestion centralisée de la configurations des serveurs linux";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - serveur de vidéos";" Exploitation des serveurs de vidéos";;;;;;;;;;;"Charpenne Maxime";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Certificats SSL";" Gestion des certificats TCS et maisons";;;;;;;;;;;"Charpenne Maxime";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - DHCP + TFTP + PXE";" Exploitaton des serveurs DHCP";;;;;;;;;;;"Juaneda Matthieu";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Proxy web";" Administration du proxy web";;;;;;;;;;;"Charpenne Maxime";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Serveurs de licences";" Gestion et maintenance des serveurs de licences pédagogiques ";;;;;;;;;;;"Ringes Quentin";" Ringes Quentin";" à attribuer"
+DOSI;"INFRA - serveur pédagogique CERI";" Gestion et maintenance des serveurs pédagogiques ";;;;;;;;;;;"Charpenne Maxime";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Achat de serveurs et configuration";" Gestion de l’achat de serveurs et des differentes préconisations";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - Domaines DNS";" Gestion des dommaines DNS";;;;;;;;;;;"Charpenne Maxime";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Sécurisation des mots de passe";" Projet de sécurisation du mot de passe des identités numériques";;;;;;;;;;;"Innocente Eric";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Impression";" Gestion du service d’impression centralisé";;;;;;;;;;;"Tran Vinh khanh alexandre";" Tran Vinh khanh alexandre";" à attribuer"
+DOSI;"INFRA - NAS";" Gestion et maintenance des serveurs de stockage centralisé";;;;;;;;;;;"Juaneda Matthieu";" Tran Vinh khanh alexandre";" à attribuer"
+DOSI;"Étude / Déploiement Windows 10";" Étude / impact / planification de la migration Windows 7 -> Windows 10.";;;;;;;;;;;"Charpin Julien";" Franck Boneau / Erwan Kervran";" Julien Charpin"
+DOSI;"Correspondant Antivirus";" Gestion de la politique et de la stratégie liée à l'antivirus";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";"Julien Charpin"
+DOSI;"SI - FC - Quadra";" Progiciel de gestion de paye pour la licence pro Gestionnaire de paye de la FC";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Sylvie Galeazzi"
+DOSI;"SI - Outils - Gestionnaire de ressources allouées ";" Gestionnaire de ressources informatiques allouées en dehors de la DOSI. Exemple : Adresse génériques, site web...";;;;;;;;;;;"Tavernier Jade";" Jade Tavernier";" Maxime Charpenne"
+DOSI;"SI - TICE - POD";" Plateforme de vidéos en ligne";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" TICE"
+DOSI;"SI - Outils - Emploi du temps";" Emplois du temps en ligne repris d'Hyperplanning (via Appig) permettant de voir ses cours si on est connecté ainsi que les emplois du temps d'une formation, d'une salle, d'un enseignement et d'un enseignant.";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Delphine Pezzo (Scolarité)"
+DOSI;"SI - Outils - Refonte Manitou";" Mise à jour de l'outil de gestion de parc informatique avec couplage Fog, Symfony 3 et refonte ergonomique ";;;;;;;;;;;"Marcel Fanny";" Marcel Fanny";" Maxime Charpenne"
+DOSI;FREEDOSI;" Suivi du projet FREEDOSI (achat de nouveaux postes, mise à jours et renouvellement périodique des postes en service, inventaire)";;;;;;;;;;;"Coulomb Cedric";" Alexandre Tran Vinh Khanh";" Julien Charpin"
+DOSI;"DevOps - Outils - Workflow de dev & déploiement";" Réflexion sur un workflow de développement et d'intégration commun (dev+ops)";;;;;;;;;;;"Charpenne Maxime";" Fanny Marcel";" Maxime Charpenne"
+DOSI;"DevOps - Outils - Performance des applications web";" Étude régulière sur l’amélioration des performances de nos applications web.";;;;;;;;;;;"Juaneda Matthieu";" Jade Tavernier";" Maxime Charpenne"
+DOSI;"INFRA - Filtrage réseau";" Exploitation et administration de la politique de filtrage";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - Stockage serveur";" Gestion et exploitation des serveurs de stockage hors NAS";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - Gestion flotte téléphonique mobile";" Gestion, administration et support utilisateur de la flotte mobile ";;;;;;;;;;;"Beaudlot Sebastien";" Beaudlot Sebastien";" à attribuer"
+DOSI;"INFRA - MaJ PF web + api + PF Moodle (test+prod)";" Exploitation des architecture web en production ";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - MaJ PF Tomcat + CAS";" Mise à jour du service CAS";;;;;;;;;;;"Beaudlot Sebastien";" Beaudlot Sebastien";" à attribuer"
+DOSI;"INFRA - Migration vers PARTAGE";" Migration de la messagerie vers le service PARTAGE";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"INFRA - Marché Télécom";" Gestion du marché Télécom";;;;;;;;;;;"Beaudlot Sebastien";" Beaudlot Sebastien";" à attribuer"
+DOSI;"INFRA - MaJ Plateforme LDAP";" Projet de refonte et de mise a jour de l’architecture LDAP";;;;;;;;;;;"Juaneda Matthieu";" à attribuer";" à attribuer"
+DOSI;"INFRA - Serveurs de cache mémoire";" Mise en production et intégration de serveurs de cache ";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - Évolution Samba4";" Pilotage de prestations pour remplacement des services Samba et de ses dépendances (LDAP, Kerberos) ainsi que modernisation de nos procédures de gestion de parc Windows.";;;;;;;;;;;"Juaneda Matthieu";" à attribuer";" à attribuer"
+DOSI;"INFRA - Nouvelle Messagerie applicative (MTA)";" Migration sur le relais de messagerie électronique utilisé par les services informatiques et les appareils.";;;;;;;;;;;"Charpenne Maxime";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Renouvellement architecture wifi";" Projet de remplacement des controlleurs et de  renouvellement de l’architecture wifi ";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - BDD test";" Mise a jour de la plateforme BDD de test";;;;;;;;;;;"Charpenne Maxime";" Charpenne Maxime";" à attribuer"
+DOSI;"INFRA - Remplacement NAS";" Projet de remplacement et d’intégration du NAS";;;;;;;;;;;"Tran Vinh khanh alexandre";" Tran Vinh khanh alexandre";" à attribuer"
+DOSI;"INFRA - Gestion centralisée équipements réseau";" Projet de mise en exploitation d’un outil de gestion centralisée de la configuration des équipements réseau";;;;;;;;;;;"Beaudlot Sebastien";" Beaudlot Sebastien";" à attribuer"
+DOSI;"INFRA - PSSI";" Mise en place d’une PSSI";;;;;;;;;;;"Innocente Eric";" Innocente Eric";" à attribuer"
+DOSI;"INFRA - VRRP + MaJ routeurs + Activation log NAT";" Gestion de la prestation  VRRP + MaJ routeurs + Activation log NAT";;;;;;;;;;;"Juaneda Matthieu";" Juaneda Matthieu";" à attribuer"
+DOSI;"INFRA - MAN RARE exploitation";" Exploitation technique du MAN RARE et suivi du partenariat GFU (mairie) : demande de brassage, gestion du prestataire qui assure l'exploitation, gestion des départs et des arrivées.";;;;;;;;;;;"Charpenne Maxime";" Maxime Charpenne";" Maxime Charpenne / Pierre Catala (INRA)"
+DOSI;"INFRA - Nœud RENATER";" Correspondant du NR pour RENATER";;;;;;;;;;;"Charpenne Maxime";" Maxime Charpenne";" Maxime Charpenne"
+DOSI;"DevOps - Mise en production de memcached ";" Étude régulière sur l’amélioration des performances de nos applications web.";;;;;;;;;;;"Juaneda Matthieu";" Jade Tavernier";" Matthieu JUANEDA"
+DOSI;"DevOps - Scola - Mail PARTAGE étudiant";" Généralisation des comptes mails PARTAGE pour tous les étudiants";;;;;;;;;;;"Detrez Nathalie";" Eric Innocente";"  en attente "
+DOSI;"PA AV - Mallette Enregistrement Réunion";" Acquisition d'une mallette d'enregistrement audio.";;;;;;;;;;;"Marangon Jean-louis";" AV";" Jacques Sauvajol"
+DOSI;"PA AV - Mise à jour installation Salles AV ";" Installation de connectique HDMI dans 15 salles de l'Université.";;;;;;;;;;;"Marangon Jean-louis";" AV";" Bénédicte Mourey"
+DOSI;"PA AV - Système Captation et de Rediff. Évenements";" Acquisition d'un système de captation Audio/Vidéo portable et de rediffusion des événements.";;;;;;;;;;;"Sudreau Daniel";" AV";" Aurélia Barrière / Myriam Dougados"
+DOSI;"PA Info - Intégration niveau 1 IUT";" transfert et organisation du niveau 1 Informatique et AV de l'IUT à la DOSI";;;;;;;;;;;"Kervran Erwan";" Omar Abdoullahi";" Jean-Jacques Colin"
+DOSI;"INFRA - Identité Numérique Multi NAS";" Exploitation de l’architecture réseau, matériels actifs et câblage";;;;;;;;;;;"Juaneda Matthieu";" Charpenne Maxime";" à attribuer"
+DOSI;"Bascule nom de domaine externe";" Bascule nom de domaine externe chez Renater";;;;;;;;;;;"Dardenne Julien";" Julien Dardenne";" Stéphane Igounet"
+DOSI;"Accès 24/7 CERI (data center/stock/salles)";" formaliser toutes les modifications nécessaires pour qu'un accès 24/7 aux ressources du CERI (data center + stock + salles info) par la DOSI soit effectif.";;;;;;;;;;;"Charpin Julien";;" Y.Hayel / C.Chambonnet"

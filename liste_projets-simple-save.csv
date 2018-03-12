@@ -1,0 +1,47 @@
+;;;;
+Projet;Titulaire;Suppléant;Description;Commentaire
+Messagerie applicative (MTA);;;Gestion du relais de messagerie électronique utilisé par les services informatiques et les appareils.;Relais mail, remplacement des mh, supervision des mailq
+PARTAGE;;;Gestion de PARTAGE et de son intégration au SI.;
+PF virtualisation;;;Gestion de la plate-forme de virtualisation.;"Formalisation procédure mise en prod des serveurs installés par Intégration (PPD)
+Template VM Red Hat"
+PF Tomcat + CAS;;;Gestion des environnements tomcat et du CAS (service d'authentification centralisée).;Gestion du CAS + référent ENT pour les dev + Veille sur authentification forte (double authentification, …)
+PF web + PF Moodle;;;Gestion des plate-formes web des sites de l'UAPV, des sites perso et de la plate-forme web pour Moodle.;Apache, memcached, statistiques web …
+PF BdD;;;Gestion des serveurs de bases de données.;MySQL + Postgres pour webuapv (test+prod) et webperso
+Annuaire LDAP;;;Gestion de l'annuaire et du cycle de vie des identités numériques.;OpenLDAP
+Évolution Samba;;;Pilotage de prestations pour remplacement des services Samba et de ses dépendances (LDAP, Kerberos) ainsi que modernisation de nos procédures de gestion de parc Windows.;Samba4 (Contrôleur de domaine Windows), Kerberos, LDAP, WAPT
+VPN;;;Gestion du service d'accès distant au réseau de l'Université.;
+Fédération d'identité;;;Gestion de l'instance de l'Université dans la Fédération d'identité Éducation Recherche.;Shibboleth + gestion fédération
+Eduroam;;;Gestion de l'instance de l'Université dans le projet Eduroam (accès WiFi authentifié et sécurisé).;FreeRadius + gestion fédération, http://cat.eduroam.org
+FTP, dépôts Debian + Ubuntu;;;Gestion du service FTP et des miroirs Debian et Ubuntu.;
+Sauvegarde serveurs;;;Gestion du service de sauvegardes des serveurs de la DOSI.;Bacula
+Architecture réseau;;;;Gestion des routeurs, switches datacenter, sécu, métrologie et weathermap
+Réseau de distribution;;;;Référent brassage, gestion des switches de distribution (configuration, installation, achat), gestion des prises nomades, métrologie et weathermap
+Supervision;;;;Xymon (=> Shinken-monitoring.org ?)
+Salles serveurs CV;;;;Gestion de la maintenance et installation des équipements (sauf réseau)
+Salles serveurs Agro;;;;Gestion de la maintenance et installation des équipements (sauf réseau)
+Télécommunications;;;;Gestion de l'infrastructure de téléphonie fixe, de la flotte mobile, des abonnements et des terminaux, refacturation
+Stockage centralisé;;;;Données applicatives + utilisateurs, snapshots + sauvegardes, stockage non critique (sauvegardes de fichiers hors Bacula, FTP, VZ dumps, …)
+WiFi;;;;Maintenance et exploitation, portail captif
+Antispam;;;;
+Service de listes de messagerie;;;;Sympa
+Salle pédago CERI – VM win;;;;Déploiement des VDI
+Samba4;;;;administration du domaine Windows, Samba, WSUS, Kerberos, LDAP, WAPT
+Gestion centralisée des postes de travail adm – Windows;;;;
+Gestion centralisée des postes de travail Ubuntu;;;;Salles pédago, Freedosi
+Gestion des ressources de calcul du LIA;;;;
+Serveur de logs;;;;
+Gestion centralisée des serveurs Linux;;;;"Puppet, Ansible, autres ?
+Projet (évolution) + prod (bonnes pratiques et transfert de connaissances)"
+serveur de vidéos;;;;pod
+Certificats SSL;;;;CA maison + TCS
+DHCP + TFTP + PXE;;;;
+Proxy web;;;;Squid, utilisé par certains postes de travail
+Serveurs de licences;;;;
+serveur pédagogique CERI;;;;pedago02a
+Achat de serveurs et configuration;;;;Gestion achats et maintenance, configuration des firmwares (iDRAC, IPMI)
+Visioconférence;;;;
+Salles serveurs - sécurisation électrique et incendie;;;;
+Domaines DNS;;;;Gestion des enregistrements des domaines, architecture technique.
+Sécurisation des mots de passe;;;;passage en cryptage SHA1, contraintes sur la saisie des mots de passe
+Impression;;;;
+NAS en prod;;;;
