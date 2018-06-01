@@ -34,7 +34,7 @@ class IndicateursController extends BaseController
         $cptNbExploit = 0;
         $cptNbExploitPerim = 0;
         $categoriesProjet = array("Abandonné", "En cours", "En retard", "Futur", "En anomalie", "Stand-by", "Terminé");
-        $cptCategories=array("Abandonné" => 0, "Sans categories" => 0, "Stand-by" => 0, "En cours" => 0, "Terminé" => 0, "Futur" => 0, "En retard" => 0);
+        $cptCategories=array("Abandonné" => 0, "En anomalie" => 0, "Stand-by" => 0, "En cours" => 0, "Terminé" => 0, "Futur" => 0, "En retard" => 0);
         $columnRenvoullement = array();
 
         //histogramme année -3 jusqua année +3
@@ -173,7 +173,11 @@ class IndicateursController extends BaseController
                                     $histogramme = $this->compteurHistogrammeAccueil($histogramme, 2, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
 
                                 } elseif (strstr($catForm, "projet")) {
-                                    if ($donnees['start_date'] != "" and $startDate > $now) {
+                                    //anomalie si le projet est ferme mais que la date de fin et dans le futur
+                                    if (!$donnees['is_active'] and $donnees['end_date'] != "" and $endDate < $now) {
+                                        $liste[$donnees['idProject']]['categories'] = "En anomalie";
+                                        $cptCategories["En anomalie"]++;
+                                    }else if ($donnees['start_date'] != "" and $startDate > $now) {
                                         $liste[$donnees['idProject']]['categories'] = "Futur";
                                         $cptCategories["Futur"]++;
                                         $histogramme = $this->compteurHistogrammeAccueil($histogramme, 5, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
@@ -199,13 +203,13 @@ class IndicateursController extends BaseController
                                         $histogramme = $this->compteurHistogrammeAccueil($histogramme, 4, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
                                     }else {
                                         $liste[$donnees['idProject']]['categories'] = "-";
-                                        $cptCategories["Sans categories"]++;
+                                        $cptCategories["En anomalie"]++;
                                         $cptNbActivitesAnomalie++;
                                         $listeAnomalie[]=$donnees['name'];
                                     }
                                 } else {
                                     $liste[$donnees['idProject']]['categories'] = "-";
-                                    $cptCategories["Sans categories"]++;
+                                    $cptCategories["En anomalie"]++;
                                     $cptNbActivitesAnomalie++;
                                     $listeAnomalie[]=$donnees['name'];
                                 }
@@ -354,7 +358,7 @@ class IndicateursController extends BaseController
 
         $this->sendAllNotificationModifValid($listeModif);
         $this->sendAllNotificationEnAttente($listeEnAttente);
-        $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/index', array(
+        $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/index2', array(
             'cptNbProjetsStandByPerim' => $cptNbProjetsStandByPerim,
             'cptNbProjetsEnRetard' => $cptCategories['En retard'],
             'cptNbActivitesModif' => $cptNbActivitesModif,
@@ -390,7 +394,7 @@ class IndicateursController extends BaseController
         $listeModif = array();
         $resPost = "";
         $categoriesProjet = array("Abandonné", "En cours", "En retard", "Futur", "En anomalie", "Stand-by", "Terminé");
-        $cptCategories=array("Abandonné" => 0, "Sans categories" => 0, "Stand-by" => 0, "En cours" => 0, "Terminé" => 0, "Futur" => 0, "En retard" => 0);
+        $cptCategories=array("Abandonné" => 0, "En anomalie" => 0, "Stand-by" => 0, "En cours" => 0, "Terminé" => 0, "Futur" => 0, "En retard" => 0);
 
         $user = $this->getUser();
         $droitValide = $this->isAdmin($user);
@@ -460,33 +464,33 @@ class IndicateursController extends BaseController
                                 if (!$projetModif) {
                                     $cptNbProjets++;
                                     $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
-                                                                            "priorite" => $donnees['priorite'],
-                                                                            "owner" => $donnees['owner'],
-                                                                            "refTech" => $infoDesc['refTech'],
-                                                                            "supTech" => $infoDesc['supTech'],
-                                                                            "fonctionnel" => $infoDesc['fonctionnel'],
-                                                                            "categories" => $donnees['categories'],
-                                                                            "description" => $infoDesc['description'].$infoDesc['wiki'],
-                                                                            "start_date" => $donnees['start_date'],
-                                                                            "end_date" => $donnees['end_date']);
+                                        "priorite" => $donnees['priorite'],
+                                        "owner" => $donnees['owner'],
+                                        "refTech" => $infoDesc['refTech'],
+                                        "supTech" => $infoDesc['supTech'],
+                                        "fonctionnel" => $infoDesc['fonctionnel'],
+                                        "categories" => $donnees['categories'],
+                                        "description" => $infoDesc['description'].$infoDesc['wiki'],
+                                        "start_date" => $donnees['start_date'],
+                                        "end_date" => $donnees['end_date']);
                                 } else {
                                     $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
-                                                                                "priorite" => $donnees['priorite'],
-                                                                                "owner" => $donnees['owner'],
-                                                                                "refTech" => $infoDesc['refTech'],
-                                                                                "supTech" => $infoDesc['supTech'],
-                                                                                "fonctionnel" => $infoDesc['fonctionnel'],
-                                                                                "categories" => $donnees['categories'],
-                                                                                "description" => $infoDesc['description'],
-                                                                                "start_date" => $donnees['start_date'],
-                                                                                "end_date" => $donnees['end_date'],
-                                                                                "last_name" => $donnees['last_name'],
-                                                                                "last_cat" => $donnees['last_cat'],
-                                                                                "last_chef_DOSI" => $donnees['last_chef_DOSI'],
-                                                                                "last_ref_tech" => $donnees['last_ref_tech'],
-                                                                                "last_sup_tech" => $donnees['last_sup_tech'],
-                                                                                "last_fonctionnel" => $donnees['last_fonctionnel'],
-                                                                                "last_description" => $donnees['last_description']);
+                                        "priorite" => $donnees['priorite'],
+                                        "owner" => $donnees['owner'],
+                                        "refTech" => $infoDesc['refTech'],
+                                        "supTech" => $infoDesc['supTech'],
+                                        "fonctionnel" => $infoDesc['fonctionnel'],
+                                        "categories" => $donnees['categories'],
+                                        "description" => $infoDesc['description'],
+                                        "start_date" => $donnees['start_date'],
+                                        "end_date" => $donnees['end_date'],
+                                        "last_name" => $donnees['last_name'],
+                                        "last_cat" => $donnees['last_cat'],
+                                        "last_chef_DOSI" => $donnees['last_chef_DOSI'],
+                                        "last_ref_tech" => $donnees['last_ref_tech'],
+                                        "last_sup_tech" => $donnees['last_sup_tech'],
+                                        "last_fonctionnel" => $donnees['last_fonctionnel'],
+                                        "last_description" => $donnees['last_description']);
 
                                 }
                             } else {
@@ -533,7 +537,11 @@ class IndicateursController extends BaseController
                                     $startDate = new \DateTime($donnees['start_date']);
                                     $endDate = new \DateTime($donnees['end_date']);
 
-                                    if ($donnees['start_date'] != "" and $startDate > $now) {
+                                    //anomalie si le projet est ferme mais que la date de fin et dans le futur
+                                    if (!$donnees['is_active'] and $donnees['end_date'] != "" and $endDate > $now) {
+                                        $liste[$donnees['idProject']]['categories'] = "En anomalie";
+                                        $cptCategories["En anomalie"]++;
+                                    }else if ($donnees['start_date'] != "" and $startDate > $now) {
                                         $liste[$donnees['idProject']]['categories'] = "Futur";
                                         $cptCategories["Futur"]++;
                                     }else if ($donnees['end_date'] != "" and $endDate > $now) {
@@ -552,11 +560,11 @@ class IndicateursController extends BaseController
                                         $cptCategories["En cours"]++;
                                     }else {
                                         $liste[$donnees['idProject']]['categories'] = "-";
-                                        $cptCategories["Sans categories"]++;
+                                        $cptCategories["En anomalie"]++;
                                     }
                                 } else {
                                     $liste[$donnees['idProject']]['categories'] = "-";
-                                    $cptCategories["Sans categories"]++;
+                                    $cptCategories["En anomalie"]++;
                                 }
                             }
                         }
@@ -573,20 +581,20 @@ class IndicateursController extends BaseController
 
         $this->sendAllNotificationModifValid($listeModif);
         $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/projets', array(
-                                                                                                'cptNbProjets' => $cptNbProjets,
-                                                                                                'cptAbandonne' => $cptCategories['Abandonné'],
-                                                                                                'cptStandBy' => $cptCategories['Stand-by'],
-                                                                                                'cptTermine' => $cptCategories['Terminé'],
-                                                                                                'cptEnCours' => $cptCategories['En cours'],
-                                                                                                'cptFutur' => $cptCategories['Futur'],
-                                                                                                'cptSansCat' => $cptCategories['Sans categories'],
-                                                                                                'cptRetard' => $cptCategories['En retard'],
-                                                                                                'liste' => $liste,
-                                                                                                'listeModif' => $listeModif,
-                                                                                                'resPost' => $resPost,
-                                                                                                'droitValide' => $droitValide,
-                                                                                                'categoriesProjet' => $categoriesProjet,
-                                                                                                'title' => t('Catalogue d\'activité DOSI')), 'dosi:layout'));
+            'cptNbProjets' => $cptNbProjets,
+            'cptAbandonne' => $cptCategories['Abandonné'],
+            'cptStandBy' => $cptCategories['Stand-by'],
+            'cptTermine' => $cptCategories['Terminé'],
+            'cptEnCours' => $cptCategories['En cours'],
+            'cptFutur' => $cptCategories['Futur'],
+            'cptSansCat' => $cptCategories['En anomalie'],
+            'cptRetard' => $cptCategories['En retard'],
+            'liste' => $liste,
+            'listeModif' => $listeModif,
+            'resPost' => $resPost,
+            'droitValide' => $droitValide,
+            'categoriesProjet' => $categoriesProjet,
+            'title' => t('Catalogue d\'activité DOSI')), 'dosi:layout'));
     }
 
     /**
@@ -795,7 +803,7 @@ class IndicateursController extends BaseController
         $listeModif = array();
         $resPost = "";
         $droit = false;
-        $categoriesProjet = array("Abandonné", "Sans categories", "Stand-by", "En cours", "Terminé", "Futur");
+        $categoriesProjet = array("Abandonné", "En anomalie", "Stand-by", "En cours", "Terminé", "Futur");
 
         $user = $this->getUser();
         $droitValide = $this->isAdmin($user);
@@ -846,6 +854,7 @@ class IndicateursController extends BaseController
                 $tabTotal = $this->searchProjets($uids);
 
                 foreach ($tabTotal as $donnees) {
+                    var_dump($donnees);die;
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         if ($donnees['categories'] == '' || $donnees['categories'] == null) {
                             $donnees['categories'] = '-';
@@ -1161,226 +1170,6 @@ class IndicateursController extends BaseController
         return array("fonctionnel" => $fonctionnel, "description" => $desc, "refTech" => $tech, "supTech" => $supTech, "wiki" => $wiki);
     }
 
-    /**
-     * Indicateurs index page
-     *
-     * @access public
-     */
-    public function addProjets()
-    {
-
-//recuperer info du csv
-        $csv = array();
-        $erreur = array();
-        $row = 1;
-        $cptLigne = 0;
-        if (($handle = fopen("plugins/Dosi/liste_projets-simple.txt", "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 0, ";")) !== FALSE) {
-                if(trim($data[0]) == "" or trim($data[0]) == "Projet"){
-                    $erreur[] = "Erreur pas de nom de projet. ligne : ".$cptLigne;
-                }else {
-                    $csv[] = $data;
-                }
-                $cptLigne++;
-            }
-
-            fclose($handle);
-        }
-
-        if(false != strstr($_SERVER['HTTP_HOST'],"-test")){
-            $client = new Client('https://projets-test.univ-avignon.fr/jsonrpc.php');
-        }else
-            $client = new Client('https://projets.univ-avignon.fr/jsonrpc.php');
-        $client->authentication('jsonrpc', 'ceb7959f9cce20163d3cb02f41e7c639a67879c0148e22edd37f283e5af9');
-        $cptLigne=0;
-        foreach($csv as $value) {
-            //chef DOSI
-            $chefDosi = $client->execute('getUserByName', array('username' => trim($value[1])));
-            if (!isset($chefDosi)) {
-                $erreur[] = "le user ".$value[1]." n'a pas été trouvé dans l'application";
-            }
-
-            //Référrent technique
-            if(trim($value[2]) == "")
-                $refTech['name'] = "à attribuer";
-            else {
-                $refTech = $client->execute('getUserByName', array('username' => trim($value[2])));
-                if (!isset($refTech)) {
-                    $erreur[] = "le user " . $value[2] . " n'a pas été trouvé dans l'application";
-                }
-            }
-            $idSupTech = array();
-            //suppléant technique
-            if(trim($value[3]) == "")
-                $supTech = "à attribuer";
-            else {
-                $supExp = explode(',', $value[3]);
-                $supTech = "";
-
-                foreach ($supExp as $value2) {
-                    $buf = $client->execute('getUserByName', array('username' => trim($value2)));
-                    if (!isset($buf)) {
-                        $erreur[] = "le user " . $value2 . " n'a pas été trouvé dans l'application";
-                    } else {
-                        $idSupTech[] = $buf["id"];
-                        if ($supTech == "")
-                            $supTech .= $buf["name"];
-                        else
-                            $supTech .= ", " . $buf["name"];
-                    }
-                }
-            }
-
-            if(trim($value[6]) == "")
-                $value[6] = "à attribuer";
-            if(trim($value[4]) == "")
-                $value[4] = "à attribuer";
-            if(trim($value[7]) == "")
-                $value[7] = "à attribuer";
-
-            $desc = "* Description : " . $value[6] . "
-* Référent fonctionnel : ".$value[4]."
-* Référent technique : ".$refTech['name']."
-* Suppléant technique : ".$supTech."
-* Priorité : 
-* Coût : 
-* Lien Application : 
-* Lien Intracri : 
-* Lien FAQ site de la DOSI" ;
-            //$name = "INFRA - ".$value[0];
-            $name = trim($value[0]);
-            if($name == "INFRA - Sécurité SI - incendie salle Agro"){
-                $name = "Sécurité SI - incendie salle Agro";
-                $newName = "INFRA - Sécurité SI - incendie salle Agro";
-            }else if($name == "INFRA - Data center Sécu électrique et incendie"){
-                $name = "Data center - sécurisation électrique et incendie";
-                $newName = "INFRA - Data center Sécu électrique et incendie";
-            }else if($name == "INFRA - easymin"){
-                $name = "SI - Outils - Easymin";
-                $newName = "INFRA - easymin";
-            }else if($name == "INFRA - NAS"){
-                $name = "INFRA - NAS en prod";
-                $newName = "INFRA - NAS";
-            }else if($name == "INFRA - Évolution Samba4"){
-                $name = "INFRA - évolution Samba4";
-                $newName = "INFRA - Évolution Samba4";
-            }else if($name == "INFRA - PF BdD test et prod"){
-                $name = "INFRA - PF BdD";
-                $newName = "INFRA - PF BdD test et prod";
-            }else if($name == "INFRA - PF web + PF Moodle (test et prod)"){
-                $name = "INFRA - PF web + PF Moodle";
-                $newName = "INFRA - PF web + PF Moodle (test et prod)";
-            }else if($name == "INFRA - Visioconférence"){
-                $name = "Visioconférence";
-                $newName = "INFRA - Visioconférence";
-            }else if($name == "INFRA - PARTAGE"){
-                $name = "PARTAGE";
-                $newName = "INFRA - PARTAGE";
-            }else if($name == "INFRA - Videolan"){
-                $name = "Videolan";
-                $newName = "INFRA - Videolan";
-            }else if($name == "INFRA - Infrastructure Téléphonie"){
-                $name = "Téléphonie";
-                $newName = "INFRA - Infrastructure Téléphonie";
-            }else{
-                $newName = $name;
-            }
-
-            if(strlen($name) > 50){
-                $erreur[] = "0 nom de projet trop long " . $name;
-            }
-
-            $resProject = $client->execute('getProjectByName', array('name' => $name));
-
-            if($resProject == NULL) {
-
-                $resProject = $client->execute('createProject', array('name' => $name, 'description' => $desc, 'owner_id' => intval($chefDosi['id']), 'last_modified' => time()));
-                if(!$resProject) {
-                    $erreur[] = "1 projet " . $name . " erreur creation projet";
-                }else {
-                    $res = $client->execute('addProjectUser', array('project_id' => intval($resProject), 'user_id' => intval($chefDosi['id']), 'role' => 'project-manager'));
-                    /*if (!$res)
-                        $erreur[] = "2 projet " . $name . " erreur ajout user " . $chefDosi['name']." ".$chefDosi['id'];*/
-
-                    if($refTech['id'] != $chefDosi['id']) {
-                        $res = $client->execute('addProjectUser', array('project_id' => intval($resProject), 'user_id' => intval($refTech['id']), 'role' => 'project-manager'));
-                        /*if (!$res)
-                            $erreur[] = "3 projet " . $name . " erreur ajout user " . $refTech['id'];*/
-                    }
-                    if(count($idSupTech) > 0) {
-                        foreach ($idSupTech as $item) {
-                            if ($item != $chefDosi['id']) {
-                                $res = $client->execute('addProjectUser', array('project_id' => intval($resProject), 'user_id' => $item, 'role' => 'project-manager'));
-                                /*if (!$res)
-                                    $erreur[] = "4 projet " . $name . " erreur ajout user " . $item;*/
-                            }
-                        }
-                    }
-
-                    $res = $client->execute('addProjectGroup', array('project_id' => intval($resProject), 'group_id' => 1, 'role' => 'project-viewer'));
-                    if (!$res)
-                        $erreur[] = "5 projet " . $name . " erreur ajout group ";
-                    //categories
-                    if(trim($value[5]) == "") {
-                        $res = $client->execute('createCategory', array('project_id' => intval($resProject), 'name' => "à attribuer"));
-                        if (!$res)
-                            $erreur[] = "6 projet " . $name . " erreur ajout category à attribuer";
-                    }else {
-                        $categoriesExp = explode(',', $value[5]);
-                        foreach ($categoriesExp as $value3) {
-                            $res = $client->execute('createCategory', array('project_id' => intval($resProject), 'name' => trim($value3)));
-                            if (!$res)
-                                $erreur[] = "7 projet " . $name . " erreur ajout category ";
-                        }
-                    }
-                }
-            }else{
-                $res = $client->execute('updateProject', array('project_id' => intval($resProject['id']), 'name' => $newName, 'description' => $desc, 'owner_id' => intval($chefDosi['id']), 'last_modified' => time()));
-                if(!$res) {
-                    $erreur[] = "1 projet " . $name . " erreur update projet";
-                }
-                $res = $client->execute('addProjectUser', array('project_id' => intval($resProject['id']), 'user_id' => intval($chefDosi['id']), 'role' => 'project-manager'));
-                /*if (!$res)
-                    $erreur[] = "2 projet " . $name . " erreur ajout user " . $chefDosi['name'];*/
-
-                if($refTech['id'] != $chefDosi['id']) {
-                    $res = $client->execute('addProjectUser', array('project_id' => intval($resProject['id']), 'user_id' => intval($refTech['id']), 'role' => 'project-manager'));
-                    /*if (!$res)
-                        $erreur[] = "3 projet " . $name . " erreur ajout user " . $refTech['id'];*/
-                }
-
-                if(count($idSupTech) > 0) {
-                    foreach ($idSupTech as $item) {
-                        if ($item != $chefDosi['id']) {
-                            $res = $client->execute('addProjectUser', array('project_id' => intval($resProject['id']), 'user_id' => intval($item), 'role' => 'project-manager'));
-                            /*if (!$res)
-                                $erreur[] = "4 projet " . $name . " erreur ajout user " . $item;*/
-                        }
-                    }
-                }
-
-                $res = $client->execute('addProjectGroup', array('project_id' => intval($resProject['id']), 'group_id' => 1, 'role' => 'project-viewer'));
-                if (!$res)
-                    $erreur[] = "5 projet " . $name . " erreur ajout group ";
-                //categories
-
-                if(trim($value[5]) == "") {
-                    $res = $client->execute('createCategory', array('project_id' => intval($resProject['id']), 'name' => "à attribuer"));
-                    if (!$res)
-                        $erreur[] = "6 projet " . $name . " erreur ajout category à attribuer";
-                }else {
-                    $categoriesExp = explode(',', $value[5]);
-                    foreach ($categoriesExp as $value3) {
-                        $res = $client->execute('createCategory', array('project_id' => intval($resProject['id']), 'name' => trim($value3)));
-                        if (!$res)
-                            $erreur[] = "7 projet " . $name . " erreur ajout category ";
-                    }
-                }
-            }
-            $cptLigne++;
-        }
-        var_dump($erreur);
-    }
 
     /*
      * Permet de voir si un projet a été modifié
@@ -1413,7 +1202,7 @@ class IndicateursController extends BaseController
             //var_dump("refTech");
             return true;
         }elseif(strtolower($donnees['last_sup_tech']) != strtolower($donnees['supTech'])){
-           // var_dump("supTech");
+            // var_dump("supTech");
             return true;
         }elseif(strtolower($donnees['last_fonctionnel']) != strtolower($donnees['fonctionnel'])){
             //var_dump("fonctionnel");
@@ -1427,7 +1216,7 @@ class IndicateursController extends BaseController
         }
 
 
-return false;
+        return false;
     }
 
     public function modifPriorite(){
@@ -1474,52 +1263,6 @@ return false;
         return "ok";
     }
 
-    public function migration()
-    {
-        $tab = array();
-        $flagCategories = array();
-
-        if ($mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME)) {
-            //recherche les projets ayant pour membre une personne de la dosi
-            $query = "SELECT p.last_modified, p.id as idProject, p.name, p.description, u.username, uo.name as owner, pc.name as categories, vp.* FROM projects p left join project_has_users pu on pu.project_id = p.id left join users u on pu.user_id=u.id left join users uo on uo.id=p.owner_id left join project_has_categories pc on p.id=pc.project_id left join valide_projet vp on p.id=vp.project_id WHERE vp.valide = 1";
-var_dump($query);
-            $resultat = mysqli_query($mysqli, $query);
-            while($row = mysqli_fetch_assoc($resultat))
-            {
-                if (!array_key_exists($row['id'], $tab))
-                {
-                    $flagCategories[$row['id']][$row['categories']] = $row['categories'];
-                    $tab[$row['id']] = $row;
-                } else
-                {
-                   if(!array_key_exists($row['categories'], $flagCategories[$row['id']]))
-                        $tab[$row['id']]['categories'] .= ", " . $row['categories'];
-                    $flagCategories[$row['id']][$row['categories']] = $row['categories'];
-                }
-
-            }
-            mysqli_free_result($resultat);
-
-
-            foreach ($tab as $donnees) {
-                $desc = '';
-                $corresp = '';
-
-                $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-
-                $queryUpdate = "UPDATE valide_projet set last_name ='".mysqli_escape_string($mysqli,$donnees['name'])."', last_cat='".mysqli_escape_string($mysqli,$donnees['categories'])."'
-                     , last_chef_DOSI='".mysqli_escape_string($mysqli,$donnees['owner'])."', last_ref_tech='".mysqli_escape_string($mysqli,$infoDesc['refTech'])."', last_sup_tech='".mysqli_escape_string($mysqli,$infoDesc['supTech'])."', last_fonctionnel='".mysqli_escape_string($mysqli,$infoDesc['fonctionnel'])."', last_description='".mysqli_escape_string($mysqli,$infoDesc['description'])."', last_renouvellement='".mysqli_escape_string($mysqli,$donnees['end_date'])."'
-                     WHERE project_id=".$donnees['idProject'];
-                var_dump($queryUpdate);
-                $resQueryUpdate = mysqli_query($mysqli, $queryUpdate);
-                if(!$resQueryUpdate)
-                    $resPost = "la mise à jour de l'activité à echouée.";
-            }
-        }else {
-            var_dump("erreur base de donnée");
-        }
-    }
-
     /*
      * envoyer un mail aux membres et chef de projet du projet donné lorsque l'admin fait une action
      * action = Valid, modif ou refus
@@ -1528,7 +1271,7 @@ var_dump($query);
     {
         $mails = array('stephane.igounet@univ-avignon.fr' => 'stephane.igounet@univ-avignon.fr', 'maxime.charpenne@univ-avignon.fr' => 'maxime.charpenne@univ-avignon.fr', 'julien.charpin@univ-avignon.fr' => 'julien.charpin@univ-avignon.fr');
 
-        if(false != strstr($_SERVER['HTTP_HOST'],"-test")){
+        if(false != strstr($_SERVER['HTTP_HOST'],"-test") || false != strstr($_SERVER['HTTP_HOST'],".local")){
             $httpClient = new HttpClient('https://projets-test.univ-avignon.fr/jsonrpc.php');
             $httpClient->withoutSslVerification();
             $client = new Client('https://projets-test.univ-avignon.fr/jsonrpc.php', false, $httpClient);
@@ -1579,7 +1322,7 @@ var_dump($query);
         }
         $headers = 'From: projets@univ-avignon.fr' . "\r\n";
 
-        if(false != strstr($_SERVER['HTTP_HOST'],"-test")){
+        if(false != strstr($_SERVER['HTTP_HOST'],"-test") || false != strstr($_SERVER['HTTP_HOST'],".local")){
             $mails = array("jade.tavernier@univ-avignon.fr" => "jade.tavernier@univ-avignon.fr");
         }
         mail ( implode(',', $mails) , $sujet , $message,$headers );
@@ -1702,14 +1445,16 @@ var_dump($query);
             $modifications .= "Etat : ".$projet["categories"]."\nAncien : " . $projet["last_cat"]."\r\n";
         if(trim($projet["description"]) != trim($projet["last_description"]))
             $modifications .= "Description : ".$projet["description"]."\nAncien : " . $projet["last_description"]."\r\n";
-        if(trim($projet["renouvellement"]) != trim($projet["last_renouvellement"]))
-            $modifications .= "Renouvellement : ".$projet["renouvellement"]."\nAncien : " . $projet["last_renouvellement"]."\r\n";
+        if(isset($projet["renouvellement"]) && isset($projet["last_renouvellement"])) {
+            if (trim($projet["renouvellement"]) != trim($projet["last_renouvellement"]))
+                $modifications .= "Renouvellement : " . $projet["renouvellement"] . "\nAncien : " . $projet["last_renouvellement"] . "\r\n";
+        }
 
         $message = "Votre activité \"" . $projet['name'] . "\" vient d'être modifié.\r\n\r\n".$modifications;
         $sujet = "[Activités DOSI] Modification de : \"".$projet['name']."\"";
 
         $headers = 'From: projets@univ-avignon.fr' . "\r\n";
-        if(false != strstr($_SERVER['HTTP_HOST'],"-test")){
+        if(false != strstr($_SERVER['HTTP_HOST'],"-test") || false != strstr($_SERVER['HTTP_HOST'],".local")){
             $mails = array("jade.tavernier@univ-avignon.fr" => "jade.tavernier@univ-avignon.fr");
         }
         mail ( implode(',', $mails) , $sujet , $message,$headers );
@@ -1734,7 +1479,7 @@ var_dump($query);
             $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/noAccess', array('title' => t('Indicateurs DOSI'), 'message' => 'Vous n\'avez pas les droits pour acceder à cette page.')));
             return;
         }*/
-$liste = array();
+        $liste = array();
 
         if(count($uids) == 0){
             $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/noAccess', array('title' => t('Catalogue d\'activités DOSI'), 'message' => 'ERREUR au niveau du LDAP'), 'dosi:layout'));
@@ -1811,15 +1556,15 @@ $liste = array();
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
 
 
-                                $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
-                                    "priorite" => $donnees['priorite'],
-                                    "owner" => $donnees['owner'],
-                                    "refTech" => $infoDesc['refTech'],
-                                    "supTech" => $infoDesc['supTech'],
-                                    "fonctionnel" => $infoDesc['fonctionnel'],
-                                    "categories" => $donnees['categories'],
-                                    "renouvellement" => $donnees['renouvellement'],
-                                    "description" => $infoDesc['description'].$infoDesc['wiki']);
+                            $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
+                                "priorite" => $donnees['priorite'],
+                                "owner" => $donnees['owner'],
+                                "refTech" => $infoDesc['refTech'],
+                                "supTech" => $infoDesc['supTech'],
+                                "fonctionnel" => $infoDesc['fonctionnel'],
+                                "categories" => $donnees['categories'],
+                                "renouvellement" => $donnees['renouvellement'],
+                                "description" => $infoDesc['description'].$infoDesc['wiki']);
 
                         } else {
                             if (array_key_exists($donnees['idProject'], $liste)) {
@@ -1900,12 +1645,7 @@ $liste = array();
 
         $resultat = mysqli_query($this->mysqli, $query);
         while($row = mysqli_fetch_assoc($resultat)){
-            //convertion date
-            /*if($row['start_date'] != null and $row['start_date'] != "")
-                $row['start_date'] = date("d/m/Y", strtotime($row['start_date']));
-            if($row['end_date'] != null and $row['end_date'] != "")
-                $row['end_date'] = date("d/m/Y", strtotime($row['end_date']));*/
-            $tabOwner[] = $row;
+              $tabOwner[] = $row;
         }
         mysqli_free_result($resultat);
         return $tabOwner;

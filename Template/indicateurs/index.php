@@ -94,10 +94,10 @@
 
             <div class="panel-body">
                 <div class="row" style="display: flex;align-items: center;">
-                    <div class="col-lg-3" >
+                    <div class="col-lg-3 col-md-12 col-12" >
                         <div id="projetExploit"></div>
                     </div>
-                    <div class="col-lg-3" style="display: inline-block; vertical-align: middle; float: none;">
+                    <div class="col-lg-3 col-md-4 col-12" style="display: inline-block; vertical-align: middle; float: none;">
                         <div id="autres" style="display: inline-block; text-align: center;padding-right:50px">
                             <div class="left">
                                 <a href="/indicateurs/dosi/modif">
@@ -111,7 +111,7 @@
                             <div style="clear: both;"></div>
                         </div>
                     </div>
-                    <div class="col-lg-3" >
+                    <div class="col-lg-3 col-md-4 col-12" >
                         <div id="autres" style="display: inline-block; text-align: center;padding-right:50px">
                             <div class="left" >
                                 <a href="/indicateurs/dosi/attente">
@@ -125,7 +125,7 @@
                             <div style="clear: both;"></div>
                         </div>
                     </div>
-                    <div class="col-lg-3" >
+                    <div class="col-lg-3 col-md-4 col-12" >
                         <div id="autres" style="display: inline-block; text-align: center;padding-right:50px">
                             <div class="left">
                                 <div class="labelIndic" id="projetAnomalie">
