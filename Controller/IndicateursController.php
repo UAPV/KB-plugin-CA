@@ -358,7 +358,7 @@ class IndicateursController extends BaseController
 
         $this->sendAllNotificationModifValid($listeModif);
         $this->sendAllNotificationEnAttente($listeEnAttente);
-        $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/index2', array(
+        $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/index', array(
             'cptNbProjetsStandByPerim' => $cptNbProjetsStandByPerim,
             'cptNbProjetsEnRetard' => $cptCategories['En retard'],
             'cptNbActivitesModif' => $cptNbActivitesModif,
