@@ -30,7 +30,7 @@
 <a href="#" title="Haut de page" class="scrollup"><i class="fa fa-arrow-up" style="color: white"></i></a>
 
 
-<header>
+<div style="margin-left: -15px;padding-left: -15px;margin-right: -15px;">
     <div id="banniere" class="row">
         <div id="header" class="row">
             <div class="row" style='font: 400 4em/1 "source_sans_proregular",Arial,"Helvetica Neue",Helvetica,"Bitstream Vera Sans",sans-serif; color: #ffffff;text-align: center;padding: 0.3em;'>
@@ -83,7 +83,7 @@
         </div>
     </div>
 
-</header>
+</div>
 
 
 <!-- Projet valide -->

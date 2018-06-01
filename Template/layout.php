@@ -17,6 +17,12 @@
         <?= $this->asset->css('assets/css/app.min.css') ?>
         <?= $this->asset->customCss() ?>
 
+        <?= $this->asset->css('plugins/Dosi/Css/datatables.min.css') ?>
+        <?= $this->asset->css('plugins/Dosi/Css/bootstrap.css') ?>
+        <?= $this->asset->css('plugins/Dosi/Css/datatbles.bootstrap.min.css') ?>
+        <?= $this->asset->css('plugins/Dosi/Css/button.dataTable.min.css') ?>
+        <?= $this->asset->css('plugins/Dosi/Css/headerKanboard.css') ?>
+
         <?php if (! isset($not_editable)): ?>
             <?= $this->asset->js('assets/js/vendor.min.js') ?>
             <?= $this->asset->js('assets/js/app.min.js') ?>
@@ -25,10 +31,6 @@
         <?= $this->hook->asset('css', 'template:layout:css') ?>
         <?= $this->hook->asset('js', 'template:layout:js') ?>
 
-        <?= $this->asset->css('plugins/Dosi/Css/datatables.min.css') ?>
-        <?= $this->asset->css('plugins/Dosi/Css/bootstrap.min.css') ?>
-        <?= $this->asset->css('plugins/Dosi/Css/datatbles.bootstrap.min.css') ?>
-        <?= $this->asset->css('plugins/Dosi/Css/button.dataTable.min.css') ?>
 
         <link rel="icon" type="image/png" href="<?= $this->url->dir() ?>assets/img/favicon.png">
         <link rel="apple-touch-icon" href="<?= $this->url->dir() ?>assets/img/touch-icon-iphone.png">
@@ -58,6 +60,7 @@
     >
 
     <?php if (isset($no_layout) && $no_layout): ?>
+        <?= $this->app->flashMessage() ?>
         <?= $content_for_layout ?>
     <?php else: ?>
         <?= $this->hook->render('template:layout:top') ?>
