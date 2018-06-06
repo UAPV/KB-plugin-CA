@@ -151,7 +151,7 @@
         <div class="col-lg-6" >
             <div class="panel panel-danger" style="padding:0px;">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Projets<div class="panel-title pull-right" title="Un projet doit etre configurer comme ceci dans Kanboard :<br>   - Une date de debut et une date de fin<br>   - categorie : projet, stand-by ou abandonné"><i class="fa fa-question-circle fa-lg" style="color: #475C9C;"></i></div>
+                    <h3 class="panel-title">Projets<div class="panel-title pull-right" title="Un projet doit etre configurer comme ceci dans Kanboard :<br>   - Une date de debut et une date de fin<br>   - categorie : projet<br>   - catégorie en plus possible : stand-by ou abandonné"><i class="fa fa-question-circle fa-lg" style="color: #475C9C;"></i></div>
                     </h3>
                     </div>
                 <div class="panel-body">
@@ -255,7 +255,7 @@
                     <td><select id="filtreCat" class="form-control input-sm">
                             <option value=""></option>
                             <?php
-                            foreach($categoriesProjet as $value){
+                            foreach($etats as $value){
                                 if($value == "En anomalie")
                                     echo "<option value='En anomalie'>".$value."</option>";
                                 else if($value == "Stand-by")
@@ -302,10 +302,10 @@
                     echo "<td><b>Référent : </b>" . $value["refTech"]."</br><b>Suppléant :</b> " . $value["supTech"]."</td>";
                     echo "<td>" . $value["fonctionnel"]."</td>";
                     echo "<td>";
-                    if($value["categories"] == "-")
+                    if($value["etats"] == "-")
                         echo "En anomalie";
                     else
-                        echo $value["categories"];
+                        echo $value["etats"];
                     echo "</td>";
                     echo "<td>" . $value["description"]."</br></td>";
                     echo "<td>" . ((isset($value["start_date"])) ? $value["start_date"] : '')."</br></td>";
