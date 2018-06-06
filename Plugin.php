@@ -19,7 +19,7 @@ class Plugin extends Base
 
         $this->hook->on('template:layout:js', array('template' => 'plugins/Dosi/js/jquery.dataTables.min.js'));
         $this->hook->on('template:layout:js', array('template' => 'plugins/Dosi/js/dataTables.bootstrap.min.js'));
-        //$this->hook->on('template:layout:js', array('template' => 'plugins/Dosi/js/dosi.js'));
+        $this->hook->on('template:layout:js', array('template' => 'plugins/Dosi/js/dosi.js'));
     }
 
     public function onStartup()
