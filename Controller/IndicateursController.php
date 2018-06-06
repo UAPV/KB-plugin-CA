@@ -256,7 +256,7 @@ class IndicateursController extends BaseController
                                         "refTech" => $infoDesc['refTech'],
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "etats" => $donnees['categories'],
+                                        "categories" => $donnees['categories'],
                                         "description" => $infoDesc['description'].$infoDesc['wiki'],
                                         "type" => "Exploitation",
                                         "renouvellement" => $donnees['end_date']);
@@ -268,7 +268,7 @@ class IndicateursController extends BaseController
                                         "refTech" => $infoDesc['refTech'],
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "etats" => $donnees['categories'],
+                                        "categories" => $donnees['categories'],
                                         "description" => $infoDesc['description'],
                                         "last_name" => $donnees['last_name'],
                                         "last_cat" => $donnees['last_cat'],
@@ -344,7 +344,7 @@ class IndicateursController extends BaseController
                             "refTech" => $infoDesc['refTech'],
                             "supTech" => $infoDesc['supTech'],
                             "fonctionnel" => $infoDesc['fonctionnel'],
-                            "etats" => $donnees['categories'],
+                            "categories" => $donnees['categories'],
                             "description" => $infoDesc['description'].$infoDesc['wiki'],
                             "start_date" => $donnees['start_date']);
                         if($this->isProjet($donnees)){
@@ -477,7 +477,7 @@ class IndicateursController extends BaseController
                                         "refTech" => $infoDesc['refTech'],
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "etats" => $donnees['categories'],
+                                        "categories" => $donnees['categories'],
                                         "description" => $infoDesc['description'].$infoDesc['wiki'],
                                         "start_date" => $donnees['start_date'],
                                         "end_date" => $donnees['end_date']);
@@ -488,7 +488,7 @@ class IndicateursController extends BaseController
                                         "refTech" => $infoDesc['refTech'],
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "etats" => $donnees['categories'],
+                                        "categories" => $donnees['categories'],
                                         "description" => $infoDesc['description'],
                                         "start_date" => $donnees['start_date'],
                                         "end_date" => $donnees['end_date'],
@@ -707,7 +707,7 @@ class IndicateursController extends BaseController
                                         "refTech" => $infoDesc['refTech'],
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "etats" => $donnees['categories'],
+                                        "categories" => $donnees['categories'],
                                         "description" => $infoDesc['description'].$infoDesc['wiki'],
                                         "renouvellement" => $donnees['end_date']);
                                 } else {
@@ -717,7 +717,7 @@ class IndicateursController extends BaseController
                                         "refTech" => $infoDesc['refTech'],
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "etats" => $donnees['categories'],
+                                        "categories" => $donnees['categories'],
                                         "description" => $infoDesc['description'],
                                         "last_name" => $donnees['last_name'],
                                         "last_cat" => $donnees['last_cat'],
