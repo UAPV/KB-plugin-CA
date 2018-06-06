@@ -137,7 +137,7 @@
                               <th>Chef de projet</th>
                               <th>Référent technique DOSI</th>
                               <th>Référent fonctionnel</th>
-                              <th>Catégories</th>
+                              <th>Etat</th>
                               <th>Description</th>
                               <th>Date de début</th>
                               <th>Date de fin</th>
@@ -154,7 +154,7 @@
                             <td><select id="filtreCat" class="form-control input-sm">
                                     <option value=""></option>
                                     <?php
-                                        foreach($categoriesProjet as $value){
+                                        foreach($etats as $value){
                                             if($value == "En anomalie")
                                                 echo "<option value='-'>".$value."</option>";
                                             else if($value == "Stand-by")
@@ -199,7 +199,7 @@
                             echo "<td>" . $value["owner"]." </td>";
                             echo "<td><b>Référent : </b>" . $value["refTech"]."</br><b>Suppléant :</b> " . $value["supTech"]."</td>";
                             echo "<td>" . $value["fonctionnel"]."</td>";
-                            echo "<td>" . $value["categories"]."</td>";
+                            echo "<td>" . $value["etats"]."</td>";
                             echo "<td>" . $value["description"]."</br></td>";
                             echo "<td>" . $value["start_date"]."</br></td>";
                             echo "<td>" . $value["end_date"]."</br></td>";

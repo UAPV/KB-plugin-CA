@@ -132,7 +132,7 @@
                             <td><select id="filtreCat" class="form-control input-sm">
                                     <option value=""></option>
                                     <?php
-                                    foreach($categoriesProjet as $value){
+                                    foreach($etats as $value){
                                         if($value == "En anomalie")
                                             echo "<option value='-'>".$value."</option>";
                                         else if($value == "Stand-by")
