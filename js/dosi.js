@@ -40,6 +40,7 @@ $(document).ready(function() {
     //enleve la pagination par defaut de kanboard car datatble le gere
     $('div.pagination').hide();
 
+   
 } );
 
 
