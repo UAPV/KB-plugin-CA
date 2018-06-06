@@ -19,6 +19,9 @@ use JsonRPC\HttpClient;
 class IndicateursController extends BaseController
 {
     var $mysqli = null;
+    var $url_api = null;
+    var $key_api = null;
+    var $admins = null;
 
     /**
      * Indicateurs index page
@@ -75,6 +78,7 @@ class IndicateursController extends BaseController
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         //seulement les projets
                         if ($this->isProjet($donnees)){
+                            //le projet n'est pas encore passé (si le projet a plusieur categorie il passe plusieurs fois)
                             if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
                                 if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                     $donnees['last_cat'] = '-';
@@ -117,7 +121,9 @@ class IndicateursController extends BaseController
                                         "last_description" => $donnees['last_description']);
 
                                 }
-                            } else {
+                            } // le projet est deja passé 1 fois
+                            else {
+                                //le projet est dans la liste des projets non modifié
                                 if (array_key_exists($donnees['idProject'], $liste)) {
                                     $concatCategories = $liste[$donnees['idProject']]['categories'] . ", " . $donnees['categories'];
                                     $bufDonnees = $donnees;
@@ -132,7 +138,8 @@ class IndicateursController extends BaseController
                                         $listeModif[$donnees['idProject']]["last_cat"] = $donnees['last_cat'];
                                         unset($liste[$donnees['idProject']]);
                                     }
-                                } else {
+                                }//le projet est dans la liste des projets modifié
+                                else {
                                     $concatCategories = $listeModif[$donnees['idProject']]["categories"] . ", " . $donnees['categories'];
                                     $bufDonnees = $donnees;
                                     $bufDonnees['categories'] = $concatCategories;
@@ -153,7 +160,7 @@ class IndicateursController extends BaseController
                             }
 
                             if (!$projetModif) {
-                                //recherche les différents categories
+                                //recherche les différents etats (En cours, Futur, Fermé, stand-by, En anomalie, abandonné)
                                 $now = new \DateTime(date("Y-m-d"));
                                 $startDate = new \DateTime($donnees['start_date']);
                                 $endDate = new \DateTime($donnees['end_date']);
@@ -358,6 +365,7 @@ class IndicateursController extends BaseController
 
         $this->sendAllNotificationModifValid($listeModif);
         $this->sendAllNotificationEnAttente($listeEnAttente);
+
         $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/index', array(
             'cptNbProjetsStandByPerim' => $cptNbProjetsStandByPerim,
             'cptNbProjetsEnRetard' => $cptCategories['En retard'],
@@ -854,7 +862,7 @@ class IndicateursController extends BaseController
                 $tabTotal = $this->searchProjets($uids);
 
                 foreach ($tabTotal as $donnees) {
-                    var_dump($donnees);die;
+                    //var_dump($donnees);die;
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         if ($donnees['categories'] == '' || $donnees['categories'] == null) {
                             $donnees['categories'] = '-';
@@ -1177,7 +1185,11 @@ class IndicateursController extends BaseController
      * $flagInfoDesc = false : les info sont deja dans le tableau (refTech, supTech, description)
      *      */
     private function projetModif($name, $donnees, &$erreur, $flagInfoDesc = true){
+        //si le projet est pas actif ne pas le prendre en compte
+        if($donnees['is_active'] == false)
+            return false;
         if($flagInfoDesc) {
+
             $infoDesc = $this->getInfoDesc($name, $donnees['description'], $erreur);
             $donnees['refTech'] = $infoDesc['refTech'];
             $donnees['supTech'] = $infoDesc['supTech'];
@@ -1269,18 +1281,15 @@ class IndicateursController extends BaseController
      */
     public function sendNotificationAdmin($projet, $action)
     {
-        $mails = array('stephane.igounet@univ-avignon.fr' => 'stephane.igounet@univ-avignon.fr', 'maxime.charpenne@univ-avignon.fr' => 'maxime.charpenne@univ-avignon.fr', 'julien.charpin@univ-avignon.fr' => 'julien.charpin@univ-avignon.fr');
-
-        if(false != strstr($_SERVER['HTTP_HOST'],"-test") || false != strstr($_SERVER['HTTP_HOST'],".local")){
-            $httpClient = new HttpClient('https://projets-test.univ-avignon.fr/jsonrpc.php');
-            $httpClient->withoutSslVerification();
-            $client = new Client('https://projets-test.univ-avignon.fr/jsonrpc.php', false, $httpClient);
-        }else{
-            $httpClient = new HttpClient('https://projets.univ-avignon.fr/jsonrpc.php');
-            $httpClient->withoutSslVerification();
-            $client = new Client('https://projets.univ-avignon.fr/jsonrpc.php', false, $httpClient);
-        }
-        $client->authentication('jsonrpc', 'ceb7959f9cce20163d3cb02f41e7c639a67879c0148e22edd37f283e5af9');
+        $mails = $this->getMailsAdmins();
+        if(!$this->getconfApi())
+            return false;
+        
+        $httpClient = new HttpClient($this->url_api);
+        $httpClient->withoutSslVerification();
+        $client = new Client($this->url_api, false, $httpClient);
+      
+        $client->authentication('jsonrpc', $this->key_api);
 
         $members = $client->execute('getProjectUsers', array('project_id' => $projet['id']));
 
@@ -1321,10 +1330,7 @@ class IndicateursController extends BaseController
             return;
         }
         $headers = 'From: projets@univ-avignon.fr' . "\r\n";
-
-        if(false != strstr($_SERVER['HTTP_HOST'],"-test") || false != strstr($_SERVER['HTTP_HOST'],".local")){
-            $mails = array("jade.tavernier@univ-avignon.fr" => "jade.tavernier@univ-avignon.fr");
-        }
+        
         mail ( implode(',', $mails) , $sujet , $message,$headers );
 
     }
@@ -1336,6 +1342,7 @@ class IndicateursController extends BaseController
     {
         $mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME);
         foreach($listes as $key => $projet) {
+
             //Passe le projet en modifié pour ne pas envoyé plusieur fois la notifs
             //verifie si le projet exist dans la table valide_projet
             $querySelectV = "SELECT * FROM valide_projet WHERE project_id=".$key;
@@ -1346,7 +1353,6 @@ class IndicateursController extends BaseController
             if (isset($projetValide)) {
                 if($projetValide['modifie'] == false){
                     $this->sendNotificationModif($key, $projet);
-
                     $queryUpdate = "UPDATE valide_projet set  modifie=TRUE WHERE project_id=" . $key;
                     $resQueryUpdate = mysqli_query($mysqli, $queryUpdate);
                     if (!$resQueryUpdate)
@@ -1405,11 +1411,14 @@ class IndicateursController extends BaseController
      */
     public function sendNotificationModif($id, $projet)
     {
-        $mails = array('stephane.igounet@univ-avignon.fr' => 'stephane.igounet@univ-avignon.fr', 'maxime.charpenne@univ-avignon.fr' => 'maxime.charpenne@univ-avignon.fr', 'julien.charpin@univ-avignon.fr' => 'julien.charpin@univ-avignon.fr');
-        $httpClient = new HttpClient('https://projets.univ-avignon.fr/jsonrpc.php');
+        $mails = $this->getMailsAdmins();
+        if(!$this->getconfApi())
+            return false;
+
+        $httpClient = new HttpClient($this->url_api);
         $httpClient->withoutSslVerification();
-        $client = new Client('https://projets.univ-avignon.fr/jsonrpc.php', false, $httpClient);
-        $client->authentication('jsonrpc', 'ceb7959f9cce20163d3cb02f41e7c639a67879c0148e22edd37f283e5af9');
+        $client = new Client($this->url_api, false, $httpClient);
+        $client->authentication('jsonrpc', $this->key_api);
 
         $members = $client->execute('getProjectUsers', array('project_id' => $id));
 
@@ -1454,9 +1463,7 @@ class IndicateursController extends BaseController
         $sujet = "[Activités DOSI] Modification de : \"".$projet['name']."\"";
 
         $headers = 'From: projets@univ-avignon.fr' . "\r\n";
-        if(false != strstr($_SERVER['HTTP_HOST'],"-test") || false != strstr($_SERVER['HTTP_HOST'],".local")){
-            $mails = array("jade.tavernier@univ-avignon.fr" => "jade.tavernier@univ-avignon.fr");
-        }
+
         mail ( implode(',', $mails) , $sujet , $message,$headers );
 
     }
@@ -1719,11 +1726,34 @@ class IndicateursController extends BaseController
     }
 
     /*
+     * recupere la liste admin du fichier configPlugin.txt
+     */
+    function getAdmins(){
+        if(isset($this->admins))
+            return $this->admins;
+
+        $config = file_get_contents('plugins/Dosi/configPlugin.txt');
+        $config=str_replace(' ','',$config);
+        $explodeLigne = explode("\n", $config);
+
+        foreach ($explodeLigne as $ligne){
+            if(strpos($ligne, "admin:") !== false) {
+                $explode = explode(":", $ligne)[1];
+                $this->admins = explode(",", $explode);
+            }
+        }
+
+        return $this->admins;
+    }
+
+    /*
      * admin = droit de valider ou non un projet
      * Return true si admin
      */
     private function isAdmin($user){
-        if($user['username'] == 'tavernij' || $user['username'] == 'steph' || $user['username'] == 'charpenm' || $user['username'] == 'charpinj' ){
+        $admins = $this->getAdmins();
+
+        if(in_array($user['username'], $admins) ){
             return  true;
         }
         return false;
@@ -1817,6 +1847,64 @@ class IndicateursController extends BaseController
         return $histogramme;
     }
 
+    /*
+     * recupere le mail du user
+     */
+    function getMailUser($uid){
+        if($this->getconfApi() !== false) {
+            $httpClient = new HttpClient($this->url_api);
+            $httpClient->withoutSslVerification();
+            $client = new Client($this->url_api, false, $httpClient);
+            $client->authentication('jsonrpc', $this->key_api);
+
+            $user = $client->execute('getUserByName', array('username' => $uid));
+
+            if(!isset($user))
+                return false;
+            return $user['email'];
+        }
+        return false;
+    }
+
+    /*
+     * Recupere url + key de l'api
+     */
+    function getconfApi(){
+        if(isset($this->url_api))
+            return array("url_api"=>$this->url_api, "key_api"=>$this->key_api);
+
+        $config = file_get_contents('plugins/Dosi/configPlugin.txt');
+        $config=str_replace(' ','',$config);
+        $explodeLigne = explode("\n", $config);
+
+        foreach ($explodeLigne as $ligne){
+            if(strpos($ligne, "url_api:") !== false)
+                $this->url_api = explode("url_api:", $ligne)[1];
+
+            if(strpos($ligne, "key_api:") !== false)
+                $this->key_api = explode("key_api:", $ligne)[1];
+
+        }
+
+        if(!isset($this->url_api) or !isset($this->key_api))
+            return false;
+
+        return array("url_api"=>$this->url_api, "key_api"=>$this->key_api);
+    }
+    
+    /*
+     * recupere les mails de tous les admins pour envoi de mail
+     */
+    function getMailsAdmins(){
+        $mails = array();
+        $admins = $this->getAdmins();
+        foreach($admins as $admin){
+            $mail = $this->getMailUser($admin);
+            if($mail != false)
+                $mails[$mail] = $mail;
+        }
+        return $mails;
+    }
 
 
 
