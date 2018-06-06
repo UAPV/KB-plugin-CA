@@ -48,7 +48,7 @@
 
                 <div class="collapse navbar-collapse" id="navHeaderCollapse">
                     <ul class="nav navbar-nav">
-                        <li class="nav-item "><a class="nav-link" href="https://intracri.univ-avignon.fr/index.php/Catalogue_d%27activit%C3%A9s" target="_blank" >
+                        <li class="nav-item "><a class="nav-link" href="https://intracri.univ-avignon.fr/index.php/Catalogue_d%27activit%C3%A9s" target="_blank" title="Lien vers le wiki de la DOSI. (Outil interne DOSI)">
                                 <i class="fa fa-question-circle fa-lg" style="color: white;"></i>
                             </a>
                         </li>
@@ -87,17 +87,17 @@
         <div class="panel panel-success" style="padding:0px;">
 
             <div class="panel-heading">
-
-                <h3 class="panel-title">Activités</h3>
-
-            </div>
+                <h3 class="panel-title">Activités
+                    <div class="panel-title pull-right" title="Une activité peut être soit un projet, soit une exploitation"><i class="fa fa-question-circle fa-lg" style="color: #475C9C;"></i></div>
+                </h3>
+                </div>
 
             <div class="panel-body">
                 <div class="row" style="display: flex;align-items: center;">
                     <div class="col-lg-3 col-md-12 col-12" >
                         <div id="projetExploit"></div>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-12" style="display: inline-block; vertical-align: middle; float: none;">
+                    <div class="col-lg-3 col-md-4 col-12" style="display: inline-block; vertical-align: middle; float: none;" >
                         <div id="autres" style="display: inline-block; text-align: center;padding-right:50px">
                             <div class="left">
                                 <a href="/indicateurs/dosi/modif">
@@ -105,13 +105,14 @@
                                         Modifiée
                                         <br>
                                         <span class="chiffre"><?php echo $cptNbActivitesModif; ?></span>
+                                        <br><span title="Une activité modifié doit être à nouveau validé."><i class="fa fa-question-circle fa-md" style="color: #475C9C;"></i></span>
                                     </div>
                                 </a>
                             </div>
                             <div style="clear: both;"></div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-12" >
+                    <div class="col-lg-3 col-md-4 col-12" title ="">
                         <div id="autres" style="display: inline-block; text-align: center;padding-right:50px">
                             <div class="left" >
                                 <a href="/indicateurs/dosi/attente">
@@ -119,6 +120,7 @@
                                         En attente
                                         <br>
                                         <span class="chiffre"><?php echo $cptNbActivitesAttente; ?></span>
+                                        <br><span title="Une activité est en attente lorsqu'elle n'a jamais été validé"><i class="fa fa-question-circle fa-md" style="color: #475C9C;"></i></span>
                                     </div>
                                 </a>
                             </div>
@@ -132,6 +134,7 @@
                                     En anomalie
                                     <br>
                                     <span class="chiffre"><?php echo $cptNbActivitesAnomalie; ?></span>
+                                    <br><span title="Cas d'anomalie : <br />- Projet n'ayant ni date de debut ni date de fin."><i class="fa fa-question-circle fa-md" style="color: #475C9C;"></i></span>
                                 </div>
                             </div>
                             <div style="clear: both;"></div>
@@ -148,8 +151,9 @@
         <div class="col-lg-6" >
             <div class="panel panel-danger" style="padding:0px;">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Projets</h3>
-                </div>
+                    <h3 class="panel-title">Projets<div class="panel-title pull-right" title="Un projet doit etre configurer comme ceci dans Kanboard :<br>   - Une date de debut et une date de fin<br>   - categorie : projet, stand-by ou abandonné"><i class="fa fa-question-circle fa-lg" style="color: #475C9C;"></i></div>
+                    </h3>
+                    </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
@@ -159,6 +163,7 @@
                                         Stand-by périmé
                                         <br>
                                         <span class="chiffre"><?php echo $cptNbProjetsStandByPerim; ?></span>
+                                        <br><span title="Projet en stand-by ayant une date de fin dépassé."><i class="fa fa-question-circle fa-md" style="color: #475C9C;"></i></span>
                                     </div>
                                 </div>
                                 <div style="clear: both;"></div>
@@ -171,6 +176,7 @@
                                         En retard
                                         <br>
                                         <span class="chiffre"><?php echo $cptNbProjetsEnRetard; ?></span>
+                                        <br><span title="Projet ayant une date de fin dépassé."><i class="fa fa-question-circle fa-md" style="color: #475C9C;"></i></span>
                                     </div>
                                 </div>
                                 <div style="clear: both;"></div>
@@ -183,7 +189,8 @@
         <div class="col-lg-6" >
             <div class="panel panel-danger" style="padding:0px;">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Exploitation</h3>
+                    <h3 class="panel-title">Exploitation<div class="panel-title pull-right" title="Un exploitation doit etre configurer comme ceci dans Kanboard :<br>   - une date de fin<br>   - categorie : AUCUNE !"><i class="fa fa-question-circle fa-lg" style="color: #475C9C;"></i></div>
+                    </h3>
                 </div>
                 <div class="panel-body">
                     <div id="autres" style="display: inline-block; text-align: center;padding-right:50px">
@@ -192,6 +199,7 @@
                                 Renouvellement périmé
                                 <br>
                                 <span class="chiffre"><?php echo $cptNbExploitPerim; ?></span>
+                                <br><span title="Exploitation ayant une date de fin dépassé"><i class="fa fa-question-circle fa-md" style="color: #475C9C;"></i></span>
                             </div>
                         </div>
                         <div style="clear: both;"></div>

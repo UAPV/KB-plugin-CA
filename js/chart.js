@@ -208,7 +208,9 @@ $(document).ready(function() {
                 };
                 regexStr = "";
                 $.each(listeAnomalie, function(index, value){
-                    if(index==0)
+                    if(listeAnomalie.length == 1 )
+                        regexStr += "("+RegExp.escape(value)+")";
+                    else if(index==0)
                         regexStr += "("+RegExp.escape(value)+"|";
                     else if(index == listeAnomalie.length-1)
                         regexStr += RegExp.escape(value)+')';
@@ -244,13 +246,17 @@ $(document).ready(function() {
                 };
                 regexStr = "";
                 $.each(listeStandByPerim, function(index, value){
-                    if(index==0)
+                    if(listeStandByPerim.length == 1 )
+                        regexStr += "("+RegExp.escape(value)+")";
+                    else if(index==0)
                         regexStr += "("+RegExp.escape(value)+"|";
                     else if(index == listeStandByPerim.length-1)
                         regexStr += RegExp.escape(value)+')';
                     else
                         regexStr += RegExp.escape(value)+'|';
                 });
+                console.log(listeStandByPerim);
+                console.log(regexStr);
                 tableValid.column(1).search(regexStr, true, false).draw();
             }
         });
