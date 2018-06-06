@@ -1,0 +1,3 @@
+admin:
+  - jade.tavernier@gmail.com
+  - jade.tavernier@univ-avignon.fr
