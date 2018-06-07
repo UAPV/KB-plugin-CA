@@ -95,7 +95,7 @@ class IndicateursController extends BaseController
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
                                         "categories" => $donnees['categories'],
-                                        "description" => $infoDesc['description'].$infoDesc['wiki'],
+                                        "description" => $infoDesc['description'],
                                         "start_date" => $donnees['start_date'],
                                         "type" => 'Projet',
                                         "end_date" => $donnees['end_date']);
@@ -257,7 +257,7 @@ class IndicateursController extends BaseController
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
                                         "categories" => $donnees['categories'],
-                                        "description" => $infoDesc['description'].$infoDesc['wiki'],
+                                        "description" => $infoDesc['description'],
                                         "type" => "Exploitation",
                                         "renouvellement" => $donnees['end_date']);
                                 } else {
@@ -345,7 +345,7 @@ class IndicateursController extends BaseController
                             "supTech" => $infoDesc['supTech'],
                             "fonctionnel" => $infoDesc['fonctionnel'],
                             "categories" => $donnees['categories'],
-                            "description" => $infoDesc['description'].$infoDesc['wiki'],
+                            "description" => $infoDesc['description'],
                             "start_date" => $donnees['start_date']);
                         if($this->isProjet($donnees)){
                             $listeEnAttente[$donnees['idProject']]["end_date"] = $donnees['end_date'];
@@ -478,7 +478,7 @@ class IndicateursController extends BaseController
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
                                         "categories" => $donnees['categories'],
-                                        "description" => $infoDesc['description'].$infoDesc['wiki'],
+                                        "description" => $infoDesc['description'],
                                         "start_date" => $donnees['start_date'],
                                         "end_date" => $donnees['end_date']);
                                 } else {
@@ -708,7 +708,7 @@ class IndicateursController extends BaseController
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
                                         "categories" => $donnees['categories'],
-                                        "description" => $infoDesc['description'].$infoDesc['wiki'],
+                                        "description" => $infoDesc['description'],
                                         "renouvellement" => $donnees['end_date']);
                                 } else {
                                     $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
@@ -925,7 +925,7 @@ class IndicateursController extends BaseController
                                     "supTech" => $infoDesc['supTech'],
                                     "fonctionnel" => $infoDesc['fonctionnel'],
                                     "categories" => $donnees['categories'],
-                                    "description" => $infoDesc['description'].$infoDesc['wiki'],
+                                    "description" => $infoDesc['description'],
                                     "renouvellement" => $donnees['end_date']);
                             } else {
                                 $cptNbModif++;
@@ -1156,7 +1156,7 @@ class IndicateursController extends BaseController
                                 "supTech" => $infoDesc['supTech'],
                                 "fonctionnel" => $infoDesc['fonctionnel'],
                                 "categories" => $donnees['categories'],
-                                "description" => $infoDesc['description'].$infoDesc['wiki']);
+                                "description" => $infoDesc['description']);
 
                             if($this->isProjet($donnees)) {
                                 $listeNonValide[$donnees['idProject']]['type'] = 'Projet';
@@ -1269,7 +1269,7 @@ class IndicateursController extends BaseController
             }
         }
         //var_dump(array("fonctionnel" => $fonctionnel, "description" => $desc, "refTech" => $tech, "supTech" => $supTech, "renouvellement" => $ren));
-        return array("fonctionnel" => $fonctionnel, "description" => $desc, "refTech" => $tech, "supTech" => $supTech, "wiki" => $wiki);
+        return array("fonctionnel" => $fonctionnel, "description" => $desc.$wiki, "refTech" => $tech, "supTech" => $supTech, "wiki" => $wiki);
     }
 
 
@@ -1665,7 +1665,7 @@ class IndicateursController extends BaseController
                                 "fonctionnel" => $infoDesc['fonctionnel'],
                                 "categories" => $donnees['categories'],
                                 "renouvellement" => $donnees['renouvellement'],
-                                "description" => $infoDesc['description'].$infoDesc['wiki']);
+                                "description" => $infoDesc['description']);
 
                         } else {
                             if (array_key_exists($donnees['idProject'], $liste)) {
