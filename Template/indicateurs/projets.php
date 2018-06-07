@@ -156,7 +156,7 @@
                                     <?php
                                         foreach($etats as $value){
                                             if($value == "En anomalie")
-                                                echo "<option value='-'>".$value."</option>";
+                                                echo "<option value='En anomalie'>".$value."</option>";
                                             else if($value == "Stand-by")
                                                 echo "<option value='stand'>".$value."</option>";
                                             else if($value == "Récurrent")
