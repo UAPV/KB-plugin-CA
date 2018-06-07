@@ -305,7 +305,7 @@
                     if($value["categories"] == "-")
                         echo "En anomalie";
                     else
-                        echo $value["categories"];
+                        echo $value["etat"];
                     echo "</td>";
                     echo "<td>" . $value["description"]."</br></td>";
                     echo "<td>" . ((isset($value["start_date"])) ? $value["start_date"] : '')."</br></td>";
