@@ -567,11 +567,11 @@ class IndicateursController extends BaseController
                                         $liste[$donnees['idProject']]['categories'] = "En cours";
                                         $cptEtats["En cours"]++;
                                     }else {
-                                        $liste[$donnees['idProject']]['categories'] = "-";
+                                        $liste[$donnees['idProject']]['categories'] = "En anomalie";
                                         $cptEtats["En anomalie"]++;
                                     }
                                 } else {
-                                    $liste[$donnees['idProject']]['categories'] = "-";
+                                    $liste[$donnees['idProject']]['categories'] = "En anomalie";
                                     $cptEtats["En anomalie"]++;
                                 }
                             }
@@ -619,7 +619,7 @@ class IndicateursController extends BaseController
         $resPost = "";
         $droit = false;
         $columnRenvoullement = array();
-        $etats = array("Abandonné", "En cours", "En retard", "Futur", "En anomalie", "Stand-by", "Terminé");
+        $etats = array("Abandonné", "En cours", "En retard", "En anomalie", "Stand-by", "Terminé");
         $cptEtats=array("Abandonné" => 0, "En anomalie" => 0, "Stand-by" => 0, "En cours" => 0, "Terminé" => 0, "Futur" => 0, "En retard" => 0);
 
         $user = $this->getUser();
@@ -798,7 +798,7 @@ class IndicateursController extends BaseController
                                         $liste[$donnees['idProject']]['categories'] = "En retard";
                                         $cptEtats['En retard']++;
                                     } else {
-                                        $liste[$donnees['idProject']]['categories'] = "-";
+                                        $liste[$donnees['idProject']]['categories'] = "En anomalie";
                                         $cptEtats["En anomalie"]++;
                                     }
                                 }
