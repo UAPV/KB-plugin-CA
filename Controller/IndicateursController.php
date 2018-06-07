@@ -913,7 +913,9 @@ class IndicateursController extends BaseController
                         else
                             $donnees['categories'] = $this->getCategorieExploit($donnees);
 
-                        $this->validAllModif($donnees);
+                        if ($this->mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME)) {
+                            $this->validAllModif($donnees);
+                        }
                         if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                 $donnees['last_cat'] = 'En anomalie';
