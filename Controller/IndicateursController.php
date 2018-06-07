@@ -446,7 +446,7 @@ class IndicateursController extends BaseController
                 //le projet n'est pas dans la table valide projet ce qui ne doit pas se produire normalement :)
                 if(isset($projetValide)){
                     //met a jour la table
-                    $queryUpdate = "UPDATE valide_projet set valide=".$_POST['valide'].", modifie=".$_POST['modifie'].", priorite='".$_POST['priorite']."', last_name ='".mysqli_escape_string($this->mysqli,$value['name'])."', last_cat='".mysqli_escape_string($this->mysqli,$value['categories'])."'
+                    $queryUpdate = "UPDATE valide_projet set valide=".$_POST['valide'].", modifie=".$_POST['modifie'].", priorite='".$_POST['priorite']."', last_name ='".mysqli_escape_string($this->mysqli,$value['name'])."', last_cat='".mysqli_escape_string($this->mysqli,$value['etat'])."'
                      , last_chef_DOSI='".mysqli_escape_string($this->mysqli,$value['owner'])."', last_ref_tech='".mysqli_escape_string($this->mysqli,$value['refTech'])."', last_sup_tech='".mysqli_escape_string($this->mysqli,$value['supTech'])."', last_fonctionnel='".mysqli_escape_string($this->mysqli,$value['fonctionnel'])."', last_description='".mysqli_escape_string($this->mysqli,$value['description'])."', last_renouvellement='".mysqli_escape_string($this->mysqli,$value['renouvellement'])."'
                      WHERE project_id=".$_POST['idProjet'];
                     $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
@@ -484,125 +484,60 @@ class IndicateursController extends BaseController
                 $tabTotal = $this->searchProjets($uids);
 
                 foreach ($tabTotal as $donnees) {
-                    $catForm = $this->miseEnFormeCat($donnees['categories']);
-
                     //on comptabilise seulement les projets valide
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
-                        //seulement les projets
-                        if ($this->isProjet($donnees)){
-                            if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
-                                if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
-                                    $donnees['last_cat'] = '-';
+                        $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
 
-                                $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
+                        $donnees['type'] = $this->getTypeActivite($donnees['categories']);
 
-                                //verifie si il y a eu modification du nom et ou categorie de projet
-                                $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
-                                if (!$projetModif) {
-                                    $cptNbProjets++;
-                                    $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
-                                        "priorite" => $donnees['priorite'],
-                                        "owner" => $donnees['owner'],
-                                        "refTech" => $infoDesc['refTech'],
-                                        "supTech" => $infoDesc['supTech'],
-                                        "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "categories" => $donnees['categories'],
-                                        "description" => $infoDesc['description'],
-                                        "start_date" => $donnees['start_date'],
-                                        "end_date" => $donnees['end_date']);
-                                } else {
-                                    $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
-                                        "priorite" => $donnees['priorite'],
-                                        "owner" => $donnees['owner'],
-                                        "refTech" => $infoDesc['refTech'],
-                                        "supTech" => $infoDesc['supTech'],
-                                        "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "categories" => $donnees['categories'],
-                                        "description" => $infoDesc['description'],
-                                        "start_date" => $donnees['start_date'],
-                                        "end_date" => $donnees['end_date'],
-                                        "last_name" => $donnees['last_name'],
-                                        "last_cat" => $donnees['last_cat'],
-                                        "last_chef_DOSI" => $donnees['last_chef_DOSI'],
-                                        "last_ref_tech" => $donnees['last_ref_tech'],
-                                        "last_sup_tech" => $donnees['last_sup_tech'],
-                                        "last_fonctionnel" => $donnees['last_fonctionnel'],
-                                        "last_description" => $donnees['last_description']);
+                        if ($this->isProjet($donnees)) {
+                            $donnees['etat'] = $this->getEtatProjet($donnees);
 
-                                }
-                            } else {
-                                if (array_key_exists($donnees['idProject'], $liste)) {
-                                    $concatCategories = $liste[$donnees['idProject']]['categories'] . ", " . $donnees['categories'];
-                                    $bufDonnees = $donnees;
-                                    $bufDonnees['categories'] = $concatCategories;
-                                    $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
-                                    $liste[$donnees['idProject']]['categories'] = $concatCategories;
-                                    //on verifie quand ajoutant ce categories qu'il soit toujours egale au last_cat sinon on transfert dans la liste modif
-                                    if ($projetModif) {
-                                        $listeModif[$donnees['idProject']] = $liste[$donnees['idProject']];
-                                        $listeModif[$donnees['idProject']]["last_name"] = $donnees['last_name'];
-                                        $listeModif[$donnees['idProject']]["last_cat"] = $donnees['last_cat'];
-                                        unset($liste[$donnees['idProject']]);
-                                    }
-                                } else {
-                                    $concatCategories = $listeModif[$donnees['idProject']]["categories"] . ", " . $donnees['categories'];
-                                    $bufDonnees = $donnees;
-                                    $bufDonnees['categories'] = $concatCategories;
-                                    $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
-                                    $listeModif[$donnees['idProject']]["categories"] = $concatCategories;
-                                    //on verifie quand ajoutant ce categories qu'il ne soit pas egale au last_cat sinon on transfert dans la liste normal
-                                    if (!$projetModif) {
-                                        $cptNbProjets++;
-                                        unset($listeModif[$donnees['idProject']]["last_name"]);
-                                        unset($listeModif[$donnees['idProject']]["last_cat"]);
-                                        $liste[$donnees['idProject']] = $listeModif[$donnees['idProject']];
-                                        unset($listeModif[$donnees['idProject']]);
-                                    }
-                                }
-                            }
 
+                            if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
+                                $donnees['last_cat'] = '-';
+
+                            $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
+
+                            //verifie si il y a eu modification du nom et ou categorie de projet
+                            $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
-                                //recherche les différents categories
-                                if (strstr($catForm, "stand")) {
-                                    $liste[$donnees['idProject']]['categories'] = "Stand-by";
-                                    $cptEtats["Stand-by"]++;
-                                } elseif (strstr($catForm, "abandonne")) {
-                                    $liste[$donnees['idProject']]['categories'] = "Abandonné";
-                                    $cptEtats["Abandonné"]++;
-                                } elseif (strstr($catForm, "projet")) {
-                                    $now = new \DateTime(date("Y-m-d"));
-                                    $startDate = new \DateTime($donnees['start_date']);
-                                    $endDate = new \DateTime($donnees['end_date']);
+                                $cptNbProjets++;
+                                $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
+                                    "priorite" => $donnees['priorite'],
+                                    "owner" => $donnees['owner'],
+                                    "refTech" => $infoDesc['refTech'],
+                                    "supTech" => $infoDesc['supTech'],
+                                    "fonctionnel" => $infoDesc['fonctionnel'],
+                                    "categories" => $donnees['categories'],
+                                    "etat" => $donnees['etat'],
+                                    "type" => $donnees['type'],
+                                    "description" => $infoDesc['description'],
+                                    "start_date" => $donnees['start_date'],
+                                    "end_date" => $donnees['end_date']);
 
-                                    //anomalie si le projet est ferme mais que la date de fin et dans le futur
-                                    if (!$donnees['is_active'] and $donnees['end_date'] != "" and $endDate > $now) {
-                                        $liste[$donnees['idProject']]['categories'] = "En anomalie";
-                                        $cptEtats["En anomalie"]++;
-                                    }else if ($donnees['start_date'] != "" and $startDate > $now) {
-                                        $liste[$donnees['idProject']]['categories'] = "Futur";
-                                        $cptEtats["Futur"]++;
-                                    }else if ($donnees['end_date'] != "" and $endDate > $now) {
-                                        $liste[$donnees['idProject']]['categories'] = "En cours";
-                                        $cptEtats["En cours"]++;
-                                    }else if ($donnees['end_date'] != "" and $endDate < $now) {
-                                        if ($donnees['is_active']) {
-                                            $liste[$donnees['idProject']]['categories'] = "En retard";
-                                            $cptEtats['En retard']++;
-                                        }else {
-                                            $liste[$donnees['idProject']]['categories'] = "Terminé";
-                                            $cptEtats["Terminé"]++;
-                                        }
-                                    } else if ($donnees['start_date'] != "" and $startDate < $now) {
-                                        $liste[$donnees['idProject']]['categories'] = "En cours";
-                                        $cptEtats["En cours"]++;
-                                    }else {
-                                        $liste[$donnees['idProject']]['categories'] = "En anomalie";
-                                        $cptEtats["En anomalie"]++;
-                                    }
-                                } else {
-                                    $liste[$donnees['idProject']]['categories'] = "En anomalie";
-                                    $cptEtats["En anomalie"]++;
-                                }
+                                $cptEtats[$donnees['etat']]++;
+                            } else {
+                                $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
+                                    "priorite" => $donnees['priorite'],
+                                    "owner" => $donnees['owner'],
+                                    "refTech" => $infoDesc['refTech'],
+                                    "supTech" => $infoDesc['supTech'],
+                                    "fonctionnel" => $infoDesc['fonctionnel'],
+                                    "categories" => $donnees['categories'],
+                                    "etat" => $donnees['etat'],
+                                    "type" => $donnees['type'],
+                                    "description" => $infoDesc['description'],
+                                    "start_date" => $donnees['start_date'],
+                                    "end_date" => $donnees['end_date'],
+                                    "last_name" => $donnees['last_name'],
+                                    "last_cat" => $donnees['last_cat'],
+                                    "last_chef_DOSI" => $donnees['last_chef_DOSI'],
+                                    "last_ref_tech" => $donnees['last_ref_tech'],
+                                    "last_sup_tech" => $donnees['last_sup_tech'],
+                                    "last_fonctionnel" => $donnees['last_fonctionnel'],
+                                    "last_description" => $donnees['last_description']);
+
                             }
                         }
                     }
