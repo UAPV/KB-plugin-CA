@@ -1453,8 +1453,9 @@ class IndicateursController extends BaseController
             return;
         }
         $headers = 'From: projets@univ-avignon.fr' . "\r\n";
-        
-        mail ( implode(',', $mails) , $sujet , $message,$headers );
+
+        //commenter mail
+        //mail ( implode(',', $mails) , $sujet , $message,$headers );
 
     }
 
@@ -1587,7 +1588,8 @@ class IndicateursController extends BaseController
 
         $headers = 'From: projets@univ-avignon.fr' . "\r\n";
 
-        mail ( implode(',', $mails) , $sujet , $message,$headers );
+        //commenter mail
+        //mail ( implode(',', $mails) , $sujet , $message,$headers );
 
     }
 
