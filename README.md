@@ -14,6 +14,11 @@ Description
 
 Plus d'information : https://kanboard.net/ 
 
+attention !!!
+ajouter dans le .htaccess :
+ * RewriteCond %{HTTP:Authorization} ^(.+)$
+ * RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
 Prerequis
 -----------------
 #### Librairies necessaires
