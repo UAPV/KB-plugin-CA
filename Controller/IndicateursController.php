@@ -1774,7 +1774,7 @@ class IndicateursController extends BaseController
                             $addProjet = true;
                         }
                     }
-                    if($projet == true and $addProjet == true){
+                    if($projet == false and $addProjet == true){
                         $httpClient = new HttpClient($this->url_api);
                         $httpClient->withoutSslVerification();
                         $client = new Client($this->url_api, false, $httpClient);
