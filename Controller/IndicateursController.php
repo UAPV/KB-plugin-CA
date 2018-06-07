@@ -946,90 +946,51 @@ class IndicateursController extends BaseController
                         else
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
-                        $this->validAllModif($donnees);
+                        //$this->validAllModif($donnees);
 
-                        /*if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
-                            if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
-                                $donnees['last_cat'] = 'En anomalie';
+                        $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
 
-                            $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
+                        //verifie si il y a eu modification du nom et ou categorie de projet
+                        $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
 
-                            //verifie si il y a eu modification du nom et ou categorie de projet
-                            $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
-
-                            if (!$projetModif) {
-                                $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
-                                    "priorite" => $donnees['priorite'],
-                                    "owner" => $donnees['owner'],
-                                    "refTech" => $infoDesc['refTech'],
-                                    "supTech" => $infoDesc['supTech'],
-                                    "fonctionnel" => $infoDesc['fonctionnel'],
-                                    "categories" => $donnees['categories'],
-                                    "description" => $infoDesc['description'],
-                                    "renouvellement" => $donnees['end_date']);
-                            } else {
-                                $cptNbModif++;
-                                $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
-                                    "priorite" => $donnees['priorite'],
-                                    "owner" => $donnees['owner'],
-                                    "refTech" => $infoDesc['refTech'],
-                                    "supTech" => $infoDesc['supTech'],
-                                    "fonctionnel" => $infoDesc['fonctionnel'],
-                                    "categories" => $donnees['categories'],
-                                    "description" => $infoDesc['description'],
-                                    "last_name" => $donnees['last_name'],
-                                    "last_cat" => $donnees['last_cat'],
-                                    "last_chef_DOSI" => $donnees['last_chef_DOSI'],
-                                    "last_ref_tech" => $donnees['last_ref_tech'],
-                                    "last_sup_tech" => $donnees['last_sup_tech'],
-                                    "last_fonctionnel" => $donnees['last_fonctionnel'],
-                                    "last_description" => $donnees['last_description']);
-
-                                if($this->isProjet($donnees)) {
-                                    $listeModif[$donnees['idProject']]['type'] = 'Projet';
-                                    $listeModif[$donnees['idProject']]['start_date'] = $donnees['start_date'];
-                                    $listeModif[$donnees['idProject']]['end_date'] = $donnees['end_date'];
-                                }else {
-                                    $listeModif[$donnees['idProject']]['type'] = 'Exploitation';
-                                    $listeModif[$donnees['idProject']]['renouvellement'] = $donnees['end_date'];
-                                    $listeModif[$donnees['idProject']]['last_renouvellement'] = $donnees['last_renouvellement'];
-                                }
-                            }
+                        if (!$projetModif) {
+                            $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
+                                "priorite" => $donnees['priorite'],
+                                "owner" => $donnees['owner'],
+                                "refTech" => $infoDesc['refTech'],
+                                "supTech" => $infoDesc['supTech'],
+                                "fonctionnel" => $infoDesc['fonctionnel'],
+                                "etat" => $donnees['etat'],
+                                "type" => $donnees['type'],
+                                "description" => $infoDesc['description'],
+                                "renouvellement" => $donnees['end_date']);
                         } else {
-                            if (array_key_exists($donnees['idProject'], $liste)) {
-                                $concatCategories = $liste[$donnees['idProject']]['categories'] . ", " . $donnees['categories'];
-                                $bufDonnees = $donnees;
-                                $bufDonnees['categories'] = $concatCategories;
-                                $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
-                                $liste[$donnees['idProject']]['categories'] = $concatCategories;
-                                //on verifie quand ajoutant ce categories qu'il soit toujours egale au last_cat sinon on transfert dans la liste modif
-                                if ($projetModif) {
-                                    $cptNbModif++;
-                                    $listeModif[$donnees['idProject']] = $liste[$donnees['idProject']];
-                                    $listeModif[$donnees['idProject']]["last_name"] = $donnees['last_name'];
-                                    $listeModif[$donnees['idProject']]["last_cat"] = $donnees['last_cat'];
-                                    unset($liste[$donnees['idProject']]);
-                                }
-                            } else {
-                                $concatCategories = $listeModif[$donnees['idProject']]["categories"] . ", " . $donnees['categories'];
-                                $bufDonnees = $donnees;
-                                $bufDonnees['categories'] = $concatCategories;
-                                $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
-                                $listeModif[$donnees['idProject']]["categories"] = $concatCategories;
-                                //on verifie quand ajoutant ce categories qu'il ne soit pas egale au last_cat sinon on transfert dans la liste normal
-                                if (!$projetModif) {
-                                    $cptNbModif--;
-                                    unset($listeModif[$donnees['idProject']]["last_name"]);
-                                    unset($listeModif[$donnees['idProject']]["last_cat"]);
-                                    $liste[$donnees['idProject']] = $listeModif[$donnees['idProject']];
-                                    unset($listeModif[$donnees['idProject']]);
-                                }else {
-                                    if(!array_key_exists($donnees['idProject'], $listeModif))
-                                        $cptNbModif++;
-                                }
+                            $cptNbModif++;
+                            $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
+                                "priorite" => $donnees['priorite'],
+                                "owner" => $donnees['owner'],
+                                "refTech" => $infoDesc['refTech'],
+                                "supTech" => $infoDesc['supTech'],
+                                "fonctionnel" => $infoDesc['fonctionnel'],
+                                "etat" => $donnees['etat'],
+                                "type" => $donnees['type'],
+                                "description" => $infoDesc['description'],
+                                "last_name" => $donnees['last_name'],
+                                "last_cat" => $donnees['last_cat'],
+                                "last_chef_DOSI" => $donnees['last_chef_DOSI'],
+                                "last_ref_tech" => $donnees['last_ref_tech'],
+                                "last_sup_tech" => $donnees['last_sup_tech'],
+                                "last_fonctionnel" => $donnees['last_fonctionnel'],
+                                "last_description" => $donnees['last_description']);
+
+                            if($this->isProjet($donnees)) {
+                                $listeModif[$donnees['idProject']]['start_date'] = $donnees['start_date'];
+                                $listeModif[$donnees['idProject']]['end_date'] = $donnees['end_date'];
+                            }else {
+                                $listeModif[$donnees['idProject']]['renouvellement'] = $donnees['end_date'];
+                                $listeModif[$donnees['idProject']]['last_renouvellement'] = $donnees['last_renouvellement'];
                             }
                         }
-*/
                     }
 
                 }
@@ -1284,10 +1245,10 @@ class IndicateursController extends BaseController
         }elseif(strtolower($donnees['last_name']) != strtolower($donnees['name'])){
             var_dump("name");
             return true;
-        } elseif($this->miseEnFormeCat($donnees['last_cat']) != $this->miseEnFormeCat($donnees['categories'])){
-            var_dump("categories");
+        } elseif($this->miseEnFormeCat($donnees['last_cat']) != $this->miseEnFormeCat($donnees['etat'])){
+            var_dump("etat");
             return true;
-        }elseif(strtolower($donnees['last_chef_DOSI']) != strtolower($donnees['owner'])){
+        } elseif(strtolower($donnees['last_chef_DOSI']) != strtolower($donnees['owner'])){
             var_dump("owner");
             return true;
         }elseif(strtolower($donnees['last_ref_tech']) != strtolower($donnees['refTech'])){
