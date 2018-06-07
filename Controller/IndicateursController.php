@@ -1004,7 +1004,7 @@ class IndicateursController extends BaseController
                 //le projet existe pas dans la table valide_projet
                 else{
                     $queryInsert = "INSERT INTO valide_projet (project_id, valide, modifie, priorite, last_name, last_cat, last_chef_DOSI, last_ref_tech, last_sup_tech, last_fonctionnel, last_description, last_renouvellement) 
-                                  VALUES(".$_POST['idProjet'].",0,0,'".$_POST['priorite']."','".mysqli_escape_string($this->mysqli,$value['name'])."','".mysqli_escape_string($this->mysqli,$value['categories'])."','".mysqli_escape_string($this->mysqli,$value['owner'])."','".mysqli_escape_string($this->mysqli,$value['refTech'])."','".mysqli_escape_string($this->mysqli,$value['supTech'])."','".mysqli_escape_string($this->mysqli,$value['fonctionnel'])."','".mysqli_escape_string($this->mysqli,$value['description'])."', '".mysqli_escape_string($this->mysqli,$value['renouvellement'])."')";
+                                  VALUES(".$_POST['idProjet'].",0,0,'".$_POST['priorite']."','".mysqli_escape_string($this->mysqli,$value['name'])."','".mysqli_escape_string($this->mysqli,$value['etat'])."','".mysqli_escape_string($this->mysqli,$value['owner'])."','".mysqli_escape_string($this->mysqli,$value['refTech'])."','".mysqli_escape_string($this->mysqli,$value['supTech'])."','".mysqli_escape_string($this->mysqli,$value['fonctionnel'])."','".mysqli_escape_string($this->mysqli,$value['description'])."', '".mysqli_escape_string($this->mysqli,$value['renouvellement'])."')";
                     $resQueryInsert = mysqli_query($this->mysqli, $queryInsert);
                     if(!$resQueryInsert)
                         $resPost = "la mise à jour de l'activité à echouée.";
@@ -1146,7 +1146,7 @@ class IndicateursController extends BaseController
             } //le projet existe pas dans la table valide_projet
             else {
                 $queryInsert = "INSERT INTO valide_projet (project_id, valide, modifie, priorite, last_name, last_cat, last_chef_DOSI, last_ref_tech, last_sup_tech, last_fonctionnel, last_description, last_renouvellement)
-                              VALUES(" . $key . ",false,false,'Normal','" . mysqli_escape_string($mysqli, $projet['name']) . "','" . mysqli_escape_string($mysqli, $projet['categories']) . "','" . mysqli_escape_string($mysqli, $projet['owner']) . "','" . mysqli_escape_string($mysqli, $projet['refTech']) . "','" . mysqli_escape_string($mysqli, $projet['supTech']) . "','" . mysqli_escape_string($mysqli, $projet['fonctionnel']) . "','" . mysqli_escape_string($mysqli, $projet['description']) . "','" . mysqli_escape_string($mysqli, $projet['renouvellement']) . "')";
+                              VALUES(" . $key . ",false,false,'Normal','" . mysqli_escape_string($mysqli, $projet['name']) . "','" . mysqli_escape_string($mysqli, $projet['etat']) . "','" . mysqli_escape_string($mysqli, $projet['owner']) . "','" . mysqli_escape_string($mysqli, $projet['refTech']) . "','" . mysqli_escape_string($mysqli, $projet['supTech']) . "','" . mysqli_escape_string($mysqli, $projet['fonctionnel']) . "','" . mysqli_escape_string($mysqli, $projet['description']) . "','" . mysqli_escape_string($mysqli, $projet['renouvellement']) . "')";
                 $resQueryInsert = mysqli_query($mysqli, $queryInsert);
                 if (!$resQueryInsert)
                     $resPost = "la mise à jour de l'activité à echouée.";
