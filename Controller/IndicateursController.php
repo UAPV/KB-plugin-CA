@@ -901,15 +901,16 @@ class IndicateursController extends BaseController
                 $tabTotal = $this->searchProjets($uids);
 
                 foreach ($tabTotal as $donnees) {
+                    $catForm = $this->miseEnFormeCat($donnees['categories']);
                     //var_dump($donnees);die;
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         if ($donnees['categories'] == '' || $donnees['categories'] == null) {
-                            $donnees['categories'] = '-';
+                            $donnees['categories'] = 'En anomalie';
                         }
 
                         if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
-                                $donnees['last_cat'] = '-';
+                                $donnees['last_cat'] = 'En anomalie';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
 
@@ -948,10 +949,63 @@ class IndicateursController extends BaseController
                                     $listeModif[$donnees['idProject']]['type'] = 'Projet';
                                     $listeModif[$donnees['idProject']]['start_date'] = $donnees['start_date'];
                                     $listeModif[$donnees['idProject']]['end_date'] = $donnees['end_date'];
+
+                                    //recherche les différents categories
+                                    if (strstr($catForm, "stand")) {
+                                        $listeModif[$donnees['idProject']]['categories'] = "Stand-by";
+                                    } elseif (strstr($catForm, "abandonne")) {
+                                        $listeModif[$donnees['idProject']]['categories'] = "Abandonné";
+                                    } elseif (strstr($catForm, "projet")) {
+                                        $now = new \DateTime(date("Y-m-d"));
+                                        $startDate = new \DateTime($donnees['start_date']);
+                                        $endDate = new \DateTime($donnees['end_date']);
+
+                                        //anomalie si le projet est ferme mais que la date de fin et dans le futur
+                                        if (!$donnees['is_active'] and $donnees['end_date'] != "" and $endDate > $now) {
+                                            $listeModif[$donnees['idProject']]['categories'] = "En anomalie";
+                                        }else if ($donnees['start_date'] != "" and $startDate > $now) {
+                                            $listeModif[$donnees['idProject']]['categories'] = "Futur";
+                                        }else if ($donnees['end_date'] != "" and $endDate > $now) {
+                                            $listeModif[$donnees['idProject']]['categories'] = "En cours";
+                                        }else if ($donnees['end_date'] != "" and $endDate < $now) {
+                                            if ($donnees['is_active']) {
+                                                $listeModif[$donnees['idProject']]['categories'] = "En retard";
+                                            }else {
+                                                $listeModif[$donnees['idProject']]['categories'] = "Terminé";
+                                            }
+                                        } else if ($donnees['start_date'] != "" and $startDate < $now) {
+                                            $listeModif[$donnees['idProject']]['categories'] = "En cours";
+                                        }else {
+                                            $listeModif[$donnees['idProject']]['categories'] = "En anomalie";
+                                        }
+                                    } else {
+                                        $listeModif[$donnees['idProject']]['categories'] = "En anomalie";
+                                    }
                                 }else {
                                     $listeModif[$donnees['idProject']]['type'] = 'Exploitation';
                                     $listeModif[$donnees['idProject']]['renouvellement'] = $donnees['end_date'];
                                     $listeModif[$donnees['idProject']]['last_renouvellement'] = $donnees['last_renouvellement'];
+
+                                    //recherche les différents categories
+                                    if (strstr($catForm, "stand")) {
+                                        $listeModif[$donnees['idProject']]['categories'] = "Stand-by";
+                                    } elseif (strstr($catForm, "abandonne")) {
+                                        $listeModif[$donnees['idProject']]['categories'] = "Abandonné";
+                                    } else {
+                                        $now = new \DateTime(date("Y-m-d"));
+                                        $startDate = new \DateTime($donnees['start_date']);
+                                        $endDate = new \DateTime($donnees['end_date']);
+
+                                        if (!$donnees['is_active']) {
+                                            $listeModif[$donnees['idProject']]['categories'] = "Terminé";
+                                        } else if ($donnees['end_date'] != "" and $endDate > $now) {
+                                            $listeModif[$donnees['idProject']]['categories'] = "En cours";
+                                        } else if ($donnees['end_date'] != "" and $endDate < $now) {
+                                            $listeModif[$donnees['idProject']]['categories'] = "En retard";
+                                        } else {
+                                            $listeModif[$donnees['idProject']]['categories'] = "En anomalie";
+                                        }
+                                    }
                                 }
                             }
                         } else {
@@ -988,6 +1042,7 @@ class IndicateursController extends BaseController
                                 }
                             }
                         }
+
                     }
 
                 }
