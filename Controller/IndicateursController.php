@@ -1758,7 +1758,7 @@ class IndicateursController extends BaseController
     }
 
     function validAllModif($donnees, $infoDesc){
-        $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["etat"])."', last_description='".mysqli_escape_string($infoDesc['description'])."' WHERE project_id=".$donnees['idProject'];
+        $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["etat"])."', last_description='".mysqli_escape_string($this->mysqli,$infoDesc['description'])."' WHERE project_id=".$donnees['idProject'];
         $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
         var_dump($queryUpdate);
         if(!$resQueryUpdate)
