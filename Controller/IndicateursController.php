@@ -1694,7 +1694,7 @@ class IndicateursController extends BaseController
         foreach ($donnees['categories'] as $categorie){
             if(strstr(strtolower($categorie[0]), "stand") ) {
                 return "Stand-by";
-            }elseif(strstr(strtolower($categorie[0]), "abandonne")) {
+            }elseif(strstr(strtolower($categorie[0]), "abandon")) {
                 return "Abandonné";
             }else{
                 $now = new \DateTime(date("Y-m-d"));
@@ -1724,7 +1724,7 @@ class IndicateursController extends BaseController
         foreach ($donnees['categories'] as $categorie){
             if(strstr(strtolower($categorie[0]), "stand") ) {
                 return "Stand-by";
-            }elseif(strstr(strtolower($categorie[0]), "abandonne")) {
+            }elseif(strstr(strtolower($categorie[0]), "abandon")) {
                 return "Abandonné";
             }else{
                 $now = new \DateTime(date("Y-m-d"));
