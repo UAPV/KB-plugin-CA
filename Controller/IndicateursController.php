@@ -75,7 +75,6 @@ class IndicateursController extends BaseController
 
                 foreach ($tabTotal as $donnees) {
 
-                    //$this->validAllModif($donnees);
                     //on comptabilise seulement les projets valide
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
@@ -85,6 +84,7 @@ class IndicateursController extends BaseController
                         if ($this->isProjet($donnees)) {
                             $donnees['etat'] = $this->getEtatProjet($donnees);
 
+                            $this->validAllModif($donnees);
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                 $donnees['last_cat'] = '-';
 
@@ -155,6 +155,7 @@ class IndicateursController extends BaseController
                         else{
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
+                            $this->validAllModif($donnees);
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                 $donnees['last_cat'] = 'En anomalie';
 
