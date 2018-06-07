@@ -175,7 +175,7 @@
                                     <div class="labelIndic" id="projetsRetard">
                                         En retard
                                         <br>
-                                        <span class="chiffre"><?php echo $cptNbProjetsEnRetard; ?></span>
+                                        <span class="chiffre"><?php echo $cptEtatsProjets['En retard']; ?></span>
                                         <br><span title="Projet ayant une date de fin dépassé."><i class="fa fa-question-circle fa-md" style="color: #475C9C;"></i></span>
                                     </div>
                                 </div>
@@ -198,7 +198,7 @@
                             <div class="labelIndic" id="renPerim">
                                 Renouvellement périmé
                                 <br>
-                                <span class="chiffre"><?php echo $cptNbExploitPerim; ?></span>
+                                <span class="chiffre"><?php echo $cptEtatsExploit['En retard']; ?></span>
                                 <br><span title="Exploitation ayant une date de fin dépassé"><i class="fa fa-question-circle fa-md" style="color: #475C9C;"></i></span>
                             </div>
                         </div>

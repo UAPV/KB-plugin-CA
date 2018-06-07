@@ -37,7 +37,8 @@ class IndicateursController extends BaseController
         $cptNbExploit = 0;
         $cptNbExploitPerim = 0;
         $etats = array("Abandonné", "En cours", "En retard", "Futur", "En anomalie", "Stand-by", "Terminé");
-        $cptEtats=array("Abandonné" => 0, "En anomalie" => 0, "Stand-by" => 0, "En cours" => 0, "Terminé" => 0, "Futur" => 0, "En retard" => 0);
+        $cptEtatsProjets=array("Abandonné" => 0, "En anomalie" => 0, "Stand-by" => 0, "En cours" => 0, "Terminé" => 0, "Futur" => 0, "En retard" => 0);
+        $cptEtatsExploit=array("Abandonné" => 0, "En anomalie" => 0, "Stand-by" => 0, "En cours" => 0, "Terminé" => 0, "Futur" => 0, "En retard" => 0);
         $columnRenvoullement = array();
 
         //histogramme année -3 jusqua année +3
@@ -89,7 +90,6 @@ class IndicateursController extends BaseController
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
-                                $cptNbProjets++;
                                 $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
                                     "priorite" => $donnees['priorite'],
                                     "owner" => $donnees['owner'],
@@ -103,7 +103,13 @@ class IndicateursController extends BaseController
                                     "start_date" => $donnees['start_date'],
                                     "end_date" => $donnees['end_date']);
 
-                                $cptEtats[$donnees['etat']]++;
+                                $cptEtatsProjets[$donnees['etat']]++;
+                                $now = new \DateTime(date("Y-m-d"));
+                                $endDate = new \DateTime($donnees['end_date']);
+
+                                if($donnees['etat'] == "Stand-by" and $endDate < $now){
+                                    $cptNbProjetsStandByPerim++;
+                                }
                             } else {
                                 $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
                                     "priorite" => $donnees['priorite'],
@@ -158,8 +164,8 @@ class IndicateursController extends BaseController
                                     "type" => $donnees['type'],
                                     "description" => $infoDesc['description'],
                                     "renouvellement" => $donnees['end_date']);
-                                $cptEtats[$donnees['etat']]++;
-                                $cptNbProjets++;
+                                $cptEtatsExploit[$donnees['etat']]++;
+                                $cptNbExploit++;
                             } else {
                                 $listeModif[$donnees['idProject']] = array("name" => $donnees['name'],
                                     "priorite" => $donnees['priorite'],
