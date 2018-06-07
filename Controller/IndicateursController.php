@@ -704,7 +704,7 @@ class IndicateursController extends BaseController
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         var_dump($donnees['name']);
                         if ($this->isExploitation($donnees)){
-                            $donnees['categories'] = $this->getCategorieExploit($donnees);
+                            $donnees['etat'] = $this->getCategorieExploit($donnees);
 
                             if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
                                 if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
@@ -737,6 +737,7 @@ class IndicateursController extends BaseController
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
                                         "categories" => $donnees['categories'],
+                                        "etat" => $donnees['etat'],
                                         "description" => $infoDesc['description'],
                                         "renouvellement" => $donnees['end_date']);
                                 } else {
@@ -747,6 +748,7 @@ class IndicateursController extends BaseController
                                         "supTech" => $infoDesc['supTech'],
                                         "fonctionnel" => $infoDesc['fonctionnel'],
                                         "categories" => $donnees['categories'],
+                                        "etat" => $donnees['etat'],
                                         "description" => $infoDesc['description'],
                                         "last_name" => $donnees['last_name'],
                                         "last_cat" => $donnees['last_cat'],
@@ -766,6 +768,8 @@ class IndicateursController extends BaseController
                                     $bufDonnees['categories'] = $concatCategories;
                                     $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
                                     $liste[$donnees['idProject']]['categories'] = $concatCategories;
+                                    $donnees['categories'] = $concatCategories;
+                                    $donnees['etat'] = $this->getCategorieExploit($donnees);
                                     //on verifie quand ajoutant ce categories qu'il soit toujours egale au last_cat sinon on transfert dans la liste modif
                                     if ($projetModif) {
                                         $listeModif[$donnees['idProject']] = $liste[$donnees['idProject']];
@@ -779,6 +783,9 @@ class IndicateursController extends BaseController
                                     $bufDonnees['categories'] = $concatCategories;
                                     $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
                                     $listeModif[$donnees['idProject']]["categories"] = $concatCategories;
+
+                                    $donnees['categories'] = $concatCategories;
+                                    $donnees['etat'] = $this->getCategorieExploit($donnees);
                                     //on verifie quand ajoutant ce categories qu'il ne soit pas egale au last_cat sinon on transfert dans la liste normal
                                     if (!$projetModif) {
                                         $now = new \DateTime(date("Y-m-d"));
@@ -806,7 +813,8 @@ class IndicateursController extends BaseController
 
                             if (!$projetModif) {
                                 $liste[$donnees['idProject']]['categories'] = $donnees['categories'];
-                                $cptEtats[$donnees['categories']]++;
+                                $liste[$donnees['idProject']]['etat'] = $donnees['etat'];
+                                $cptEtats[$donnees['etat']]++;
                             }
 
                         }//supprimer de la liste car categorie projet arrive apres autres categories
