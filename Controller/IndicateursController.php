@@ -913,7 +913,7 @@ class IndicateursController extends BaseController
                         else
                             $donnees['categories'] = $this->getCategorieExploit($donnees);
 
-                        //$this->validAllModif($donnees);
+                        $this->validAllModif($donnees);
 
                         if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
@@ -2020,6 +2020,7 @@ class IndicateursController extends BaseController
     function validAllModif($donnees){
         $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["categories"])."' WHERE project_id=".$donnees['idProject'];
         $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
+        var_dump($queryUpdate);
         if(!$resQueryUpdate)
             $resPost = "la mise à jour de l'activité à echouée.";
     }
