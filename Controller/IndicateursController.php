@@ -1721,9 +1721,9 @@ class IndicateursController extends BaseController
             return "Terminé";
 
         foreach ($donnees['categories'] as $categorie){
-            if(strstr(strtolower($categorie['name']), "stand") ) {
+            if(strstr(strtolower($categorie[0]), "stand") ) {
                 return "Stand-by";
-            }elseif(strstr(strtolower($categorie['name']), "abandonne")) {
+            }elseif(strstr(strtolower($categorie[0]), "abandonne")) {
                 return "Abandonné";
             }else{
                 $now = new \DateTime(date("Y-m-d"));
@@ -1765,19 +1765,16 @@ class IndicateursController extends BaseController
                     $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
 
                     foreach ($donnees['categories'] as $categorie) {
-                        if (strstr(strtolower($categorie['name']), "projet")) {
+                        if (strstr(strtolower($categorie[0]), "projet")) {
                             $projet = true;
                         }
-                        elseif(strstr(strtolower($categorie['name']), "stand")){
+                        elseif(strstr(strtolower($categorie[0]), "stand")){
                             $addProjet = true;
-                        }elseif(strstr(strtolower($categorie['name']), "aban")){
+                        }elseif(strstr(strtolower($categorie[0]), "aban")){
                             $addProjet = true;
                         }
                     }
-                    var_dump($donnees['name']);
-                    var_dump($donnees['categories']);
-                    var_dump($projet);
-                    var_dump($addProjet);
+                    
                     if($projet == false and $addProjet == true){
                         $httpClient = new HttpClient($this->url_api);
                         $httpClient->withoutSslVerification();
