@@ -1757,7 +1757,7 @@ class IndicateursController extends BaseController
      * Return true si c'est un projet
      */
     private function isProjet($donnees){
-        if("-" == $this->miseEnFormeCat($donnees['categories']) or !strstr($this->miseEnFormeCat($donnees['categories']),"projet"))
+        if(!strstr($this->miseEnFormeCat($donnees['categories']),"projet"))
             return false;
 
         return true;
@@ -1769,7 +1769,7 @@ class IndicateursController extends BaseController
      * Return true si c'est une exploitation
      */
     private function isExploitation($donnees){
-        if("-" == $this->miseEnFormeCat($donnees['categories']) or !strstr($this->miseEnFormeCat($donnees['categories']),"projet"))
+        if(!strstr($this->miseEnFormeCat($donnees['categories']),"projet"))
             return true;
 
         return false;
