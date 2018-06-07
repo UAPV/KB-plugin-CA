@@ -105,11 +105,27 @@ class IndicateursController extends BaseController
 
                                 $cptEtatsProjets[$donnees['etat']]++;
                                 $now = new \DateTime(date("Y-m-d"));
+                                $startDate = new \DateTime($donnees['start_date']);
                                 $endDate = new \DateTime($donnees['end_date']);
 
                                 if($donnees['etat'] == "Stand-by" and $endDate < $now){
                                     $cptNbProjetsStandByPerim++;
                                 }
+
+                                if ($donnees['etat'] == "Stand-by") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 3, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                } elseif ($donnees['etat'] == "Abandonné") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 2, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                } elseif ($donnees['etat'] == "Futur") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 5, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                }else if ($donnees['etat'] == "En cours") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 4, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                }else if ($donnees['etat'] == "En retard") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 4, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                }else if($donnees['etat'] == "Terminé") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 1, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                }
+
                             } else {
                                 $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
                                     "priorite" => $donnees['priorite'],
@@ -145,6 +161,7 @@ class IndicateursController extends BaseController
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
                                 $endDate = new \DateTime($donnees['end_date']);
+                                $startDate = new \DateTime($donnees['start_date']);
 
                                 if ($donnees['end_date'] != "") {
                                     if (!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
@@ -152,6 +169,7 @@ class IndicateursController extends BaseController
                                     else {
                                         $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'] . '<br> ' . $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y'] + 1);
                                     }
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 0, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
                                 }
                                 $liste[$donnees['idProject']] = array("name" => $donnees['name'],
                                     "priorite" => $donnees['priorite'],
