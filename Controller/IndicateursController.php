@@ -209,13 +209,13 @@ class IndicateursController extends BaseController
                                         $cptEtats["En cours"]++;
                                         $histogramme = $this->compteurHistogrammeAccueil($histogramme, 4, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
                                     }else {
-                                        $liste[$donnees['idProject']]['categories'] = "-";
+                                        $liste[$donnees['idProject']]['categories'] = "En anomalie";
                                         $cptEtats["En anomalie"]++;
                                         $cptNbActivitesAnomalie++;
                                         $listeAnomalie[]=$donnees['name'];
                                     }
                                 } else {
-                                    $liste[$donnees['idProject']]['categories'] = "-";
+                                    $liste[$donnees['idProject']]['categories'] = "En anomalie";
                                     $cptEtats["En anomalie"]++;
                                     $cptNbActivitesAnomalie++;
                                     $listeAnomalie[]=$donnees['name'];
