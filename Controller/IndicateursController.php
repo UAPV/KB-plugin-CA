@@ -30,7 +30,7 @@ class IndicateursController extends BaseController
      */
     public function index()
     {
-        $this->migration();
+        //$this->migration();
         $cptNbProjetsStandByPerim = 0;
         $cptNbActivitesModif = 0;
         $cptNbActivitesAttente = 0;
@@ -147,7 +147,7 @@ class IndicateursController extends BaseController
                                     "last_sup_tech" => $donnees['last_sup_tech'],
                                     "last_fonctionnel" => $donnees['last_fonctionnel'],
                                     "last_description" => $donnees['last_description']);
-
+                                $cptNbActivitesModif++;
                             }
                         }//exploit
                         else{
@@ -205,7 +205,7 @@ class IndicateursController extends BaseController
                                     "last_description" => $donnees['last_description'],
                                     "last_renouvellement" => $donnees['last_renouvellement'],
                                     "renouvellement" => $donnees['end_date']);
-
+                                $cptNbActivitesModif++;
                             }
                         }
                     }else {
