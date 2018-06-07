@@ -1753,6 +1753,8 @@ class IndicateursController extends BaseController
      * ajout la categorie projet au activité ayant que "abandonne" ou "stand-by"
      */
     function migration(){
+        if(!$this->getconfApi())
+            return false;
         $uids = $this->searchUidsDosi();
         if ($this->mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME)) {
             $tabTotal = $this->searchProjets($uids);
@@ -1774,7 +1776,7 @@ class IndicateursController extends BaseController
                             $addProjet = true;
                         }
                     }
-                    
+
                     if($projet == false and $addProjet == true){
                         $httpClient = new HttpClient($this->url_api);
                         $httpClient->withoutSslVerification();
