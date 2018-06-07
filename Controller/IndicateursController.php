@@ -705,9 +705,8 @@ class IndicateursController extends BaseController
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
 
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
-
+                        var_dump($donnees);
                         if ($this->isExploitation($donnees)) {
-                            var_dump($donnees);
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
