@@ -707,6 +707,7 @@ class IndicateursController extends BaseController
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
 
                         if ($this->isExploitation($donnees)) {
+                            var_dump($donnees);
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
@@ -778,7 +779,6 @@ class IndicateursController extends BaseController
 
         }
 
-        var_dump($liste);
         $this->sendAllNotificationModifValid($listeModif);
         $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/exploit', array(
             'columnRenvoullement' => array_values($columnRenvoullement),
