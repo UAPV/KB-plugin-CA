@@ -702,7 +702,7 @@ class IndicateursController extends BaseController
 
                 foreach ($tabTotal as $donnees) {
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
-
+                        var_dump($donnees['name']);
                         if ($this->isExploitation($donnees)){
                             $donnees['categories'] = $this->getCategorieExploit($donnees);
 
@@ -908,7 +908,7 @@ class IndicateursController extends BaseController
 
                 foreach ($tabTotal as $donnees) {
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
-                        var_dump($donnees['name']);
+
                         if($this->isProjet($donnees))
                             $donnees['categories'] = $this->getCategorieProjet($donnees);
                         else
