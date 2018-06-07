@@ -180,10 +180,10 @@
                             echo "<td><b>Référent : </b>" . $value["refTech"]."</br><b>Suppléant :</b> " . $value["supTech"]."</td>";
                             echo "<td>" . $value["fonctionnel"]."</td>";
                             echo "<td>";
-                            if($value["categories"] == "-")
+                            if($value["etat"] == "-")
                                 echo "En anomalie";
                             else
-                                echo $value["categories"];
+                                echo $value["etat"];
                             echo "</td>";
                             echo "<td>" . $value["description"]."</br></td>";
                             echo "<td>" . ((isset($value["start_date"])) ? $value["start_date"] : '')."</br></td>";
