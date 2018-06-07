@@ -204,8 +204,8 @@
                             else
                                 echo "</td>";
 
-                            echo "<td>" . $value["categories"];
-                            if(trim($value["categories"]) != trim($value["last_cat"]))
+                            echo "<td>" . $value["etat"];
+                            if(trim($value["etat"]) != trim($value["last_cat"]))
                                 echo " </br></br><b>Ancien : </b>" . $value["last_cat"]."</td>";
                             else
                                 echo "</td>";
