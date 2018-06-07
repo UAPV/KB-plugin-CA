@@ -664,7 +664,7 @@ class IndicateursController extends BaseController
                 //le projet n'est pas dans la table valide projet ce qui ne doit pas se produire normalement :)
                 if(isset($projetValide)){
                     //met a jour la table
-                    $queryUpdate = "UPDATE valide_projet set valide=".$_POST['valide'].", modifie=".$_POST['modifie'].", priorite='".$_POST['priorite']."', last_name ='".mysqli_escape_string($this->mysqli,$value['name'])."', last_cat='".mysqli_escape_string($this->mysqli,$value['categories'])."'
+                    $queryUpdate = "UPDATE valide_projet set valide=".$_POST['valide'].", modifie=".$_POST['modifie'].", priorite='".$_POST['priorite']."', last_name ='".mysqli_escape_string($this->mysqli,$value['name'])."', last_cat='".mysqli_escape_string($this->mysqli,$value['etat'])."'
                      , last_chef_DOSI='".mysqli_escape_string($this->mysqli,$value['owner'])."', last_ref_tech='".mysqli_escape_string($this->mysqli,$value['refTech'])."', last_sup_tech='".mysqli_escape_string($this->mysqli,$value['supTech'])."', last_fonctionnel='".mysqli_escape_string($this->mysqli,$value['fonctionnel'])."', last_description='".mysqli_escape_string($this->mysqli,$value['description'])."', last_renouvellement='".mysqli_escape_string($this->mysqli,$value['renouvellement'])."'
                      WHERE project_id=".$_POST['idProjet'];
                     $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
@@ -819,9 +819,11 @@ class IndicateursController extends BaseController
 
                         }//supprimer de la liste car categorie projet arrive apres autres categories
                         else{
+                            var_dump("ELSE");
+                            var_dump($donnees['name']);
                             if(array_key_exists($donnees['idProject'], $liste)){
                                 unset($liste[$donnees['idProject']]);
-                            }elseif(array_key_exists($donnees['idProject'], $liste)){
+                            }elseif(array_key_exists($donnees['idProject'], $listeModif)){
                                 unset($listeModif[$donnees['idProject']]);
                             }
                         }
@@ -1425,7 +1427,7 @@ class IndicateursController extends BaseController
             } //le projet existe pas dans la table valide_projet
             else {
                 $queryInsert = "INSERT INTO valide_projet (project_id, valide, modifie, priorite, last_name, last_cat, last_chef_DOSI, last_ref_tech, last_sup_tech, last_fonctionnel, last_description)
-                              VALUES(" . $key . ",false,true,'Normal','" . mysqli_escape_string($mysqli, $projet['name']) . "','" . mysqli_escape_string($mysqli, $projet['categories']) . "','" . mysqli_escape_string($mysqli, $projet['owner']) . "','" . mysqli_escape_string($mysqli, $projet['refTech']) . "','" . mysqli_escape_string($mysqli, $projet['supTech']) . "','" . mysqli_escape_string($mysqli, $projet['fonctionnel']) . "','" . mysqli_escape_string($mysqli, $projet['description']) . "')";
+                              VALUES(" . $key . ",false,true,'Normal','" . mysqli_escape_string($mysqli, $projet['name']) . "','" . mysqli_escape_string($mysqli, $projet['etat']) . "','" . mysqli_escape_string($mysqli, $projet['owner']) . "','" . mysqli_escape_string($mysqli, $projet['refTech']) . "','" . mysqli_escape_string($mysqli, $projet['supTech']) . "','" . mysqli_escape_string($mysqli, $projet['fonctionnel']) . "','" . mysqli_escape_string($mysqli, $projet['description']) . "')";
                 $resQueryInsert = mysqli_query($mysqli, $queryInsert);
                 if (!$resQueryInsert)
                     $resPost = "la mise à jour de l'activité à echouée.";
