@@ -754,7 +754,7 @@ class IndicateursController extends BaseController
                 //le projet n'est pas dans la table valide projet ce qui ne doit pas se produire normalement :)
                 if(isset($projetValide)){
                     //met a jour la table
-                    $queryUpdate = "UPDATE valide_projet set valide=".$_POST['valide'].", modifie=".$_POST['modifie'].", priorite='".$_POST['priorite']."', last_name ='".mysqli_escape_string($this->mysqli,$value['name'])."', last_cat='".mysqli_escape_string($this->mysqli,$value['categories'])."'
+                    $queryUpdate = "UPDATE valide_projet set valide=".$_POST['valide'].", modifie=".$_POST['modifie'].", priorite='".$_POST['priorite']."', last_name ='".mysqli_escape_string($this->mysqli,$value['name'])."', last_cat='".mysqli_escape_string($this->mysqli,$value['etat'])."'
                      , last_chef_DOSI='".mysqli_escape_string($this->mysqli,$value['owner'])."', last_ref_tech='".mysqli_escape_string($this->mysqli,$value['refTech'])."', last_sup_tech='".mysqli_escape_string($this->mysqli,$value['supTech'])."', last_fonctionnel='".mysqli_escape_string($this->mysqli,$value['fonctionnel'])."', last_description='".mysqli_escape_string($this->mysqli,$value['description'])."', last_renouvellement='".mysqli_escape_string($this->mysqli,$value['renouvellement'])."'
                      WHERE project_id=".$_POST['idProjet'];
                     $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
@@ -762,7 +762,7 @@ class IndicateursController extends BaseController
                         $resPost = "la mise à jour de l'activité à echouée.";
                 }else{
                     $queryInsert = "INSERT INTO valide_projet (project_id, valide, modifie, priorite, last_name, last_cat, last_chef_DOSI, last_ref_tech, last_sup_tech, last_fonctionnel, last_description, last_renouvellement) 
-                                  VALUES(".$_POST['idProjet'].",".$_POST['valide'].",".$_POST['modifie'].",'".$_POST['priorite']."','".mysqli_escape_string($this->mysqli,$value['name'])."','".mysqli_escape_string($this->mysqli,$value['categories'])."','".mysqli_escape_string($this->mysqli,$value['owner'])."','".mysqli_escape_string($this->mysqli,$value['refTech'])."','".mysqli_escape_string($this->mysqli,$value['supTech'])."','".mysqli_escape_string($this->mysqli,$value['fonctionnel'])."','".mysqli_escape_string($this->mysqli,$value['description'])."','".mysqli_escape_string($this->mysqli,$value['renouvellement'])."')";
+                                  VALUES(".$_POST['idProjet'].",".$_POST['valide'].",".$_POST['modifie'].",'".$_POST['priorite']."','".mysqli_escape_string($this->mysqli,$value['name'])."','".mysqli_escape_string($this->mysqli,$value['etat'])."','".mysqli_escape_string($this->mysqli,$value['owner'])."','".mysqli_escape_string($this->mysqli,$value['refTech'])."','".mysqli_escape_string($this->mysqli,$value['supTech'])."','".mysqli_escape_string($this->mysqli,$value['fonctionnel'])."','".mysqli_escape_string($this->mysqli,$value['description'])."','".mysqli_escape_string($this->mysqli,$value['renouvellement'])."')";
                     $resQueryInsert = mysqli_query($this->mysqli, $queryInsert);
                     if(!$resQueryInsert)
                         $resPost = "la mise a jour (création) de l'activité à echouée.";
@@ -795,39 +795,34 @@ class IndicateursController extends BaseController
                 $tabTotal = $this->searchProjets($uids);
 
                 foreach ($tabTotal as $donnees) {
-                    if ($donnees['categories'] == '' || $donnees['categories'] == null)
-                        $donnees['categories'] = '-';
-
                     //on comptabilise seulement les projets non valide
                     if($donnees['valide'] == null || $donnees['valide'] != "1") {
-                        if (!array_key_exists($donnees['idProject'], $listeNonValide)) {
-                            $cptNbAttente ++;
-                            $date = new \DateTime();
-                            $date->setTimestamp($donnees['last_modified']);
-                            $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            $newCategories = $donnees['categories'];
-                            $listeNonValide[$donnees['idProject']] = array(  "name" =>$donnees['name'],
-                                "modifie" => false,
-                                "owner" => $donnees['owner'],
-                                "priorite" => $donnees['priorite'],
-                                "refTech" => $infoDesc['refTech'],
-                                "supTech" => $infoDesc['supTech'],
-                                "fonctionnel" => $infoDesc['fonctionnel'],
-                                "categories" => $donnees['categories'],
-                                "description" => $infoDesc['description']);
+                        $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
+                        $donnees['type'] = $this->getTypeActivite($donnees['categories']);
 
-                            if($this->isProjet($donnees)) {
-                                $listeNonValide[$donnees['idProject']]['type'] = 'Projet';
-                                $listeNonValide[$donnees['idProject']]['start_date'] = $donnees['start_date'];
-                                $listeNonValide[$donnees['idProject']]['end_date'] = $donnees['end_date'];
-                            }else {
-                                $listeNonValide[$donnees['idProject']]['type'] = 'Exploitation';
-                                $listeNonValide[$donnees['idProject']]['renouvellement'] = $donnees['end_date'];
-                            }
-                        }else{
-                            $newCategories = $listeNonValide[$donnees['idProject']]["categories"] . ", " . $donnees['categories'];
+                        $date = new \DateTime();
+                        $date->setTimestamp($donnees['last_modified']);
+                        $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
 
-                            $listeNonValide[$donnees['idProject']]["categories"] = $newCategories;
+                        $cptNbAttente ++;
+                        $listeNonValide[$donnees['idProject']] = array(  "name" =>$donnees['name'],
+                            "modifie" => false,
+                            "owner" => $donnees['owner'],
+                            "priorite" => $donnees['priorite'],
+                            "refTech" => $infoDesc['refTech'],
+                            "supTech" => $infoDesc['supTech'],
+                            "fonctionnel" => $infoDesc['fonctionnel'],
+                            "etat" => $donnees['etat'],
+                            "categories" => $donnees['categories'],
+                            "description" => $infoDesc['description']);
+
+                        if($this->isProjet($donnees)) {
+                            $listeNonValide[$donnees['idProject']]['type'] = 'Projet';
+                            $listeNonValide[$donnees['idProject']]['start_date'] = $donnees['start_date'];
+                            $listeNonValide[$donnees['idProject']]['end_date'] = $donnees['end_date'];
+                        }else {
+                            $listeNonValide[$donnees['idProject']]['type'] = 'Exploitation';
+                            $listeNonValide[$donnees['idProject']]['renouvellement'] = $donnees['end_date'];
                         }
                     }
                 }
