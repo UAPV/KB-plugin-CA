@@ -706,6 +706,10 @@ class IndicateursController extends BaseController
 
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
                         var_dump($donnees);
+                        var_dump("CATEGORIE");
+                        var_dump($donnees['categories']);
+                        var_dump("is eploitation");
+                        var_dump($this->isExploitation($donnees));
                         if ($this->isExploitation($donnees)) {
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
