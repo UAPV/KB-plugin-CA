@@ -707,7 +707,7 @@ class IndicateursController extends BaseController
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
 
                         if ($this->isExploitation($donnees)) {
-                            $donnees['etat'] = $this->getCategorieExploit($donnees);
+                            $donnees['etat'] = $this->getEtatExploit($donnees);
 
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                 $donnees['last_cat'] = 'En anomalie';
