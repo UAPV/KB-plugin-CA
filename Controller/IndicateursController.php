@@ -89,7 +89,7 @@ class IndicateursController extends BaseController
                                 $donnees['last_cat'] = '-';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            $this->validAllModif($donnees, $infoDesc);
+                           // $this->validAllModif($donnees, $infoDesc);
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
@@ -160,7 +160,7 @@ class IndicateursController extends BaseController
                                 $donnees['last_cat'] = 'En anomalie';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            $this->validAllModif($donnees, $infoDesc);
+                            //$this->validAllModif($donnees, $infoDesc);
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
