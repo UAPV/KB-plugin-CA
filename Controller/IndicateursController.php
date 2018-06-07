@@ -89,7 +89,7 @@ class IndicateursController extends BaseController
                                 $donnees['last_cat'] = '-';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            $this->validAllModif($donnees);
+                            $this->validAllModif($donnees, $infoDesc);
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
@@ -160,7 +160,7 @@ class IndicateursController extends BaseController
                                 $donnees['last_cat'] = 'En anomalie';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            $this->validAllModif($donnees);
+                            $this->validAllModif($donnees, $infoDesc);
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
@@ -1757,8 +1757,8 @@ class IndicateursController extends BaseController
         return $etat;
     }
 
-    function validAllModif($donnees){
-        $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["etat"])."', last_description='".mysqli_escape_string($donnees['description'])."' WHERE project_id=".$donnees['idProject'];
+    function validAllModif($donnees, $infoDesc){
+        $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["etat"])."', last_description='".mysqli_escape_string($infoDesc['description'])."' WHERE project_id=".$donnees['idProject'];
         $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
         var_dump($queryUpdate);
         if(!$resQueryUpdate)
