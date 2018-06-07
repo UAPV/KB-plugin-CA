@@ -1314,7 +1314,6 @@ class IndicateursController extends BaseController
         if($donnees['is_active'] == false)
             return false;
         if($flagInfoDesc) {
-
             $infoDesc = $this->getInfoDesc($name, $donnees['description'], $erreur);
             $donnees['refTech'] = $infoDesc['refTech'];
             $donnees['supTech'] = $infoDesc['supTech'];
@@ -1322,33 +1321,33 @@ class IndicateursController extends BaseController
             $donnees['description'] = $infoDesc['description'];
             $donnees['renouvellement'] = $donnees['end_date'];
         }
-
+var_dump($donnees['name']);
         if($donnees['modifie'] == 1) {
-            //var_dump("modifie");
+            var_dump("modifie");
             return true;
         }elseif(strtolower($donnees['last_name']) != strtolower($donnees['name'])){
-            //var_dump("name");
+            var_dump("name");
             return true;
         } elseif($this->miseEnFormeCat($donnees['last_cat']) != $this->miseEnFormeCat($donnees['categories'])){
-            //var_dump("categories");
+            var_dump("categories");
             return true;
         }elseif(strtolower($donnees['last_chef_DOSI']) != strtolower($donnees['owner'])){
-            //var_dump("owner");
+            var_dump("owner");
             return true;
         }elseif(strtolower($donnees['last_ref_tech']) != strtolower($donnees['refTech'])){
-            //var_dump("refTech");
+            var_dump("refTech");
             return true;
         }elseif(strtolower($donnees['last_sup_tech']) != strtolower($donnees['supTech'])){
-            // var_dump("supTech");
+             var_dump("supTech");
             return true;
         }elseif(strtolower($donnees['last_fonctionnel']) != strtolower($donnees['fonctionnel'])){
-            //var_dump("fonctionnel");
+            var_dump("fonctionnel");
             return true;
         }elseif(strtolower($donnees['last_description']) != strtolower($donnees['description'])){
-            //var_dump("description");
+            var_dump("description");
             return true;
         }elseif($this->isExploitation($donnees) && strtolower($donnees['last_renouvellement']) != strtolower($donnees['renouvellement'])){
-            //var_dump("description");
+            var_dump("description");
             return true;
         }
 
