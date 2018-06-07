@@ -6,9 +6,7 @@ $(document).ready(function() {
             $(this).css("border", "4px solid #f6f6f6");
         });
 
-        if(val == 'En anomalie'){
-            val = '-';
-        }else if(val == 'Stand-by'){
+        if(val == 'Stand-by'){
             val = 'stand';
         }
         if(($("#filtreCat option:selected").val() != "" | $("#filtreCat option:selected").val() != undefined) & $("#filtreCat option:selected").val() == val & $('.highcharts-point-select').length !=0){
