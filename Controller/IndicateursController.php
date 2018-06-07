@@ -809,6 +809,13 @@ class IndicateursController extends BaseController
                                 $cptEtats[$donnees['categories']]++;
                             }
 
+                        }//supprimer de la liste car categorie projet arrive apres autres categories
+                        else{
+                            if(array_key_exists($donnees['idProject'], $liste)){
+                                unset($liste[$donnees['idProject']]);
+                            }elseif(array_key_exists($donnees['idProject'], $liste)){
+                                unset($listeModif[$donnees['idProject']]);
+                            }
                         }
                     }
                 }
