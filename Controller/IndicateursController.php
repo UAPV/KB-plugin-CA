@@ -334,6 +334,35 @@ class IndicateursController extends BaseController
                                     }
                                 }
                             }
+                            if (!$projetModif) {
+                                //recherche les différents categories
+                                if (strstr($catForm, "stand")) {
+                                    $liste[$donnees['idProject']]['categories'] = "Stand-by";
+                                    $cptEtats["Stand-by"]++;
+                                } elseif (strstr($catForm, "abandonne")) {
+                                    $liste[$donnees['idProject']]['categories'] = "Abandonné";
+                                    $cptEtats["Abandonné"]++;
+                                } else {
+                                    $now = new \DateTime(date("Y-m-d"));
+                                    $startDate = new \DateTime($donnees['start_date']);
+                                    $endDate = new \DateTime($donnees['end_date']);
+
+                                    if (!$donnees['is_active'] ) {
+                                        $liste[$donnees['idProject']]['categories'] = "Terminé";
+                                        $cptEtats["Terminé"]++;
+                                    }else if ($donnees['end_date'] != "" and $endDate > $now) {
+                                        $liste[$donnees['idProject']]['categories'] = "En cours";
+                                        $cptEtats["En cours"]++;
+                                    }else if ($donnees['end_date'] != "" and $endDate < $now) {
+                                        $liste[$donnees['idProject']]['categories'] = "En retard";
+                                        $cptEtats['En retard']++;
+                                    } else {
+                                        $liste[$donnees['idProject']]['categories'] = "En anomalie";
+                                        $cptEtats["En anomalie"]++;
+                                    }
+                                }
+                            }
+
                         }
                     }else {
                         $cptNbActivitesAttente++;
@@ -385,7 +414,7 @@ class IndicateursController extends BaseController
             'histogramme' => $histogramme,
             'histogrammeName' => $histogrammeName,
             'droitValide' => $droitValide,
-            'etat' => $etats,
+            'etats' => $etats,
             'title' => t('Catalogue d\'activités DOSI')), 'dosi:layout'));
     }
 
