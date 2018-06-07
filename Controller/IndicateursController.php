@@ -233,14 +233,14 @@ class IndicateursController extends BaseController
 
         $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/index', array(
             'cptNbProjetsStandByPerim' => $cptNbProjetsStandByPerim,
-            'cptNbProjetsEnRetard' => $cptEtats['En retard'],
+            'cptEtatsExploit' => $cptEtatsExploit,
+            'cptEtatsProjets' => $cptEtatsProjets,
             'cptNbActivitesModif' => $cptNbActivitesModif,
             'cptNbActivitesAttente' => $cptNbActivitesAttente,
             'cptNbActivitesAnomalie' => $cptNbActivitesAnomalie,
             'cptNbExploit' => $cptNbExploit,
             'cptNbExploitPerim' => $cptNbExploitPerim,
-            'cptNbProjetEnCours' => $cptEtats["En cours"]+$cptEtats['En retard'],
-            'cptEtats' => $cptEtats,
+            'cptNbProjetEnCours' => $cptEtatsProjets["En cours"]+$cptEtatsProjets['En retard'],
             'liste' => $liste,
             'listeModif' => $listeModif,
             'listeAnomalie' => $listeAnomalie,
