@@ -641,8 +641,7 @@ class IndicateursController extends BaseController
      */
     public function exploit()
     {
-        $cptNbExploit = 0;
-        $cptNbPerim = 0;
+        $cptNbProjets = 0;
         $liste = array();
         $listeModif = array();
         $resPost = "";
@@ -705,11 +704,7 @@ class IndicateursController extends BaseController
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
 
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
-                        var_dump($donnees);
-                        var_dump("CATEGORIE");
-                        var_dump($donnees['categories']);
-                        var_dump("is eploitation");
-                        var_dump($this->isExploitation($donnees));
+
                         if ($this->isExploitation($donnees)) {
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
@@ -741,6 +736,8 @@ class IndicateursController extends BaseController
                                     "type" => $donnees['type'],
                                     "description" => $infoDesc['description'],
                                     "renouvellement" => $donnees['end_date']);
+                                $cptEtats[$donnees['etat']]++;
+                                $cptNbProjets++;
                             } else {
                                 $listeModif[$donnees['idProject']] = array("name" => $donnees['name'],
                                     "priorite" => $donnees['priorite'],
@@ -764,12 +761,6 @@ class IndicateursController extends BaseController
 
                             }
                         }
-
-                        if (!$projetModif) {
-                            $liste[$donnees['idProject']]['categories'] = $donnees['categories'];
-                            $liste[$donnees['idProject']]['etat'] = $donnees['etat'];
-                            $cptEtats[$donnees['etat']]++;
-                        }
                     }
                 }
 
@@ -784,6 +775,7 @@ class IndicateursController extends BaseController
 
         $this->sendAllNotificationModifValid($listeModif);
         $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/exploit', array(
+            'cptNbProjets' => $cptNbProjets,
             'columnRenvoullement' => array_values($columnRenvoullement),
             'cptAbandonne' => $cptEtats['Abandonné'],
             'cptStandBy' => $cptEtats['Stand-by'],
