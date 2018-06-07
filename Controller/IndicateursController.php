@@ -703,6 +703,8 @@ class IndicateursController extends BaseController
                 foreach ($tabTotal as $donnees) {
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         var_dump($donnees['name']);
+                        var_dump($donnees['categories']);
+                        var_dump($this->isExploitation($donnees));
                         if ($this->isExploitation($donnees)){
                             $donnees['etat'] = $this->getCategorieExploit($donnees);
 
@@ -931,9 +933,9 @@ class IndicateursController extends BaseController
                         else
                             $donnees['categories'] = $this->getCategorieExploit($donnees);
 
-                        //$this->validAllModif($donnees);
+                        $this->validAllModif($donnees);
 
-                        if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
+                        /*if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                 $donnees['last_cat'] = 'En anomalie';
 
@@ -1014,7 +1016,7 @@ class IndicateursController extends BaseController
                                 }
                             }
                         }
-
+*/
                     }
 
                 }
