@@ -1733,6 +1733,18 @@ class IndicateursController extends BaseController
                 }
             }
         }
+        if($etat == "Exploitation"){
+            $now = new \DateTime(date("Y-m-d"));
+            $endDate = new \DateTime($donnees['end_date']);
+
+            if ($donnees['end_date'] != "" and $endDate > $now) {
+                $etat = "En cours";
+            }else if ($donnees['end_date'] != "" and $endDate < $now) {
+                $etat = "En retard";
+            } else {
+                $etat = "En anomalie";
+            }
+        }
         return $etat;
     }
 
