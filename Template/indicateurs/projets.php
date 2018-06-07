@@ -199,7 +199,7 @@
                             echo "<td>" . $value["owner"]." </td>";
                             echo "<td><b>Référent : </b>" . $value["refTech"]."</br><b>Suppléant :</b> " . $value["supTech"]."</td>";
                             echo "<td>" . $value["fonctionnel"]."</td>";
-                            echo "<td>" . $value["etats"]."</td>";
+                            echo "<td>" . $value["categories"]."</td>";
                             echo "<td>" . $value["description"]."</br></td>";
                             echo "<td>" . $value["start_date"]."</br></td>";
                             echo "<td>" . $value["end_date"]."</br></td>";

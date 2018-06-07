@@ -302,10 +302,10 @@
                     echo "<td><b>Référent : </b>" . $value["refTech"]."</br><b>Suppléant :</b> " . $value["supTech"]."</td>";
                     echo "<td>" . $value["fonctionnel"]."</td>";
                     echo "<td>";
-                    if($value["etats"] == "-")
+                    if($value["categories"] == "-")
                         echo "En anomalie";
                     else
-                        echo $value["etats"];
+                        echo $value["categories"];
                     echo "</td>";
                     echo "<td>" . $value["description"]."</br></td>";
                     echo "<td>" . ((isset($value["start_date"])) ? $value["start_date"] : '')."</br></td>";
