@@ -702,136 +702,68 @@ class IndicateursController extends BaseController
 
                 foreach ($tabTotal as $donnees) {
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
-                        var_dump($donnees['name']);
+                        $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
 
+                        $donnees['type'] = $this->getTypeActivite($donnees['categories']);
 
-                        if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
+                        if ($this->isExploitation($donnees)) {
+                            $donnees['etat'] = $this->getCategorieExploit($donnees);
 
-                            var_dump('IF 1"');
-                            var_dump($donnees['categories']);
-                            var_dump($this->isExploitation($donnees));
-                            if ($this->isExploitation($donnees)) {
-                                $donnees['etat'] = $this->getCategorieExploit($donnees);
+                            if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
+                                $donnees['last_cat'] = 'En anomalie';
 
+                            $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
 
-                                if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
-                                    $donnees['last_cat'] = '-';
-
-                                $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-
-                                //verifie si il y a eu modification du nom et ou categorie de projet
-                                $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
-                                if (!$projetModif) {
-                                    $now = new \DateTime(date("Y-m-d"));
-                                    $endDate = new \DateTime($donnees['end_date']);
-                                    if ($donnees['end_date'] != "" and $endDate < $now) {
-                                        $cptNbPerim++;
-                                    } else {
-                                        $cptNbExploit++;
-                                    }
-
-                                    if ($donnees['end_date'] != "") {
-                                        if (!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
-                                            $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => 1);
-                                        else {
-                                            $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'] . '<br> ' . $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y'] + 1);
-                                        }
-                                    }
-                                    $liste[$donnees['idProject']] = array("name" => $donnees['name'],
-                                        "priorite" => $donnees['priorite'],
-                                        "owner" => $donnees['owner'],
-                                        "refTech" => $infoDesc['refTech'],
-                                        "supTech" => $infoDesc['supTech'],
-                                        "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "categories" => $donnees['categories'],
-                                        "etat" => $donnees['etat'],
-                                        "description" => $infoDesc['description'],
-                                        "renouvellement" => $donnees['end_date']);
+                            //verifie si il y a eu modification du nom et ou categorie de projet
+                            $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
+                            if (!$projetModif) {
+                                $now = new \DateTime(date("Y-m-d"));
+                                $endDate = new \DateTime($donnees['end_date']);
+                                if ($donnees['end_date'] != "" and $endDate < $now) {
+                                    $cptNbPerim++;
                                 } else {
-                                    $listeModif[$donnees['idProject']] = array("name" => $donnees['name'],
-                                        "priorite" => $donnees['priorite'],
-                                        "owner" => $donnees['owner'],
-                                        "refTech" => $infoDesc['refTech'],
-                                        "supTech" => $infoDesc['supTech'],
-                                        "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "categories" => $donnees['categories'],
-                                        "etat" => $donnees['etat'],
-                                        "description" => $infoDesc['description'],
-                                        "last_name" => $donnees['last_name'],
-                                        "last_cat" => $donnees['last_cat'],
-                                        "last_chef_DOSI" => $donnees['last_chef_DOSI'],
-                                        "last_ref_tech" => $donnees['last_ref_tech'],
-                                        "last_sup_tech" => $donnees['last_sup_tech'],
-                                        "last_fonctionnel" => $donnees['last_fonctionnel'],
-                                        "last_description" => $donnees['last_description'],
-                                        "last_renouvellement" => $donnees['last_renouvellement'],
-                                        "renouvellement" => $donnees['end_date']);
-
+                                    $cptNbExploit++;
                                 }
-                            }
-                        } else {
-                            if (array_key_exists($donnees['idProject'], $liste)) {
-                                $concatCategories = $liste[$donnees['idProject']]['categories'] . ", " . $donnees['categories'];
-                                $bufDonnees = $donnees;
-                                $bufDonnees['categories'] = $concatCategories;
-                                $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
-                                $liste[$donnees['idProject']]['categories'] = $concatCategories;
-                                $donnees['categories'] = $concatCategories;
-                                $donnees['etat'] = $this->getCategorieExploit($donnees);
-                                var_dump('IF 2"');
-                                var_dump($donnees['categories']);
-                                var_dump($this->isExploitation($donnees));
 
-                                if($this->isExploitation($donnees)){
-                                    //on verifie quand ajoutant ce categories qu'il soit toujours egale au last_cat sinon on transfert dans la liste modif
-                                    if ($projetModif) {
-                                        $listeModif[$donnees['idProject']] = $liste[$donnees['idProject']];
-                                        $listeModif[$donnees['idProject']]["last_name"] = $donnees['last_name'];
-                                        $listeModif[$donnees['idProject']]["last_cat"] = $donnees['last_cat'];
-                                        unset($liste[$donnees['idProject']]);
+                                if ($donnees['end_date'] != "") {
+                                    if (!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
+                                        $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => 1);
+                                    else {
+                                        $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'] . '<br> ' . $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y'] + 1);
                                     }
-                                }else{
-                                    unset($liste[$donnees['idProject']]);
                                 }
+                                $liste[$donnees['idProject']] = array("name" => $donnees['name'],
+                                    "priorite" => $donnees['priorite'],
+                                    "owner" => $donnees['owner'],
+                                    "refTech" => $infoDesc['refTech'],
+                                    "supTech" => $infoDesc['supTech'],
+                                    "fonctionnel" => $infoDesc['fonctionnel'],
+                                    "categories" => $donnees['categories'],
+                                    "etat" => $donnees['etat'],
+                                    "type" => $donnees['type'],
+                                    "description" => $infoDesc['description'],
+                                    "renouvellement" => $donnees['end_date']);
                             } else {
-                                $concatCategories = $listeModif[$donnees['idProject']]["categories"] . ", " . $donnees['categories'];
-                                $bufDonnees = $donnees;
-                                $bufDonnees['categories'] = $concatCategories;
-                                $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
-                                $listeModif[$donnees['idProject']]["categories"] = $concatCategories;
+                                $listeModif[$donnees['idProject']] = array("name" => $donnees['name'],
+                                    "priorite" => $donnees['priorite'],
+                                    "owner" => $donnees['owner'],
+                                    "refTech" => $infoDesc['refTech'],
+                                    "supTech" => $infoDesc['supTech'],
+                                    "fonctionnel" => $infoDesc['fonctionnel'],
+                                    "categories" => $donnees['categories'],
+                                    "etat" => $donnees['etat'],
+                                    "type" => $donnees['type'],
+                                    "description" => $infoDesc['description'],
+                                    "last_name" => $donnees['last_name'],
+                                    "last_cat" => $donnees['last_cat'],
+                                    "last_chef_DOSI" => $donnees['last_chef_DOSI'],
+                                    "last_ref_tech" => $donnees['last_ref_tech'],
+                                    "last_sup_tech" => $donnees['last_sup_tech'],
+                                    "last_fonctionnel" => $donnees['last_fonctionnel'],
+                                    "last_description" => $donnees['last_description'],
+                                    "last_renouvellement" => $donnees['last_renouvellement'],
+                                    "renouvellement" => $donnees['end_date']);
 
-                                $donnees['categories'] = $concatCategories;
-                                $donnees['etat'] = $this->getCategorieExploit($donnees);
-                                var_dump('IF 3"');
-                                var_dump($donnees['categories']);
-                                var_dump($this->isExploitation($donnees));
-
-                                if($this->isExploitation($donnees)) {
-                                    //on verifie quand ajoutant ce categories qu'il ne soit pas egale au last_cat sinon on transfert dans la liste normal
-                                    if (!$projetModif) {
-                                        $now = new \DateTime(date("Y-m-d"));
-                                        $endDate = new \DateTime($donnees['end_date']);
-
-                                        if ($donnees['end_date'] != "" and $endDate < $now) {
-                                            $cptNbPerim++;
-                                        } else {
-                                            $cptNbExploit++;
-                                        }
-                                        if ($donnees['end_date'] != "") {
-                                            if (!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
-                                                $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => 1);
-                                            else {
-                                                $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'] . '<br> ' . $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y'] + 1);
-                                            }
-                                        }
-                                        unset($listeModif[$donnees['idProject']]["last_name"]);
-                                        unset($listeModif[$donnees['idProject']]["last_cat"]);
-                                        $liste[$donnees['idProject']] = $listeModif[$donnees['idProject']];
-                                        unset($listeModif[$donnees['idProject']]);
-                                    }
-                                }else{
-                                    unset($listeModif[$donnees['idProject']]);
-                                }
                             }
                         }
 
