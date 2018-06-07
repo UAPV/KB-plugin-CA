@@ -939,15 +939,14 @@ class IndicateursController extends BaseController
                 foreach ($tabTotal as $donnees) {
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
 
-                        $categories = $this->getAllCategoriesProjets($donnees['idProject']);
-                        var_dump($donnees['name']);
-                        var_dump($categories);
+                        $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
+                        $donnees['type'] = $this->getTypeActivite($donnees['categories']);
                         if($this->isProjet($donnees))
-                            $donnees['categories'] = $this->getCategorieProjet($donnees);
+                            $donnees['etat'] = $this->getEtatProjet($donnees);
                         else
-                            $donnees['categories'] = $this->getCategorieExploit($donnees);
+                            $donnees['etat'] = $this->getEtatExploit($donnees);
 
-                        //$this->validAllModif($donnees);
+                        $this->validAllModif($donnees);
 
                         /*if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
@@ -1790,10 +1789,10 @@ class IndicateursController extends BaseController
      * Return true si c'est un projet
      */
     private function isProjet($donnees){
-        if(!strstr($this->miseEnFormeCat($donnees['categories']),"projet"))
-            return false;
+        if($donnees['type'] == "Projet")
+            return true;
 
-        return true;
+        return false;
     }
 
     /*
@@ -1802,7 +1801,7 @@ class IndicateursController extends BaseController
      * Return true si c'est une exploitation
      */
     private function isExploitation($donnees){
-        if(!strstr($this->miseEnFormeCat($donnees['categories']),"projet"))
+        if($donnees['type'] == "Exploitation")
             return true;
 
         return false;
@@ -1969,6 +1968,18 @@ class IndicateursController extends BaseController
     }
 
     /*
+     * determine le type d'un projet en fonction de ses categories
+     */
+    function getTypeActivite($categories){
+        $type = "Exploitation";
+        foreach($categories as $categorie){
+            if(strtolower($categorie['name']) === 'projet')
+                $type = "Projet";
+        }
+        return $type;
+    }
+
+    /*
      * Recupere url + key de l'api
      */
     function getconfApi(){
@@ -2008,70 +2019,65 @@ class IndicateursController extends BaseController
         return $mails;
     }
 
-    function getCategorieProjet($donnees){
-        $catForm = $this->miseEnFormeCat($donnees['categories']);
+    function getEtatProjet($donnees){
+        $etat = "";
 
-        //recherche les différents categories
-        if ($donnees['categories'] == '' || $donnees['categories'] == null) {
-            return 'En anomalie';
-        }elseif (strstr($catForm, "stand")) {
-            $listeModif[$donnees['idProject']]['categories'] = "Stand-by";
-        } elseif (strstr($catForm, "abandonne")) {
-            $listeModif[$donnees['idProject']]['categories'] = "Abandonné";
-        } elseif (strstr($catForm, "projet")) {
-            $now = new \DateTime(date("Y-m-d"));
-            $startDate = new \DateTime($donnees['start_date']);
-            $endDate = new \DateTime($donnees['end_date']);
+        if(!$donnees['is_active'])
+            return "Terminé";
 
-            //anomalie si le projet est ferme mais que la date de fin et dans le futur
-            if (!$donnees['is_active'] and $donnees['end_date'] != "" and $endDate > $now) {
-                return "En anomalie";
-            }else if ($donnees['start_date'] != "" and $startDate > $now) {
-                return "Futur";
-            }else if ($donnees['end_date'] != "" and $endDate > $now) {
-                return "En cours";
-            }else if ($donnees['end_date'] != "" and $endDate < $now) {
-                if ($donnees['is_active']) {
-                    return "En retard";
+        foreach ($donnees['categories'] as $categorie){
+            if(strstr(strtolower($categorie['name']), "stand") ) {
+                return "Stand-by";
+            }elseif(strstr(strtolower($categorie['name']), "abandonne")) {
+                return "Abandonné";
+            }else{
+                $now = new \DateTime(date("Y-m-d"));
+                $startDate = new \DateTime($donnees['start_date']);
+                $endDate = new \DateTime($donnees['end_date']);
+
+                if ($donnees['start_date'] != "" and $startDate > $now) {
+                    $etat = "Futur";
+                }else if ($donnees['end_date'] != "" and $endDate > $now && $donnees['start_date'] != "" and $startDate < $now) {
+                    $etat = "En cours";
+                }else if ($donnees['end_date'] != "" and $endDate < $now) {
+                    $etat = "En retard";
                 }else {
-                    return "Terminé";
+                    $etat = "En anomalie";
                 }
-            } else if ($donnees['start_date'] != "" and $startDate < $now) {
-                return "En cours";
-            }else {
-                return "En anomalie";
             }
-        } else {
-            return "En anomalie";
         }
+        return $etat;
     }
 
-    function getCategorieExploit($donnees){
-        $catForm = $this->miseEnFormeCat($donnees['categories']);
-        //recherche les différents categories
-        if (strstr($catForm, "stand")) {
-            return "Stand-by";
-        } elseif (strstr($catForm, "abandonne")) {
-            return "Abandonné";
-        } else {
-            $now = new \DateTime(date("Y-m-d"));
-            $startDate = new \DateTime($donnees['start_date']);
-            $endDate = new \DateTime($donnees['end_date']);
+    function getEtatExploit($donnees){
+        $etat = "";
 
-            if (!$donnees['is_active']) {
-                return "Terminé";
-            } else if ($donnees['end_date'] != "" and $endDate > $now) {
-                return "En cours";
-            } else if ($donnees['end_date'] != "" and $endDate < $now) {
-                return "En retard";
-            } else {
-                return "En anomalie";
+        if(!$donnees['is_active'])
+            return "Terminé";
+
+        foreach ($donnees['categories'] as $categorie){
+            if(strstr(strtolower($categorie['name']), "stand") ) {
+                return "Stand-by";
+            }elseif(strstr(strtolower($categorie['name']), "abandonne")) {
+                return "Abandonné";
+            }else{
+                $now = new \DateTime(date("Y-m-d"));
+                $endDate = new \DateTime($donnees['end_date']);
+
+                if ($donnees['end_date'] != "" and $endDate > $now) {
+                    $etat = "En cours";
+                }else if ($donnees['end_date'] != "" and $endDate < $now) {
+                    $etat = "En retard";
+                } else {
+                    $etat = "En anomalie";
+                }
             }
         }
+        return $etat;
     }
 
     function validAllModif($donnees){
-        $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["categories"])."' WHERE project_id=".$donnees['idProject'];
+        $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["etat"])."' WHERE project_id=".$donnees['idProject'];
         $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
         var_dump($queryUpdate);
         if(!$resQueryUpdate)
