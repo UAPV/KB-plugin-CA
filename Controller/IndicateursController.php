@@ -947,9 +947,9 @@ class IndicateursController extends BaseController
                         else
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
-                        $this->validAllModif($donnees);
+                        //$this->validAllModif($donnees);
 
-                        /*$infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
+                        $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
 
                         //verifie si il y a eu modification du nom et ou categorie de projet
                         $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
@@ -991,7 +991,7 @@ class IndicateursController extends BaseController
                                 $listeModif[$donnees['idProject']]['renouvellement'] = $donnees['end_date'];
                                 $listeModif[$donnees['idProject']]['last_renouvellement'] = $donnees['last_renouvellement'];
                             }
-                        }*/
+                        }
                     }
 
                 }
