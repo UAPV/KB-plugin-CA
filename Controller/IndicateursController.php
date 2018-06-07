@@ -717,13 +717,7 @@ class IndicateursController extends BaseController
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
-                                $now = new \DateTime(date("Y-m-d"));
                                 $endDate = new \DateTime($donnees['end_date']);
-                                if ($donnees['end_date'] != "" and $endDate < $now) {
-                                    $cptNbPerim++;
-                                } else {
-                                    $cptNbExploit++;
-                                }
 
                                 if ($donnees['end_date'] != "") {
                                     if (!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
@@ -784,11 +778,10 @@ class IndicateursController extends BaseController
 
         }
 
+        var_dump($liste);
         $this->sendAllNotificationModifValid($listeModif);
         $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/exploit', array(
             'columnRenvoullement' => array_values($columnRenvoullement),
-            'cptNbExploit' => $cptNbExploit,
-            'cptNbPerim' => $cptNbPerim,
             'cptAbandonne' => $cptEtats['Abandonné'],
             'cptStandBy' => $cptEtats['Stand-by'],
             'cptTermine' => $cptEtats['Terminé'],
