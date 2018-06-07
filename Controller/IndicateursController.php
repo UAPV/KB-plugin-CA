@@ -1766,7 +1766,7 @@ class IndicateursController extends BaseController
 
                     foreach ($donnees['categories'] as $categorie) {
                         if (strstr(strtolower($categorie['name']), "projet")) {
-                             = true;
+                            $projet = true;
                         }
                         elseif(strstr(strtolower($categorie['name']), "stand")){
                             $addProjet = true;
