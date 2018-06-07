@@ -84,12 +84,12 @@ class IndicateursController extends BaseController
                         if ($this->isProjet($donnees)) {
                             $donnees['etat'] = $this->getEtatProjet($donnees);
 
-                            //$this->validAllModif($donnees);
+
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                 $donnees['last_cat'] = '-';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-
+                            $this->validAllModif($donnees);
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
@@ -155,12 +155,12 @@ class IndicateursController extends BaseController
                         else{
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
-                            //$this->validAllModif($donnees);
+
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                 $donnees['last_cat'] = 'En anomalie';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-
+                            $this->validAllModif($donnees);
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
@@ -1758,7 +1758,7 @@ class IndicateursController extends BaseController
     }
 
     function validAllModif($donnees){
-        $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["etat"])."' WHERE project_id=".$donnees['idProject'];
+        $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["etat"])."', last_description='".mysqli_escape_string($donnees['description'])."' WHERE project_id=".$donnees['idProject'];
         $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
         var_dump($queryUpdate);
         if(!$resQueryUpdate)
