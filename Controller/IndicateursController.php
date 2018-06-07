@@ -30,7 +30,7 @@ class IndicateursController extends BaseController
      */
     public function index()
     {
-        //$this->migration();
+        $this->migration();
         $cptNbProjetsStandByPerim = 0;
         $cptNbActivitesModif = 0;
         $cptNbActivitesAttente = 0;
@@ -74,6 +74,8 @@ class IndicateursController extends BaseController
                 $tabTotal = $this->searchProjets($uids);
 
                 foreach ($tabTotal as $donnees) {
+
+                    $this->validAllModif($donnees);
                     //on comptabilise seulement les projets valide
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
