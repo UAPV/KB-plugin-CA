@@ -703,12 +703,17 @@ class IndicateursController extends BaseController
                 foreach ($tabTotal as $donnees) {
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         var_dump($donnees['name']);
-                        var_dump($donnees['categories']);
-                        var_dump($this->isExploitation($donnees));
-                        if ($this->isExploitation($donnees)){
-                            $donnees['etat'] = $this->getCategorieExploit($donnees);
 
-                            if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
+
+                        if (!array_key_exists($donnees['idProject'], $liste) && !array_key_exists($donnees['idProject'], $listeModif)) {
+
+                            var_dump('IF 1"');
+                            var_dump($donnees['categories']);
+                            var_dump($this->isExploitation($donnees));
+                            if ($this->isExploitation($donnees)) {
+                                $donnees['etat'] = $this->getCategorieExploit($donnees);
+
+
                                 if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                     $donnees['last_cat'] = '-';
 
@@ -721,18 +726,18 @@ class IndicateursController extends BaseController
                                     $endDate = new \DateTime($donnees['end_date']);
                                     if ($donnees['end_date'] != "" and $endDate < $now) {
                                         $cptNbPerim++;
-                                    }else{
+                                    } else {
                                         $cptNbExploit++;
                                     }
 
-                                    if($donnees['end_date'] != "") {
-                                        if(!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
+                                    if ($donnees['end_date'] != "") {
+                                        if (!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
                                             $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => 1);
-                                        else{
-                                            $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'].'<br> '.$donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y']+1);
+                                        else {
+                                            $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'] . '<br> ' . $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y'] + 1);
                                         }
                                     }
-                                    $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
+                                    $liste[$donnees['idProject']] = array("name" => $donnees['name'],
                                         "priorite" => $donnees['priorite'],
                                         "owner" => $donnees['owner'],
                                         "refTech" => $infoDesc['refTech'],
@@ -743,7 +748,7 @@ class IndicateursController extends BaseController
                                         "description" => $infoDesc['description'],
                                         "renouvellement" => $donnees['end_date']);
                                 } else {
-                                    $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
+                                    $listeModif[$donnees['idProject']] = array("name" => $donnees['name'],
                                         "priorite" => $donnees['priorite'],
                                         "owner" => $donnees['owner'],
                                         "refTech" => $infoDesc['refTech'],
@@ -763,15 +768,21 @@ class IndicateursController extends BaseController
                                         "renouvellement" => $donnees['end_date']);
 
                                 }
-                            } else {
-                                if (array_key_exists($donnees['idProject'], $liste)) {
-                                    $concatCategories = $liste[$donnees['idProject']]['categories'] . ", " . $donnees['categories'];
-                                    $bufDonnees = $donnees;
-                                    $bufDonnees['categories'] = $concatCategories;
-                                    $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
-                                    $liste[$donnees['idProject']]['categories'] = $concatCategories;
-                                    $donnees['categories'] = $concatCategories;
-                                    $donnees['etat'] = $this->getCategorieExploit($donnees);
+                            }
+                        } else {
+                            if (array_key_exists($donnees['idProject'], $liste)) {
+                                $concatCategories = $liste[$donnees['idProject']]['categories'] . ", " . $donnees['categories'];
+                                $bufDonnees = $donnees;
+                                $bufDonnees['categories'] = $concatCategories;
+                                $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
+                                $liste[$donnees['idProject']]['categories'] = $concatCategories;
+                                $donnees['categories'] = $concatCategories;
+                                $donnees['etat'] = $this->getCategorieExploit($donnees);
+                                var_dump('IF 2"');
+                                var_dump($donnees['categories']);
+                                var_dump($this->isExploitation($donnees));
+
+                                if($this->isExploitation($donnees)){
                                     //on verifie quand ajoutant ce categories qu'il soit toujours egale au last_cat sinon on transfert dans la liste modif
                                     if ($projetModif) {
                                         $listeModif[$donnees['idProject']] = $liste[$donnees['idProject']];
@@ -779,15 +790,23 @@ class IndicateursController extends BaseController
                                         $listeModif[$donnees['idProject']]["last_cat"] = $donnees['last_cat'];
                                         unset($liste[$donnees['idProject']]);
                                     }
-                                } else {
-                                    $concatCategories = $listeModif[$donnees['idProject']]["categories"] . ", " . $donnees['categories'];
-                                    $bufDonnees = $donnees;
-                                    $bufDonnees['categories'] = $concatCategories;
-                                    $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
-                                    $listeModif[$donnees['idProject']]["categories"] = $concatCategories;
+                                }else{
+                                    unset($liste[$donnees['idProject']]);
+                                }
+                            } else {
+                                $concatCategories = $listeModif[$donnees['idProject']]["categories"] . ", " . $donnees['categories'];
+                                $bufDonnees = $donnees;
+                                $bufDonnees['categories'] = $concatCategories;
+                                $projetModif = $this->projetModif($donnees['name'], $bufDonnees, $erreur);
+                                $listeModif[$donnees['idProject']]["categories"] = $concatCategories;
 
-                                    $donnees['categories'] = $concatCategories;
-                                    $donnees['etat'] = $this->getCategorieExploit($donnees);
+                                $donnees['categories'] = $concatCategories;
+                                $donnees['etat'] = $this->getCategorieExploit($donnees);
+                                var_dump('IF 3"');
+                                var_dump($donnees['categories']);
+                                var_dump($this->isExploitation($donnees));
+
+                                if($this->isExploitation($donnees)) {
                                     //on verifie quand ajoutant ce categories qu'il ne soit pas egale au last_cat sinon on transfert dans la liste normal
                                     if (!$projetModif) {
                                         $now = new \DateTime(date("Y-m-d"));
@@ -795,14 +814,14 @@ class IndicateursController extends BaseController
 
                                         if ($donnees['end_date'] != "" and $endDate < $now) {
                                             $cptNbPerim++;
-                                        }else{
+                                        } else {
                                             $cptNbExploit++;
                                         }
-                                        if($donnees['end_date'] != ""){
-                                            if(!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
+                                        if ($donnees['end_date'] != "") {
+                                            if (!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
                                                 $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => 1);
-                                            else{
-                                                $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'].'<br> '.$donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y']+1);
+                                            else {
+                                                $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'] . '<br> ' . $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y'] + 1);
                                             }
                                         }
                                         unset($listeModif[$donnees['idProject']]["last_name"]);
@@ -810,24 +829,16 @@ class IndicateursController extends BaseController
                                         $liste[$donnees['idProject']] = $listeModif[$donnees['idProject']];
                                         unset($listeModif[$donnees['idProject']]);
                                     }
+                                }else{
+                                    unset($listeModif[$donnees['idProject']]);
                                 }
                             }
+                        }
 
-                            if (!$projetModif) {
-                                $liste[$donnees['idProject']]['categories'] = $donnees['categories'];
-                                $liste[$donnees['idProject']]['etat'] = $donnees['etat'];
-                                $cptEtats[$donnees['etat']]++;
-                            }
-
-                        }//supprimer de la liste car categorie projet arrive apres autres categories
-                        else{
-                            var_dump("ELSE");
-                            var_dump($donnees['name']);
-                            if(array_key_exists($donnees['idProject'], $liste)){
-                                unset($liste[$donnees['idProject']]);
-                            }elseif(array_key_exists($donnees['idProject'], $listeModif)){
-                                unset($listeModif[$donnees['idProject']]);
-                            }
+                        if (!$projetModif) {
+                            $liste[$donnees['idProject']]['categories'] = $donnees['categories'];
+                            $liste[$donnees['idProject']]['etat'] = $donnees['etat'];
+                            $cptEtats[$donnees['etat']]++;
                         }
                     }
                 }
