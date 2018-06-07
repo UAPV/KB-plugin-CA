@@ -84,7 +84,7 @@ class IndicateursController extends BaseController
                         if ($this->isProjet($donnees)) {
                             $donnees['etat'] = $this->getEtatProjet($donnees);
 
-                            $this->validAllModif($donnees);
+                            //$this->validAllModif($donnees);
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                 $donnees['last_cat'] = '-';
 
@@ -155,7 +155,7 @@ class IndicateursController extends BaseController
                         else{
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
-                            $this->validAllModif($donnees);
+                            //$this->validAllModif($donnees);
                             if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
                                 $donnees['last_cat'] = 'En anomalie';
 
