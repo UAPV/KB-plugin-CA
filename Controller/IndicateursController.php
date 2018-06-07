@@ -940,17 +940,16 @@ class IndicateursController extends BaseController
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
 
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
-var_dump($donnees['name']);
-var_dump($donnees['categories']);
+
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
                         if($this->isProjet($donnees))
                             $donnees['etat'] = $this->getEtatProjet($donnees);
                         else
                             $donnees['etat'] = $this->getEtatExploit($donnees);
 
-                        //$this->validAllModif($donnees);
+                        $this->validAllModif($donnees);
 
-                        $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
+                        /*$infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
 
                         //verifie si il y a eu modification du nom et ou categorie de projet
                         $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
@@ -992,7 +991,7 @@ var_dump($donnees['categories']);
                                 $listeModif[$donnees['idProject']]['renouvellement'] = $donnees['end_date'];
                                 $listeModif[$donnees['idProject']]['last_renouvellement'] = $donnees['last_renouvellement'];
                             }
-                        }
+                        }*/
                     }
 
                 }
@@ -1915,18 +1914,6 @@ var_dump($donnees['categories']);
      * recupere les categories d'un projet
      */
     function getAllCategoriesProjets($idProjet){
-        /*if($this->getconfApi() !== false) {
-            $httpClient = new HttpClient($this->url_api);
-            $httpClient->withoutSslVerification();
-            $client = new Client($this->url_api, false, $httpClient);
-            $client->authentication('jsonrpc', $this->key_api);
-
-            $categories = $client->execute('getAllCategories', array('project_id' => $idProjet));
-
-            if(!isset($categories))
-                return false;
-            return $categories;
-        }*/
         if ($this->mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME)) {
             //recupere les info du projet
             $querySelect = "SELECT name FROM project_has_categories WHERE project_id=" . $idProjet;
@@ -1942,7 +1929,7 @@ var_dump($donnees['categories']);
     function getTypeActivite($categories){
         $type = "Exploitation";
         foreach($categories as $categorie){
-            if(strtolower($categorie['name']) === 'projet')
+            if(strtolower($categorie[0]) === 'projet')
                 return "Projet";
         }
         return $type;
@@ -1995,9 +1982,9 @@ var_dump($donnees['categories']);
             return "Terminé";
 
         foreach ($donnees['categories'] as $categorie){
-            if(strstr(strtolower($categorie['name']), "stand") ) {
+            if(strstr(strtolower($categorie[0]), "stand") ) {
                 return "Stand-by";
-            }elseif(strstr(strtolower($categorie['name']), "abandonne")) {
+            }elseif(strstr(strtolower($categorie[0]), "abandonne")) {
                 return "Abandonné";
             }else{
                 $now = new \DateTime(date("Y-m-d"));
