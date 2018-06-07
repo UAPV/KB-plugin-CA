@@ -1926,7 +1926,7 @@ class IndicateursController extends BaseController
     }
 
     function getEtatExploit($donnees){
-        $etat = "";
+        $etat = "Exploitation";
 
         if(!$donnees['is_active'])
             return "Terminé";
