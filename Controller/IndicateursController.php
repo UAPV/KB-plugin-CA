@@ -884,6 +884,7 @@ class IndicateursController extends BaseController
         $user = $this->getUser();
         $droitValide = $this->isAdmin($user);
         if(isset($_POST['idProjet'])){
+            var_dulmp("ok");die;
             //ajoute l'ancre pour retourné a l'endroit de l'action
             $ancre = $_POST['ancre'];
             if ($this->mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME)) {
