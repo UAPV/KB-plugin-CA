@@ -939,6 +939,9 @@ class IndicateursController extends BaseController
                 foreach ($tabTotal as $donnees) {
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
 
+                        $categories = $this->getAllCategoriesProjets($donnees['idProject']);
+                        var_dump($donnees['name']);
+                        var_dump($categories);
                         if($this->isProjet($donnees))
                             $donnees['categories'] = $this->getCategorieProjet($donnees);
                         else
@@ -1719,7 +1722,7 @@ class IndicateursController extends BaseController
             return array();
         $tabOwner = array();
 
-        $query = "SELECT p.last_modified, p.id as idProject, p.name, p.description, p.start_date, p.end_date, p.is_active, u.username, u.name as owner, pc.name as categories, vp.* FROM projects p left join users u on p.owner_id=u.id left join project_has_categories pc on p.id=pc.project_id left join valide_projet vp on p.id=vp.project_id WHERE is_private=0 AND (";
+        $query = "SELECT p.last_modified, p.id as idProject, p.name, p.description, p.start_date, p.end_date, p.is_active, u.username, u.name as owner, vp.* FROM projects p left join users u on p.owner_id=u.id left join valide_projet vp on p.id=vp.project_id WHERE is_private=0 AND (";
         foreach ($uids as $key => $value) {
             if($value != '') {
                 if ($key == 1)
@@ -1742,7 +1745,7 @@ class IndicateursController extends BaseController
         if( $this->mysqli == null)
             return array();
         $tabMembre = array();
-        $query = "SELECT p.last_modified, p.id as idProject, p.name, p.start_date, p.end_date, p.is_active, p.description, u.username, uo.name as owner, pc.name as categories, vp.* FROM projects p left join project_has_users pu on pu.project_id = p.id left join users u on pu.user_id=u.id left join users uo on uo.id=p.owner_id left join project_has_categories pc on p.id=pc.project_id left join valide_projet vp on p.id=vp.project_id WHERE is_private=0 AND (";
+        $query = "SELECT p.last_modified, p.id as idProject, p.name, p.start_date, p.end_date, p.is_active, p.description, u.username, uo.name as owner, vp.* FROM projects p left join project_has_users pu on pu.project_id = p.id left join users u on pu.user_id=u.id left join users uo on uo.id=p.owner_id left join valide_projet vp on p.id=vp.project_id WHERE is_private=0 AND (";
         foreach ($uids as $key => $value) {
             if($value != '') {
                 if ($key == 1)
@@ -1942,6 +1945,25 @@ class IndicateursController extends BaseController
             if(!isset($user))
                 return false;
             return $user['email'];
+        }
+        return false;
+    }
+
+    /*
+     * recupere les categories d'un projet
+     */
+    function getAllCategoriesProjets($idProjet){
+        if($this->getconfApi() !== false) {
+            $httpClient = new HttpClient($this->url_api);
+            $httpClient->withoutSslVerification();
+            $client = new Client($this->url_api, false, $httpClient);
+            $client->authentication('jsonrpc', $this->key_api);
+
+            $categories = $client->execute('getAllCategories', array('project_id' => $idProjet));
+
+            if(!isset($categories))
+                return false;
+            return $categories;
         }
         return false;
     }
