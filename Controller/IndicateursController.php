@@ -75,7 +75,7 @@ class IndicateursController extends BaseController
 
                 foreach ($tabTotal as $donnees) {
 
-                    $this->validAllModif($donnees);
+                    //$this->validAllModif($donnees);
                     //on comptabilise seulement les projets valide
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
