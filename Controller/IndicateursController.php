@@ -940,6 +940,7 @@ class IndicateursController extends BaseController
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
 
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
+
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
                         if($this->isProjet($donnees))
                             $donnees['etat'] = $this->getEtatProjet($donnees);
@@ -1913,7 +1914,7 @@ class IndicateursController extends BaseController
      * recupere les categories d'un projet
      */
     function getAllCategoriesProjets($idProjet){
-        if($this->getconfApi() !== false) {
+        /*if($this->getconfApi() !== false) {
             $httpClient = new HttpClient($this->url_api);
             $httpClient->withoutSslVerification();
             $client = new Client($this->url_api, false, $httpClient);
@@ -1924,6 +1925,12 @@ class IndicateursController extends BaseController
             if(!isset($categories))
                 return false;
             return $categories;
+        }*/
+        if ($this->mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME)) {
+            //recupere les info du projet
+            $querySelect = "SELECT name FROM project_has_categories WHERE project_id=" . $idProjet;
+            $resQuerySelect = mysqli_query($this->mysqli, $querySelect);
+            return mysqli_fetch_array($resQuerySelect);
         }
         return false;
     }
@@ -1935,7 +1942,7 @@ class IndicateursController extends BaseController
         $type = "Exploitation";
         foreach($categories as $categorie){
             if(strtolower($categorie['name']) === 'projet')
-                $type = "Projet";
+                return "Projet";
         }
         return $type;
     }
