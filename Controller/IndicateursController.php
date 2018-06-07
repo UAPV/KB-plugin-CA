@@ -797,10 +797,7 @@ class IndicateursController extends BaseController
                                     }else if ($donnees['end_date'] != "" and $endDate < $now) {
                                         $liste[$donnees['idProject']]['categories'] = "En retard";
                                         $cptEtats['En retard']++;
-                                    } else if ($donnees['start_date'] != "" and $startDate < $now) {
-                                        $liste[$donnees['idProject']]['categories'] = "En cours";
-                                        $cptEtats["En cours"]++;
-                                    }else {
+                                    } else {
                                         $liste[$donnees['idProject']]['categories'] = "-";
                                         $cptEtats["En anomalie"]++;
                                     }
