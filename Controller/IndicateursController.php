@@ -800,6 +800,12 @@ class IndicateursController extends BaseController
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
 
+                        if($this->isProjet($donnees)){
+                            $donnees['etat'] = $this->getEtatProjet($donnees);
+                        }else{
+                            $donnees['etat'] = $this->getEtatExploit($donnees);
+                        }
+
                         $date = new \DateTime();
                         $date->setTimestamp($donnees['last_modified']);
                         $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
