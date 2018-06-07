@@ -1931,7 +1931,7 @@ var_dump($donnees['categories']);
             //recupere les info du projet
             $querySelect = "SELECT name FROM project_has_categories WHERE project_id=" . $idProjet;
             $resQuerySelect = mysqli_query($this->mysqli, $querySelect);
-            return mysqli_fetch_array($resQuerySelect);
+            return mysqli_fetch_all($resQuerySelect);
         }
         return false;
     }
