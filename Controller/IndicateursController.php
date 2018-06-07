@@ -30,6 +30,7 @@ class IndicateursController extends BaseController
      */
     public function index()
     {
+        $this->migration();
         $cptNbProjetsStandByPerim = 0;
         $cptNbActivitesModif = 0;
         $cptNbActivitesAttente = 0;
@@ -1752,7 +1753,42 @@ class IndicateursController extends BaseController
      * ajout la categorie projet au activité ayant que "abandonne" ou "stand-by"
      */
     function migration(){
+        $uids = $this->searchUidsDosi();
+        if ($this->mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME)) {
+            $tabTotal = $this->searchProjets($uids);
 
+            foreach ($tabTotal as $donnees) {
+                $projet = false;
+                $addProjet = false;
+                //on comptabilise seulement les projets valide
+                if ($donnees['valide'] != null && $donnees['valide'] == "1") {
+                    $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
+
+                    foreach ($donnees['categories'] as $categorie) {
+                        if (strstr(strtolower($categorie['name']), "projet")) {
+                            $projet = true;
+                        }
+                        elseif(strstr(strtolower($categorie['name']), "stand")){
+                            $addProjet = true;
+                        }elseif(strstr(strtolower($categorie['name']), "abandonne")){
+                            $addProjet = true;
+                        }
+                    }
+                    if($projet == true and $addProjet == true){
+                        $httpClient = new HttpClient($this->url_api);
+                        $httpClient->withoutSslVerification();
+                        $client = new Client($this->url_api, false, $httpClient);
+                        $client->authentication('jsonrpc', $this->key_api);
+
+                        $user = $client->execute('createCategory', array('project_id' => $donnees['idProject'], "name" => "Projet"));
+
+                        var_dump("ajout cat projet");
+                        var_dump($donnees['idProject']);
+                        var_dump($donnees['name']);
+                    }
+                }
+            }
+        }
 
     }
 
