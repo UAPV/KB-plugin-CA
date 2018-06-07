@@ -940,7 +940,8 @@ class IndicateursController extends BaseController
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
 
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
-
+var_dump($donnees['name']);
+var_dump($donnees['categories']);
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
                         if($this->isProjet($donnees))
                             $donnees['etat'] = $this->getEtatProjet($donnees);
