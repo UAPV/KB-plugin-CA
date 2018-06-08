@@ -167,8 +167,10 @@ $(document).ready(function() {
         /********* Action click filtre *************/
         $('#projetsRetard').on('click', function(){
             tableValid.column(1).search('').draw();
+
             $('#filtreCat ').val('');
             $('#filtreType ').val('');
+            $('#datepicker_to ').val('');
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
                 $(this).parent().css("border", "4px solid #f6f6f6");
@@ -190,7 +192,10 @@ $(document).ready(function() {
 
         $('#projetAnomalie').on('click', function(){
             tableValid.column(1).search('').draw();
+
             $('#filtreCat ').val('');
+            $('#filtreType ').val('');
+            $('#datepicker_to ').val('');
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
                 $(this).parent().css("border", "4px solid #f6f6f6");
@@ -217,6 +222,7 @@ $(document).ready(function() {
                 $(this).parent().css("border", "4px solid #f6f6f6");
                 $('#filtreCat ').val('');
                 $('#filtreType ').val('');
+                $('#datepicker_to ').val('');
             }else{
                 $(".select").each(function(index){
                     $(this).removeClass("select");
@@ -237,8 +243,10 @@ $(document).ready(function() {
 
         $('#renPerim').on('click', function(){
 
+
             $('#filtreCat ').val('');
-            $('#filtreCat').trigger('change');
+            $('#filtreType ').val('');
+            $('#datepicker_to ').val('');
             tableValid.column(1).search('').draw();
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
