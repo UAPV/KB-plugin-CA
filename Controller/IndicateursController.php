@@ -1445,7 +1445,7 @@ class IndicateursController extends BaseController
             }
         }
         $query .= ")";
-var_dump($query);
+
         $resultat = mysqli_query($this->mysqli, $query);
         while($row = mysqli_fetch_assoc($resultat)){
               $tabOwner[] = $row;
@@ -1458,7 +1458,7 @@ var_dump($query);
         if( $this->mysqli == null)
             return array();
         $tabMembre = array();
-        $query = "SELECT p.last_modified, p.id as idProject, p.name, p.start_date, p.end_date, p.is_active, p.description, u.username, uo.name as owner, vp.* FROM projects p left join project_has_users pu on pu.project_id = p.id left join users u on pu.user_id=u.id left join users uo on uo.id=p.owner_id left join valide_projet vp on p.id=vp.project_id WHERE is_private=0 AND (";
+        $query = "SELECT DISTINCT p.id as idProject, p.last_modified, p.name, p.start_date, p.end_date, p.is_active, p.description, uo.name as owner, vp.* FROM projects p left join project_has_users pu on pu.project_id = p.id left join users u on pu.user_id=u.id left join users uo on uo.id=p.owner_id left join valide_projet vp on p.id=vp.project_id WHERE is_private=0 AND (";
         foreach ($uids as $key => $value) {
             if($value != '') {
                 if ($key == 1)
@@ -1476,7 +1476,6 @@ var_dump($query);
                     $query .= " AND uo.username not like '" . $value."'";
             }
         }
-var_dump($query);
         $resultat = mysqli_query($this->mysqli, $query);
         while($row = mysqli_fetch_assoc($resultat)){
             $tabMembre[] = $row;
