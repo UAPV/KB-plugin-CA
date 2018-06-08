@@ -230,7 +230,7 @@ $(document).ready(function() {
                 });
                 $(this).parent().addClass("select");
                 $(this).parent().css("border", "4px solid black");
-                $('#filtreCat ').val('Stand-by');
+                $('#filtreCat ').val('stand');
                 $('#filtreType ').val('Projet');
                 date = new Date();
                 $('#datepicker_to ').val(date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay());
