@@ -89,9 +89,9 @@ class IndicateursController extends BaseController
                                 $donnees['last_cat'] = '-';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            $this->validAllModif($donnees, $infoDesc);
+                            //$this->validAllModif($donnees, $infoDesc);
                             //verifie si il y a eu modification du nom et ou categorie de projet
-                            /*$projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
+                            $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
                                 $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
                                     "priorite" => $donnees['priorite'],
@@ -150,7 +150,7 @@ class IndicateursController extends BaseController
                                     "last_fonctionnel" => $donnees['last_fonctionnel'],
                                     "last_description" => $donnees['last_description']);
                                 $cptNbActivitesModif++;
-                            }*/
+                            }
                         }//exploit
                         else{
                             $donnees['etat'] = $this->getEtatExploit($donnees);
@@ -160,9 +160,9 @@ class IndicateursController extends BaseController
                                 $donnees['last_cat'] = 'En anomalie';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            $this->validAllModif($donnees, $infoDesc);
+                            //$this->validAllModif($donnees, $infoDesc);
                             //verifie si il y a eu modification du nom et ou categorie de projet
-                            /*$projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
+                            $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
                                 $endDate = new \DateTime($donnees['end_date']);
                                 $startDate = new \DateTime($donnees['start_date']);
@@ -209,7 +209,7 @@ class IndicateursController extends BaseController
                                     "last_renouvellement" => $donnees['last_renouvellement'],
                                     "renouvellement" => $donnees['end_date']);
                                 $cptNbActivitesModif++;
-                            }*/
+                            }
                         }
                     }else {
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
