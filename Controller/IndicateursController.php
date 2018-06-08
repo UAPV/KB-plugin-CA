@@ -1015,8 +1015,19 @@ class IndicateursController extends BaseController
             //var_dump("fonctionnel");
             return true;
         }elseif(strtolower($donnees['last_description']) != strtolower($donnees['description'])){
-            //var_dump("description");
-            return true;
+            $lastDesc = strtolower($donnees['last_description']);
+            $lastDesc = str_replace("<br>", "", $lastDesc);
+            $lastDescExplode = explode("<a", $lastDesc);
+
+            $desc = strtolower($donnees['description']);
+            $desc = str_replace("<br>", "", $desc);
+            $descExplode = explode("<a", $desc);
+
+            if($descExplode[0] != $lastDescExplode[0]){
+
+                //var_dump("description");
+                return true;
+            }
         }elseif($this->isExploitation($donnees) && strtolower($donnees['last_renouvellement']) != strtolower($donnees['renouvellement'])){
             //var_dump("description");
             return true;
