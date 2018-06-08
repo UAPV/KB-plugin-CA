@@ -119,7 +119,11 @@ class IndicateursController extends BaseController
                             $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
 
                             $donnees['type'] = $this->getTypeActivite($donnees['categories']);
+                            var_dump($donnees['idProject']);
                             var_dump($donnees['name']);
+                            var_dump($donnees['name']);
+                            var_dump(array_key_exists($donnees['idProject'], $liste));
+                            var_dump(array_key_exists($donnees['idProject'], $listeModif));
                             if ($this->isProjet($donnees)) {
                                 $donnees['etat'] = $this->getEtatProjet($donnees);
 
