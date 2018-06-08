@@ -117,11 +117,8 @@ class IndicateursController extends BaseController
                     //on comptabilise seulement les projets valide
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
-
-                        var_dump($donnees['name']);
-                        var_dump($donnees['categories']);
+                        
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
-var_dump($donnees['type']);
                         if ($this->isProjet($donnees)) {
                             $donnees['etat'] = $this->getEtatProjet($donnees);
 
@@ -1683,10 +1680,8 @@ var_dump($donnees['type']);
     function getTypeActivite($categories){
         $type = "Exploitation";
 
-        var_dump("function gettypeactivite");
         foreach($categories as $categorie){
-        var_dump($categorie);
-            if(strtolower($categorie[0]) === 'projet')
+            if(trim(strtolower($categorie[0])) === 'projet')
                 return "Projet";
         }
         return $type;
