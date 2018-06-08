@@ -242,7 +242,7 @@
                 </tr>
                 <tr class="filter">
                     <td>
-                        <select class="form-control input-sm">
+                        <select id="filtreType" class="form-control input-sm">
                             <option value=""></option>
                             <option value="Exploitation">Exploitation</option>
                             <option value="Projet">Projet</option>
