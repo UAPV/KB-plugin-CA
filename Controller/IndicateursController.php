@@ -119,7 +119,7 @@ class IndicateursController extends BaseController
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
 
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
-                        
+
                         if ($this->isProjet($donnees)) {
                             $donnees['etat'] = $this->getEtatProjet($donnees);
 
