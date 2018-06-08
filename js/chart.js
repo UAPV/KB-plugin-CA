@@ -191,6 +191,7 @@ $(document).ready(function() {
         $('#projetAnomalie').on('click', function(){
             tableValid.column(1).search('').draw();
             $('#filtreCat ').val('');
+            $('#filtreType ').val('');
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
                 $(this).parent().css("border", "4px solid #f6f6f6");
@@ -209,6 +210,7 @@ $(document).ready(function() {
 
         $('#projetsStandByPerim').on('click', function(){
 
+            $('#filtreType ').val('');
             $('#filtreCat ').val('');
             $('#filtreCat').trigger('change');
             tableValid.column(1).search('').draw();
@@ -249,15 +251,14 @@ $(document).ready(function() {
         });
 
         $('#renPerim').on('click', function(){
-
-            $('#filtreCat ').val('');
-            $('#filtreCat').trigger('change');
             tableValid.column(1).search('').draw();
+            $('#filtreCat ').val('');
+            $('#filtreType ').val('');
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
                 $(this).parent().css("border", "4px solid #f6f6f6");
-
-                tableValid.column(1).search('').draw();
+                $('#filtreCat ').val('');
+                $('#filtreType ').val('');
             }else{
                 $(".select").each(function(index){
                     $(this).removeClass("select");
@@ -265,26 +266,11 @@ $(document).ready(function() {
                 });
                 $(this).parent().addClass("select");
                 $(this).parent().css("border", "4px solid black");
-
-                listeRenPerim = JSON.parse($('#listeRenPerim').attr('value'));
-
-                RegExp.escape = function(s) {
-                    return accentRemove(s).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-                };
-                regexStr = "";
-                $.each(listeRenPerim, function(index, value){
-
-                    if(listeRenPerim.length==1)
-                        regexStr += RegExp.escape(value);
-                    else if(index==0)
-                        regexStr += "("+RegExp.escape(value)+"|";
-                    else if(index == listeRenPerim.length-1)
-                        regexStr += RegExp.escape(value)+')';
-                    else
-                        regexStr += RegExp.escape(value)+'|';
-                });
-                tableValid.column(1).search(regexStr, true, false).draw();
+                $('#filtreCat ').val('En retard');
+                $('#filtreType ').val('Exploitation');
             }
+            $('#filtreCat').trigger('change');
+            $('#filtreType').trigger('change');
         });
 
     } );
