@@ -1682,7 +1682,10 @@ var_dump($donnees['type']);
      */
     function getTypeActivite($categories){
         $type = "Exploitation";
+
+        var_dump("function gettypeactivite");
         foreach($categories as $categorie){
+        var_dump($categorie);
             if(strtolower($categorie[0]) === 'projet')
                 return "Projet";
         }
