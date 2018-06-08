@@ -113,175 +113,170 @@ class IndicateursController extends BaseController
                 $tabTotal = $this->searchProjets($uids);
 
                 foreach ($tabTotal as $donnees) {
-                    if(!array_key_exists($donnees['idProject'], $liste) and !array_key_exists($donnees['idProject'], $listeModif)) {
-                        //on comptabilise seulement les projets valide
-                        if ($donnees['valide'] != null && $donnees['valide'] == "1") {
-                            $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
 
-                            $donnees['type'] = $this->getTypeActivite($donnees['categories']);
-                            var_dump($donnees['idProject']);
-                            var_dump($donnees['name']);
-                            var_dump($donnees['name']);
-                            var_dump(array_key_exists($donnees['idProject'], $liste));
-                            var_dump(array_key_exists($donnees['idProject'], $listeModif));
-                            if ($this->isProjet($donnees)) {
-                                $donnees['etat'] = $this->getEtatProjet($donnees);
+                    //on comptabilise seulement les projets valide
+                    if($donnees['valide'] != null && $donnees['valide'] == "1") {
+                        $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
+
+                        $donnees['type'] = $this->getTypeActivite($donnees['categories']);
+                        
+                        if ($this->isProjet($donnees)) {
+                            $donnees['etat'] = $this->getEtatProjet($donnees);
 
 
-                                if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
-                                    $donnees['last_cat'] = '-';
+                            if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
+                                $donnees['last_cat'] = '-';
 
-                                $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                                //$this->validAllModif($donnees, $infoDesc);
-                                //verifie si il y a eu modification du nom et ou categorie de projet
-                                $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
-                                if (!$projetModif) {
-                                    $liste[$donnees['idProject']] = array("name" => $donnees['name'],
-                                        "priorite" => $donnees['priorite'],
-                                        "owner" => $donnees['owner'],
-                                        "refTech" => $infoDesc['refTech'],
-                                        "supTech" => $infoDesc['supTech'],
-                                        "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "categories" => $donnees['categories'],
-                                        "etat" => $donnees['etat'],
-                                        "type" => $donnees['type'],
-                                        "description" => $infoDesc['description'],
-                                        "start_date" => $donnees['start_date'],
-                                        "end_date" => $donnees['end_date']);
-
-                                    $cptEtatsProjets[$donnees['etat']]++;
-                                    $now = new \DateTime(date("Y-m-d"));
-                                    $startDate = new \DateTime($donnees['start_date']);
-                                    $endDate = new \DateTime($donnees['end_date']);
-
-                                    if ($donnees['etat'] == "Stand-by" and $endDate < $now) {
-                                        $cptNbProjetsStandByPerim++;
-                                    }
-
-                                    if ($donnees['etat'] == "Stand-by") {
-                                        $histogramme = $this->compteurHistogrammeAccueil($histogramme, 3, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
-                                    } elseif ($donnees['etat'] == "Abandonné") {
-                                        $histogramme = $this->compteurHistogrammeAccueil($histogramme, 2, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
-                                    } elseif ($donnees['etat'] == "Futur") {
-                                        $histogramme = $this->compteurHistogrammeAccueil($histogramme, 5, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
-                                    } else if ($donnees['etat'] == "En cours") {
-                                        $histogramme = $this->compteurHistogrammeAccueil($histogramme, 4, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
-                                    } else if ($donnees['etat'] == "En retard") {
-                                        $histogramme = $this->compteurHistogrammeAccueil($histogramme, 4, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
-                                    } else if ($donnees['etat'] == "Terminé") {
-                                        $histogramme = $this->compteurHistogrammeAccueil($histogramme, 1, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
-                                    }
-
-                                } else {
-                                    $listeModif[$donnees['idProject']] = array("name" => $donnees['name'],
-                                        "priorite" => $donnees['priorite'],
-                                        "owner" => $donnees['owner'],
-                                        "refTech" => $infoDesc['refTech'],
-                                        "supTech" => $infoDesc['supTech'],
-                                        "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "categories" => $donnees['categories'],
-                                        "etat" => $donnees['etat'],
-                                        "type" => $donnees['type'],
-                                        "description" => $infoDesc['description'],
-                                        "start_date" => $donnees['start_date'],
-                                        "end_date" => $donnees['end_date'],
-                                        "last_name" => $donnees['last_name'],
-                                        "last_cat" => $donnees['last_cat'],
-                                        "last_chef_DOSI" => $donnees['last_chef_DOSI'],
-                                        "last_ref_tech" => $donnees['last_ref_tech'],
-                                        "last_sup_tech" => $donnees['last_sup_tech'],
-                                        "last_fonctionnel" => $donnees['last_fonctionnel'],
-                                        "last_description" => $donnees['last_description']);
-                                    $cptNbActivitesModif++;
-                                }
-                            }//exploit
-                            else {
-                                $donnees['etat'] = $this->getEtatExploit($donnees);
-
-
-                                if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
-                                    $donnees['last_cat'] = 'En anomalie';
-
-                                $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                                //$this->validAllModif($donnees, $infoDesc);
-                                //verifie si il y a eu modification du nom et ou categorie de projet
-                                $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
-                                if (!$projetModif) {
-                                    $endDate = new \DateTime($donnees['end_date']);
-                                    $startDate = new \DateTime($donnees['start_date']);
-
-                                    if ($donnees['end_date'] != "") {
-                                        if (!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
-                                            $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => 1);
-                                        else {
-                                            $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'] . '<br> ' . $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y'] + 1);
-                                        }
-                                        $histogramme = $this->compteurHistogrammeAccueil($histogramme, 0, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
-                                    }
-                                    $liste[$donnees['idProject']] = array("name" => $donnees['name'],
-                                        "priorite" => $donnees['priorite'],
-                                        "owner" => $donnees['owner'],
-                                        "refTech" => $infoDesc['refTech'],
-                                        "supTech" => $infoDesc['supTech'],
-                                        "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "categories" => $donnees['categories'],
-                                        "etat" => $donnees['etat'],
-                                        "type" => $donnees['type'],
-                                        "description" => $infoDesc['description'],
-                                        "renouvellement" => $donnees['end_date']);
-                                    $cptEtatsExploit[$donnees['etat']]++;
-                                    $cptNbExploit++;
-                                } else {
-                                    $listeModif[$donnees['idProject']] = array("name" => $donnees['name'],
-                                        "priorite" => $donnees['priorite'],
-                                        "owner" => $donnees['owner'],
-                                        "refTech" => $infoDesc['refTech'],
-                                        "supTech" => $infoDesc['supTech'],
-                                        "fonctionnel" => $infoDesc['fonctionnel'],
-                                        "categories" => $donnees['categories'],
-                                        "etat" => $donnees['etat'],
-                                        "type" => $donnees['type'],
-                                        "description" => $infoDesc['description'],
-                                        "last_name" => $donnees['last_name'],
-                                        "last_cat" => $donnees['last_cat'],
-                                        "last_chef_DOSI" => $donnees['last_chef_DOSI'],
-                                        "last_ref_tech" => $donnees['last_ref_tech'],
-                                        "last_sup_tech" => $donnees['last_sup_tech'],
-                                        "last_fonctionnel" => $donnees['last_fonctionnel'],
-                                        "last_description" => $donnees['last_description'],
-                                        "last_renouvellement" => $donnees['last_renouvellement'],
-                                        "renouvellement" => $donnees['end_date']);
-                                    $cptNbActivitesModif++;
-                                }
-                            }
-                        } else {
-                            $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
-
-                            $donnees['type'] = $this->getTypeActivite($donnees['categories']);
-
-                            if ($this->isProjet($donnees)) {
-                                $donnees['etat'] = $this->getEtatProjet($donnees);
-                            } else {
-                                $donnees['etat'] = $this->getEtatExploit($donnees);
-                            }
-                            $cptNbActivitesAttente++;
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            $listeEnAttente[$donnees['idProject']] = array("name" => $donnees['name'],
-                                "priorite" => $donnees['priorite'],
-                                "owner" => $donnees['owner'],
-                                "refTech" => $infoDesc['refTech'],
-                                "supTech" => $infoDesc['supTech'],
-                                "fonctionnel" => $infoDesc['fonctionnel'],
-                                "categories" => $donnees['categories'],
-                                "etat" => $donnees['etat'],
-                                "type" => $donnees['type'],
-                                "description" => $infoDesc['description'],
-                                "start_date" => $donnees['start_date']);
-                            if ($this->isProjet($donnees)) {
-                                $listeEnAttente[$donnees['idProject']]["end_date"] = $donnees['end_date'];
+                            //$this->validAllModif($donnees, $infoDesc);
+                            //verifie si il y a eu modification du nom et ou categorie de projet
+                            $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
+                            if (!$projetModif) {
+                                $liste[$donnees['idProject']] = array(  "name" =>$donnees['name'],
+                                    "priorite" => $donnees['priorite'],
+                                    "owner" => $donnees['owner'],
+                                    "refTech" => $infoDesc['refTech'],
+                                    "supTech" => $infoDesc['supTech'],
+                                    "fonctionnel" => $infoDesc['fonctionnel'],
+                                    "categories" => $donnees['categories'],
+                                    "etat" => $donnees['etat'],
+                                    "type" => $donnees['type'],
+                                    "description" => $infoDesc['description'],
+                                    "start_date" => $donnees['start_date'],
+                                    "end_date" => $donnees['end_date']);
+
+                                $cptEtatsProjets[$donnees['etat']]++;
+                                $now = new \DateTime(date("Y-m-d"));
+                                $startDate = new \DateTime($donnees['start_date']);
+                                $endDate = new \DateTime($donnees['end_date']);
+
+                                if($donnees['etat'] == "Stand-by" and $endDate < $now){
+                                    $cptNbProjetsStandByPerim++;
+                                }
+
+                                if ($donnees['etat'] == "Stand-by") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 3, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                } elseif ($donnees['etat'] == "Abandonné") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 2, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                } elseif ($donnees['etat'] == "Futur") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 5, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                }else if ($donnees['etat'] == "En cours") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 4, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                }else if ($donnees['etat'] == "En retard") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 4, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                }else if($donnees['etat'] == "Terminé") {
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 1, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                }
+
                             } else {
-                                $listeEnAttente[$donnees['idProject']]["renouvellement"] = $donnees['end_date'];
+                                $listeModif[$donnees['idProject']] = array("name" =>$donnees['name'],
+                                    "priorite" => $donnees['priorite'],
+                                    "owner" => $donnees['owner'],
+                                    "refTech" => $infoDesc['refTech'],
+                                    "supTech" => $infoDesc['supTech'],
+                                    "fonctionnel" => $infoDesc['fonctionnel'],
+                                    "categories" => $donnees['categories'],
+                                    "etat" => $donnees['etat'],
+                                    "type" => $donnees['type'],
+                                    "description" => $infoDesc['description'],
+                                    "start_date" => $donnees['start_date'],
+                                    "end_date" => $donnees['end_date'],
+                                    "last_name" => $donnees['last_name'],
+                                    "last_cat" => $donnees['last_cat'],
+                                    "last_chef_DOSI" => $donnees['last_chef_DOSI'],
+                                    "last_ref_tech" => $donnees['last_ref_tech'],
+                                    "last_sup_tech" => $donnees['last_sup_tech'],
+                                    "last_fonctionnel" => $donnees['last_fonctionnel'],
+                                    "last_description" => $donnees['last_description']);
+                                $cptNbActivitesModif++;
                             }
+                        }//exploit
+                        else{
+                            $donnees['etat'] = $this->getEtatExploit($donnees);
+
+
+                            if ($donnees['last_cat'] == '' || $donnees['last_cat'] == null)
+                                $donnees['last_cat'] = 'En anomalie';
+
+                            $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
+                            //$this->validAllModif($donnees, $infoDesc);
+                            //verifie si il y a eu modification du nom et ou categorie de projet
+                            $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
+                            if (!$projetModif) {
+                                $endDate = new \DateTime($donnees['end_date']);
+                                $startDate = new \DateTime($donnees['start_date']);
+
+                                if ($donnees['end_date'] != "") {
+                                    if (!isset($columnRenvoullement[$endDate->getTimestamp() * 1000]))
+                                        $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => 1);
+                                    else {
+                                        $columnRenvoullement[$endDate->getTimestamp() * 1000] = array("name" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['name'] . '<br> ' . $donnees['name'], "x" => $endDate->getTimestamp() * 1000, "y" => $columnRenvoullement[$endDate->getTimestamp() * 1000]['y'] + 1);
+                                    }
+                                    $histogramme = $this->compteurHistogrammeAccueil($histogramme, 0, $startDate, $endDate, $donnees, $histogrammeAnnee, $histogrammeName);
+                                }
+                                $liste[$donnees['idProject']] = array("name" => $donnees['name'],
+                                    "priorite" => $donnees['priorite'],
+                                    "owner" => $donnees['owner'],
+                                    "refTech" => $infoDesc['refTech'],
+                                    "supTech" => $infoDesc['supTech'],
+                                    "fonctionnel" => $infoDesc['fonctionnel'],
+                                    "categories" => $donnees['categories'],
+                                    "etat" => $donnees['etat'],
+                                    "type" => $donnees['type'],
+                                    "description" => $infoDesc['description'],
+                                    "renouvellement" => $donnees['end_date']);
+                                $cptEtatsExploit[$donnees['etat']]++;
+                                $cptNbExploit++;
+                            } else {
+                                $listeModif[$donnees['idProject']] = array("name" => $donnees['name'],
+                                    "priorite" => $donnees['priorite'],
+                                    "owner" => $donnees['owner'],
+                                    "refTech" => $infoDesc['refTech'],
+                                    "supTech" => $infoDesc['supTech'],
+                                    "fonctionnel" => $infoDesc['fonctionnel'],
+                                    "categories" => $donnees['categories'],
+                                    "etat" => $donnees['etat'],
+                                    "type" => $donnees['type'],
+                                    "description" => $infoDesc['description'],
+                                    "last_name" => $donnees['last_name'],
+                                    "last_cat" => $donnees['last_cat'],
+                                    "last_chef_DOSI" => $donnees['last_chef_DOSI'],
+                                    "last_ref_tech" => $donnees['last_ref_tech'],
+                                    "last_sup_tech" => $donnees['last_sup_tech'],
+                                    "last_fonctionnel" => $donnees['last_fonctionnel'],
+                                    "last_description" => $donnees['last_description'],
+                                    "last_renouvellement" => $donnees['last_renouvellement'],
+                                    "renouvellement" => $donnees['end_date']);
+                                $cptNbActivitesModif++;
+                            }
+                        }
+                    }else {
+                        $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
+
+                        $donnees['type'] = $this->getTypeActivite($donnees['categories']);
+
+                        if ($this->isProjet($donnees)) {
+                            $donnees['etat'] = $this->getEtatProjet($donnees);
+                        }else{
+                            $donnees['etat'] = $this->getEtatExploit($donnees);
+                        }
+                        $cptNbActivitesAttente++;
+                        $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
+                        $listeEnAttente[$donnees['idProject']] = array(  "name" =>$donnees['name'],
+                            "priorite" => $donnees['priorite'],
+                            "owner" => $donnees['owner'],
+                            "refTech" => $infoDesc['refTech'],
+                            "supTech" => $infoDesc['supTech'],
+                            "fonctionnel" => $infoDesc['fonctionnel'],
+                            "categories" => $donnees['categories'],
+                            "etat" => $donnees['etat'],
+                            "type" => $donnees['type'],
+                            "description" => $infoDesc['description'],
+                            "start_date" => $donnees['start_date']);
+                        if($this->isProjet($donnees)){
+                            $listeEnAttente[$donnees['idProject']]["end_date"] = $donnees['end_date'];
+                        }else{
+                            $listeEnAttente[$donnees['idProject']]["renouvellement"] = $donnees['end_date'];
                         }
                     }
                 }
