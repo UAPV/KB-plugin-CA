@@ -139,8 +139,6 @@
                             </div>
                             <div style="clear: both;"></div>
                         </div>
-                        <br><span style="font-size:12px;">Projets n'ayant ni date de fin ni date de début.</span>
-
                     </div>
                 </div>
             </div>
