@@ -67,6 +67,45 @@ class IndicateursController extends BaseController
 
         $user = $this->getUser();
         $droitValide = $this->isAdmin($user);
+
+        if(isset($_POST['idProjet'])){
+            //ajoute l'ancre pour retourné a l'endroit de l'action
+            $ancre = $_POST['ancre'];
+            if ($this->mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME)) {
+                $value = json_decode($_POST['value'],true);
+                //verifie si le projet exist dans la table valide_projet
+                $projetValide = $this->isExistTableValide($_POST['idProjet']);
+                //le projet n'est pas dans la table valide projet ce qui ne doit pas se produire normalement :)
+                if(isset($projetValide)){
+                    //met a jour la table
+                    $queryUpdate = "UPDATE valide_projet set valide=".$_POST['valide'].", modifie=".$_POST['modifie'].", priorite='".$_POST['priorite']."', last_name ='".mysqli_escape_string($this->mysqli,$value['name'])."', last_cat='".mysqli_escape_string($this->mysqli,$value['etat'])."'
+                     , last_chef_DOSI='".mysqli_escape_string($this->mysqli,$value['owner'])."', last_ref_tech='".mysqli_escape_string($this->mysqli,$value['refTech'])."', last_sup_tech='".mysqli_escape_string($this->mysqli,$value['supTech'])."', last_fonctionnel='".mysqli_escape_string($this->mysqli,$value['fonctionnel'])."', last_description='".mysqli_escape_string($this->mysqli,$value['description'])."', last_renouvellement='".mysqli_escape_string($this->mysqli,$value['renouvellement'])."'
+                     WHERE project_id=".$_POST['idProjet'];
+                    $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
+                    if(!$resQueryUpdate)
+                        $resPost = "la mise à jour de l'activité à echouée.";
+
+                    if($resPost == ''){
+                        //Click bouton "modifier"
+                        if($_POST['modifie'] != $projetValide['modifie']){
+                            $resPost = "L'activité ".$value['name']." à été modifié.";
+                            $this->sendNotificationAdmin(array('id' => $_POST['idProjet'], 'name' => $value['name']), 'modif');
+                        }else if ($_POST['valide'] != $projetValide['valide']) {//click bouton refuser
+                            $resPost = "L'activité ".$value['name']." à été refusé.";
+                            $this->sendNotificationAdmin(array('id' => $_POST['idProjet'], 'name' => $value['name']), 'refus');
+                        }else { //changement priorité
+                            $resPost = "L'activité ".$value['name']." à changé de priorité. (".$projetValide['priorite']." => ".$_POST['priorité'].")";
+                            $this->sendNotificationAdmin(array('id' => $_POST['idProjet'], 'name' => $value['name']), $_POST['priorité']);
+                        }
+                    }
+
+                }else
+                    $resPost = "Erreur le projet n'a pas été trouvé dans la table valide projet";
+            }else{
+                $resPost = "Erreur de connection à la base de donnée";
+            }
+        }
+        
         if(count($uids) == 0){
             $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/noAccess', array('title' => t('Catalogue d\'activités DOSI'), 'message' => 'ERREUR au niveau du LDAP'), 'dosi:layout'));
         }else {
