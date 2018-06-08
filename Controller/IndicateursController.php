@@ -1804,7 +1804,7 @@ class IndicateursController extends BaseController
             }else if ($donnees['end_date'] != "" and $endDate < $now) {
                 $etat = "En retard";
             } else {
-                $etat = "En anomalie";
+                $etat = "En cours";
             }
         }
         return $etat;
