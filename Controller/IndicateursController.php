@@ -152,6 +152,7 @@ class IndicateursController extends BaseController
 
                                 if($donnees['etat'] == "Stand-by" and $endDate < $now){
                                     $cptNbProjetsStandByPerim++;
+                                    $listeStandByPerim[]=$donnees['name'];
                                 }
 
                                 if ($donnees['etat'] == "Stand-by") {

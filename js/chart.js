@@ -167,10 +167,8 @@ $(document).ready(function() {
         /********* Action click filtre *************/
         $('#projetsRetard').on('click', function(){
             tableValid.column(1).search('').draw();
-
             $('#filtreCat ').val('');
             $('#filtreType ').val('');
-            $('#datepicker_to ').val('');
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
                 $(this).parent().css("border", "4px solid #f6f6f6");
@@ -192,10 +190,7 @@ $(document).ready(function() {
 
         $('#projetAnomalie').on('click', function(){
             tableValid.column(1).search('').draw();
-
             $('#filtreCat ').val('');
-            $('#filtreType ').val('');
-            $('#datepicker_to ').val('');
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
                 $(this).parent().css("border", "4px solid #f6f6f6");
@@ -213,16 +208,16 @@ $(document).ready(function() {
         });
 
         $('#projetsStandByPerim').on('click', function(){
-            tableValid.column(1).search('').draw();
+
             $('#filtreCat ').val('');
-            $('#filtreType ').val('');
-            $('#datepicker_to ').val('');
+            $('#filtreCat').trigger('change');
+            tableValid.column(1).search('').draw();
+
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
                 $(this).parent().css("border", "4px solid #f6f6f6");
-                $('#filtreCat ').val('');
-                $('#filtreType ').val('');
-                $('#datepicker_to ').val('');
+
+                tableValid.column(1).search('').draw();
             }else{
                 $(".select").each(function(index){
                     $(this).removeClass("select");
@@ -230,23 +225,33 @@ $(document).ready(function() {
                 });
                 $(this).parent().addClass("select");
                 $(this).parent().css("border", "4px solid black");
-                $('#filtreCat ').val('stand');
-                $('#filtreType ').val('Projet');
-                date = new Date();
-                $('#datepicker_to ').val(date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay());
-            }
-            $('#filtreCat').trigger('change');
-            $('#filtreType').trigger('change');
-            $('#datepicker_to').trigger('change');
 
+                listeStandByPerim = JSON.parse($('#listeStandByPerim').attr('value'));
+
+                RegExp.escape = function(s) {
+                    return accentRemove(s).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                };
+                regexStr = "";
+                $.each(listeStandByPerim, function(index, value){
+                    if(listeStandByPerim.length == 1 )
+                        regexStr += "("+RegExp.escape(value)+")";
+                    else if(index==0)
+                        regexStr += "("+RegExp.escape(value)+"|";
+                    else if(index == listeStandByPerim.length-1)
+                        regexStr += RegExp.escape(value)+')';
+                    else
+                        regexStr += RegExp.escape(value)+'|';
+                });
+                console.log(listeStandByPerim);
+                console.log(regexStr);
+                tableValid.column(1).search(regexStr, true, false).draw();
+            }
         });
 
         $('#renPerim').on('click', function(){
 
-
             $('#filtreCat ').val('');
-            $('#filtreType ').val('');
-            $('#datepicker_to ').val('');
+            $('#filtreCat').trigger('change');
             tableValid.column(1).search('').draw();
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
