@@ -105,7 +105,7 @@ class IndicateursController extends BaseController
                 $resPost = "Erreur de connection à la base de donnée";
             }
         }
-        
+
         if(count($uids) == 0){
             $this->response->html($this->helper->layout->pageLayout('dosi:indicateurs/noAccess', array('title' => t('Catalogue d\'activités DOSI'), 'message' => 'ERREUR au niveau du LDAP'), 'dosi:layout'));
         }else {
@@ -118,8 +118,10 @@ class IndicateursController extends BaseController
                     if($donnees['valide'] != null && $donnees['valide'] == "1") {
                         $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
 
+                        var_dump($donnees['name']);
+                        var_dump($donnees['categories']);
                         $donnees['type'] = $this->getTypeActivite($donnees['categories']);
-
+var_dump($donnees['type']);
                         if ($this->isProjet($donnees)) {
                             $donnees['etat'] = $this->getEtatProjet($donnees);
 
