@@ -1748,6 +1748,8 @@ class IndicateursController extends BaseController
                     $etat = "Futur";
                 }else if ($donnees['end_date'] != "" and $endDate > $now && $donnees['start_date'] != "" and $startDate < $now) {
                     $etat = "En cours";
+                }else if ($donnees['end_date'] != "" and $endDate > $now && $donnees['start_date'] == "") {
+                    $etat = "En cours";
                 }else if ($donnees['end_date'] != "" and $endDate < $now) {
                     $etat = "En retard";
                 }else {
