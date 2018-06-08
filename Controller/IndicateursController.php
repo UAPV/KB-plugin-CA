@@ -1445,7 +1445,7 @@ class IndicateursController extends BaseController
             }
         }
         $query .= ")";
-
+var_dump($query);
         $resultat = mysqli_query($this->mysqli, $query);
         while($row = mysqli_fetch_assoc($resultat)){
               $tabOwner[] = $row;
@@ -1476,7 +1476,7 @@ class IndicateursController extends BaseController
                     $query .= " AND uo.username not like '" . $value."'";
             }
         }
-
+var_dump($query);
         $resultat = mysqli_query($this->mysqli, $query);
         while($row = mysqli_fetch_assoc($resultat)){
             $tabMembre[] = $row;
