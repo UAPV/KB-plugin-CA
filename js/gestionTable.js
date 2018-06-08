@@ -152,7 +152,7 @@ $(document).ready(function() {
             url: url,
             data: {idProjet: $(this).parent().parent().attr('id'), valide: true, modifie: true, priorite: priorite, value: $(this).parent().find("input[name=value]").val() , ancre: $(this).parent().find("input[name=ancre]").val() }
         }).done(function (data) {
-            location.reload();
+            //location.reload();
 
         }).fail(function (data) {
 
