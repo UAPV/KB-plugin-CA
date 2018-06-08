@@ -168,6 +168,29 @@ $(document).ready(function() {
         $('#projetsRetard').on('click', function(){
             tableValid.column(1).search('').draw();
             $('#filtreCat ').val('');
+            $('#filtreType ').val('');
+            if($(this).parent().hasClass("select")) {
+                $(this).parent().removeClass("select");
+                $(this).parent().css("border", "4px solid #f6f6f6");
+                $('#filtreCat ').val('');
+                $('#filtreType ').val('');
+            }else{
+                $(".select").each(function(index){
+                    $(this).removeClass("select");
+                    $(this).css("border", "4px solid #f6f6f6");
+                });
+                $(this).parent().addClass("select");
+                $(this).parent().css("border", "4px solid black");
+                $('#filtreCat ').val('En retard');
+                $('#filtreType ').val('Projet');
+            }
+            $('#filtreCat').trigger('change');
+            $('#filtreType').trigger('change');
+        });
+
+        $('#projetAnomalie').on('click', function(){
+            tableValid.column(1).search('').draw();
+            $('#filtreCat ').val('');
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
                 $(this).parent().css("border", "4px solid #f6f6f6");
@@ -179,58 +202,21 @@ $(document).ready(function() {
                 });
                 $(this).parent().addClass("select");
                 $(this).parent().css("border", "4px solid black");
-                $('#filtreCat ').val('En retard');
+                $('#filtreCat ').val('En anomalie');
             }
             $('#filtreCat').trigger('change');
-        });
-
-        $('#projetAnomalie').on('click', function(){
-            $('#filtreCat ').val('');
-            $('#filtreCat').trigger('change');
-            tableValid.column(1).search('').draw();
-            if($(this).parent().hasClass("select")) {
-                $(this).parent().removeClass("select");
-                $(this).parent().css("border", "4px solid #f6f6f6");
-
-                tableValid.column(1).search('').draw();
-            }else{
-                $(".select").each(function(index){
-                    $(this).removeClass("select");
-                    $(this).css("border", "4px solid #f6f6f6");
-                });
-                $(this).parent().addClass("select");
-                $(this).parent().css("border", "4px solid black");
-
-                listeAnomalie = JSON.parse($('#listeAnomalie').attr('value'));
-
-                RegExp.escape = function(s) {
-                    return accentRemove(s).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-                };
-                regexStr = "";
-                $.each(listeAnomalie, function(index, value){
-                    if(listeAnomalie.length == 1 )
-                        regexStr += "("+RegExp.escape(value)+")";
-                    else if(index==0)
-                        regexStr += "("+RegExp.escape(value)+"|";
-                    else if(index == listeAnomalie.length-1)
-                        regexStr += RegExp.escape(value)+')';
-                    else
-                        regexStr += RegExp.escape(value)+'|';
-                });
-                tableValid.column(1).search(regexStr, true, false).draw();
-            }
         });
 
         $('#projetsStandByPerim').on('click', function(){
-            $('#filtreCat ').val('');
-            $('#filtreCat').trigger('change');
             tableValid.column(1).search('').draw();
-
+            $('#filtreCat ').val('');
+            $('#filtreType ').val('');
+            $('#datepicker_to ').val('');
             if($(this).parent().hasClass("select")) {
                 $(this).parent().removeClass("select");
                 $(this).parent().css("border", "4px solid #f6f6f6");
-
-                tableValid.column(1).search('').draw();
+                $('#filtreCat ').val('');
+                $('#filtreType ').val('');
             }else{
                 $(".select").each(function(index){
                     $(this).removeClass("select");
@@ -238,27 +224,15 @@ $(document).ready(function() {
                 });
                 $(this).parent().addClass("select");
                 $(this).parent().css("border", "4px solid black");
-
-                listeStandByPerim = JSON.parse($('#listeStandByPerim').attr('value'));
-
-                RegExp.escape = function(s) {
-                    return accentRemove(s).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-                };
-                regexStr = "";
-                $.each(listeStandByPerim, function(index, value){
-                    if(listeStandByPerim.length == 1 )
-                        regexStr += "("+RegExp.escape(value)+")";
-                    else if(index==0)
-                        regexStr += "("+RegExp.escape(value)+"|";
-                    else if(index == listeStandByPerim.length-1)
-                        regexStr += RegExp.escape(value)+')';
-                    else
-                        regexStr += RegExp.escape(value)+'|';
-                });
-                console.log(listeStandByPerim);
-                console.log(regexStr);
-                tableValid.column(1).search(regexStr, true, false).draw();
+                $('#filtreCat ').val('Stand-by');
+                $('#filtreType ').val('Projet');
+                date = new Date();
+                $('#datepicker_to ').val(date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay());
             }
+            $('#filtreCat').trigger('change');
+            $('#filtreType').trigger('change');
+            $('#datepicker_to').trigger('change');
+
         });
 
         $('#renPerim').on('click', function(){
