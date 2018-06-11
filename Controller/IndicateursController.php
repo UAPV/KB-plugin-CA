@@ -30,7 +30,6 @@ class IndicateursController extends BaseController
      */
     public function index()
     {
-        //$this->migration();
         $cptNbProjetsStandByPerim = 0;
         $cptNbActivitesModif = 0;
         $cptNbActivitesAttente = 0;
@@ -128,7 +127,6 @@ class IndicateursController extends BaseController
                                 $donnees['last_cat'] = '-';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            //$this->validAllModif($donnees, $infoDesc);
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
@@ -200,7 +198,6 @@ class IndicateursController extends BaseController
                                 $donnees['last_cat'] = 'En anomalie';
 
                             $infoDesc = $this->getInfoDesc($donnees['name'], $donnees['description'], $erreur);
-                            //$this->validAllModif($donnees, $infoDesc);
                             //verifie si il y a eu modification du nom et ou categorie de projet
                             $projetModif = $this->projetModif($donnees['name'], $donnees, $erreur);
                             if (!$projetModif) {
@@ -1809,59 +1806,4 @@ class IndicateursController extends BaseController
         }
         return $etat;
     }
-
-    function validAllModif($donnees, $infoDesc){
-        $queryUpdate = "UPDATE valide_projet set valide=1, modifie=0, last_cat='".mysqli_escape_string($this->mysqli,$donnees["etat"])."', last_description='".mysqli_escape_string($this->mysqli,$infoDesc['description'])."' WHERE project_id=".$donnees['idProject'];
-        $resQueryUpdate = mysqli_query($this->mysqli, $queryUpdate);
-        var_dump($queryUpdate);
-        if(!$resQueryUpdate)
-            $resPost = "la mise à jour de l'activité à echouée.";
-    }
-
-    /*
-     * ajout la categorie projet au activité ayant que "abandonne" ou "stand-by"
-     */
-    function migration(){
-        if(!$this->getconfApi())
-            return false;
-        $uids = $this->searchUidsDosi();
-        if ($this->mysqli = mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_NAME)) {
-            $tabTotal = $this->searchProjets($uids);
-
-            foreach ($tabTotal as $donnees) {
-                $projet = false;
-                $addProjet = false;
-                //on comptabilise seulement les projets valide
-                if ($donnees['valide'] != null && $donnees['valide'] == "1") {
-                    $donnees['categories'] = $this->getAllCategoriesProjets($donnees['idProject']);
-
-                    foreach ($donnees['categories'] as $categorie) {
-                        if (strstr(strtolower($categorie[0]), "projet")) {
-                            $projet = true;
-                        }
-                        elseif(strstr(strtolower($categorie[0]), "stand")){
-                            $addProjet = true;
-                        }elseif(strstr(strtolower($categorie[0]), "aban")){
-                            $addProjet = true;
-                        }
-                    }
-
-                    if($projet == false and $addProjet == true){
-                        $httpClient = new HttpClient($this->url_api);
-                        $httpClient->withoutSslVerification();
-                        $client = new Client($this->url_api, false, $httpClient);
-                        $client->authentication('jsonrpc', $this->key_api);
-
-                        $user = $client->execute('createCategory', array('project_id' => $donnees['idProject'], "name" => "Projet"));
-
-                        var_dump("ajout cat projet");
-                        var_dump($donnees['idProject']);
-                        var_dump($donnees['name']);
-                    }
-                }
-            }
-        }
-
-    }
-
 }
