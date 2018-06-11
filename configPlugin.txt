@@ -1,3 +1,0 @@
-url_api:http://projets.local.univ-avignon.fr/jsonrpc.php
-key_api:b7dbdae744b335b393ee24693e23bc863489b04dfd9d481507151f75c507
-admin: tavernij,uapv1001467
