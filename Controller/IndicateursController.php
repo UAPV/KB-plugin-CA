@@ -1135,7 +1135,7 @@ class IndicateursController extends BaseController
         $headers = 'From: projets@univ-avignon.fr' . "\r\n";
 
         //commenter mail
-        //mail ( implode(',', $mails) , $sujet , $message,$headers );
+        mail ( implode(',', $mails) , $sujet , $message,$headers );
 
     }
 
@@ -1269,7 +1269,7 @@ class IndicateursController extends BaseController
         $headers = 'From: projets@univ-avignon.fr' . "\r\n";
 
         //commenter mail
-        //mail ( implode(',', $mails) , $sujet , $message,$headers );
+        mail ( implode(',', $mails) , $sujet , $message,$headers );
 
     }
 
