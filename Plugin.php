@@ -15,7 +15,9 @@ class Plugin extends Base
 
         $this->route->enable();
         $this->route->addRoute('/indicateurs/dosi', 'IndicateursController', 'index', 'Dosi');
-        $this->route->addRoute('/indicateurs/dosi/projets', 'IndicateursController', 'projets', 'Dosi');
+        foreach (['projets', 'exploit', 'modif', 'attente'] as $action) {
+            $this->route->addRoute('/indicateurs/dosi/' . $action, 'IndicateursController', $action, 'Dosi');
+        }
 
         $this->hook->on('template:layout:js', array('template' => 'plugins/Dosi/js/jquery.dataTables.min.js'));
         $this->hook->on('template:layout:js', array('template' => 'plugins/Dosi/js/dataTables.bootstrap.min.js'));
